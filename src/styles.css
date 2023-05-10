@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
+header {
+  display: flex;
+  align-items: center;
+}
+header img {
+  width: 12rem;
+  height: 5rem;
+}
+
+/*# sourceMappingURL=styles.css.map */

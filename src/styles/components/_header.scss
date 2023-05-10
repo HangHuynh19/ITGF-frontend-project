@@ -1,0 +1,11 @@
+@use '../variables/colors' as colors;
+
+header {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 12rem;
+    height: 5rem;
+  }
+}
