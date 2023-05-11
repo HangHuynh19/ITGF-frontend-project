@@ -10,7 +10,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Category } from '../interfaces/Category';
-import { getAllCategories } from '../graphql/apiCalls';
+import {
+  getAllCategories,
+  getAllProducts,
+  filterProductsByCategory,
+} from '../graphql/apiCalls';
+import { Product } from '../interfaces/Product';
 
 const Search = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
@@ -26,6 +31,19 @@ const Search = () => {
     };
     fetchCategories();
   }, []);
+
+  /* useEffect(() => {
+    const result = async () => {
+      try {
+        const data = (await getAllProducts()) as Product[];
+        const filtered = filterProductsByCategory(category, data);
+        console.log('filtered', filtered);
+      } catch (error) {
+        throw new Error((error as Error).message);
+      }
+    };
+    result();
+  }, [category]); */
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
     //console.log('handleCategoryChange', event.target.value);

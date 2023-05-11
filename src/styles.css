@@ -3,10 +3,16 @@
 header {
   display: flex;
   align-items: center;
+  padding-bottom: 1.5em;
 }
 header img {
   width: 12rem;
   height: 5rem;
+}
+
+body {
+  padding: 4em 2em;
+  font-family: "Roboto Mono", monospace;
 }
 
 /*# sourceMappingURL=styles.css.map */

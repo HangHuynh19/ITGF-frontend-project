@@ -1,14 +1,20 @@
+import axios from 'axios';
 import { Product } from '../interfaces/Product';
-import { fetchFromGraphQL } from './fetchFromGraphQL';
-import { getAllCategoriesQuery, getAllProductsQuery } from './queries';
+import {
+  getAllCategoriesQuery,
+  getAllProductsQuery,
+  getProductByIdQuery,
+} from './queries';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
 
 const getAllCategories = async <T>(): Promise<T> => {
   try {
-    const response = await fetchFromGraphQL(baseURL, getAllCategoriesQuery, {});
+    const response = await axios.post(baseURL, {
+      query: getAllCategoriesQuery,
+    });
     //console.log('response from APICalls', response);
-    return response.categories;
+    return response.data.data.categories;
   } catch (error) {
     throw new Error((error as Error).message);
   }
@@ -16,9 +22,25 @@ const getAllCategories = async <T>(): Promise<T> => {
 
 const getAllProducts = async <T>(): Promise<T> => {
   try {
-    const response = await fetchFromGraphQL(baseURL, getAllProductsQuery, {});
+    const response = await axios.post(baseURL, {
+      query: getAllProductsQuery,
+    });
     //console.log('response from APICalls', response);
-    return response.products;
+    return response.data.data.products;
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+};
+
+const getProductById = async <T>(id: number): Promise<T> => {
+  console.log('id from APICalls', id);
+  try {
+    const response = await axios.post(baseURL, {
+      query: getProductByIdQuery,
+      variables: { id: id },
+    });
+    console.log('response from APICalls', response);
+    return response.data.data.product;
   } catch (error) {
     throw new Error((error as Error).message);
   }
@@ -28,10 +50,15 @@ const filterProductsByCategory = (
   categoryName: string,
   productList: Product[]
 ): Product[] => {
-  productList.filter(
+  const filteredProductList = productList.filter(
     (product: Product) => product.category.name === categoryName
   );
-  return productList;
+  return filteredProductList;
 };
 
-export { getAllCategories, getAllProducts, filterProductsByCategory };
+export {
+  getAllCategories,
+  getAllProducts,
+  getProductById,
+  filterProductsByCategory,
+};

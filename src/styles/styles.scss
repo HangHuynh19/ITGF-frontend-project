@@ -1,3 +1,8 @@
 @use 'components/header';
 @use 'variables/fonts' as fonts;
 @use 'variables/colors' as colors;
+
+body {
+  padding: 4em 2em;
+  font-family: fonts.$text_font;
+}

@@ -23,4 +23,21 @@ query {
   }
 }`;
 
-export { getAllCategoriesQuery, getAllProductsQuery };
+const getProductByIdQuery = `
+  query($id: ID!){
+    product(id: $id) {
+      id
+      title
+      price
+      description
+      images
+      category {
+        id
+        name
+        image
+      }
+    }
+  }
+`;
+
+export { getAllCategoriesQuery, getAllProductsQuery, getProductByIdQuery };
