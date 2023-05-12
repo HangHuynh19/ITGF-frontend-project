@@ -29,7 +29,7 @@ const SideMenu = () => {
   };
 
   return (
-    <>
+    <div className='product-main__side-menu'>
       <MenuList dense>
         {categoryList.map((category) => (
           <MenuItem key={category.id} onClick={handleMenuItemClick}>
@@ -37,7 +37,7 @@ const SideMenu = () => {
           </MenuItem>
         ))}
       </MenuList>
-    </>
+    </div>
   );
 };
 

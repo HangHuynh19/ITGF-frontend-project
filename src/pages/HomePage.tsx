@@ -22,12 +22,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Header />
-      <Outlet />
-      <div>
-        <SideMenu />
-        <ProductList productList={productList} />
-      </div>
+      <ProductList productList={productList} />
     </>
   );
 };
