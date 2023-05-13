@@ -4,6 +4,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductRoot from './pages/ProductRoot';
 import CartPage from './pages/CartPage';
+import {ThemeProvider} from '@mui/material/styles';
+import globalTheme from './theme/globalTheme';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={globalTheme}>
+      <RouterProvider router={router} />;
+    </ThemeProvider>
+  )
 };
 
 export default App;
