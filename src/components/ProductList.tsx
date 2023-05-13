@@ -1,13 +1,12 @@
 import React from 'react';
 import { Product } from '../interfaces/Product';
 import { Box, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 
 const ProductList = ({ productList }: { productList: Product[] }) => {
   return (
-    <Box sx={{ width: '100vw', height: '80vh', overflowY: 'scroll' }}>
-      <ImageList variant='masonry' cols={3} gap={8}>
+    <Box sx={{ height: '80vh', overflowY: 'scroll' }}>
+      <ImageList cols={3} gap={8}>
         {productList.map((product) => (
           <ImageListItem key={product.id}>
             <Link to={`/product/${product.id}`}>
@@ -17,17 +16,11 @@ const ProductList = ({ productList }: { productList: Product[] }) => {
                 srcSet={`${product.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt={product.title}
                 loading='lazy'
-                //style={{ width: '100%', objectFit: 'cover' }}
               />
               <ImageListItemBar
+                className='product-main__image-title'
                 title={product.title}
                 subtitle={`${product.price} EUR`}
-                actionIcon={
-                  <InfoIcon
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${product.title}`}
-                  />
-                }
               />
             </Link>
           </ImageListItem>

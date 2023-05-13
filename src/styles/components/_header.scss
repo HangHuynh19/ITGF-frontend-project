@@ -3,10 +3,26 @@
 header {
   display: flex;
   align-items: center;
-  padding-bottom: 1.5em;
+  justify-content: space-between;
+  padding: 1em;
+  gap: 1em;
 
   img {
-    width: 12rem;
-    height: 5rem;
+    width: 10em;
+    height: 3em;
+  }
+
+  #header__user-account {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: 900;
+  }
+
+  #header__cart {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: 900;
   }
 }

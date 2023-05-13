@@ -1,0 +1,24 @@
+@use '../variables/colors' as colors;
+@use '../variables/fonts' as fonts;
+
+#product-detail {
+  display: flex;
+  gap: 2em;
+
+  #product-detail__img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #product-detail__content {
+    width: 50%;
+    & > h1 {
+      font-family: fonts.$heading_font;
+      font-size: 2em;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      margin-top: 0.25em;
+    }
+  }
+}

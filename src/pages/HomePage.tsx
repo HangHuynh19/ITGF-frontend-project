@@ -4,7 +4,6 @@ import SideMenu from '../components/SideMenu';
 import { getAllProducts } from '../graphql/apiCalls';
 import ProductList from '../components/ProductList';
 import { Product } from '../interfaces/Product';
-import { Outlet } from 'react-router-dom';
 
 const HomePage = () => {
   const [productList, setProductList] = useState<Product[]>([]);

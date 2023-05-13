@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product } from '../interfaces/Product';
 import { getProductById } from '../graphql/apiCalls';
+import ProductDetail from '../components/ProductDetail';
 
 const ProductDetailPage = () => {
   const id = parseInt(useParams<{ id: string }>().id as string);
@@ -15,7 +16,8 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
   console.log('product', product);
-  return <>{product && <div>{product.title}</div>};</>;
+  
+  return <>{product && <ProductDetail product={product} />}</>;
 };
 
 export default ProductDetailPage;

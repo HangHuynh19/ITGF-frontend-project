@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import {
   FormControl,
   InputLabel,
@@ -9,6 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+
 import { Category } from '../interfaces/Category';
 import {
   getAllCategories,
@@ -71,9 +70,6 @@ const Search = () => {
             ))}
         </Select>
       </FormControl>
-      <IconButton aria-label='search'>
-        <SearchIcon />
-      </IconButton>
     </div>
   );
 };

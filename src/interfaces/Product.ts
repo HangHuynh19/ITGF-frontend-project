@@ -9,4 +9,8 @@ interface Product {
   images: string[];
 }
 
-export type { Product };
+interface ProductWithQuantity extends Product {
+  quantity: number;
+}
+
+export type { Product, ProductWithQuantity };

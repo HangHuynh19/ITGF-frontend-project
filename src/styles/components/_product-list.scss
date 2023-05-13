@@ -13,4 +13,13 @@
     height: 100%;
     object-fit: cover;
   }
+
+  .product-main__image-title {
+    bottom: 0.25em;
+  }
+
+  .product-main__side-menu {
+    font-family: fonts.$heading_font;
+    width: 20%;
+  }
 }
