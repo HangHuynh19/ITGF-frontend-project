@@ -1,4 +1,5 @@
 @use '../variables/colors' as colors;
+@use '../variables/fonts' as fonts;
 
 header {
   display: flex;
@@ -6,6 +7,7 @@ header {
   justify-content: space-between;
   padding: 1em;
   gap: 1em;
+  font-family: fonts.$text_font;
 
   img {
     width: 10em;
@@ -24,5 +26,9 @@ header {
     align-items: center;
     font-size: 0.8em;
     font-weight: 900;
+  }
+
+  a {
+    text-decoration: none;
   }
 }

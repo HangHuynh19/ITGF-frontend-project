@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import useAppSelector from '../hooks/useAppSelector';
+import CartItem from '../components/CartItem';
 
 const CartPage = () => {
   const cartItems = useAppSelector((state) => state.cartReducer.cart);
@@ -10,10 +11,7 @@ const CartPage = () => {
       <Header />
       {cartItems &&
         cartItems.map((item) => (
-          <div key={item.id}>
-            <p>{item.title}</p>
-            <p>{item.quantity}</p>
-          </div>
+          <CartItem key={item.id} cartItem={item} />
         ))}
     </>
   );
