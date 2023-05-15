@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import useAppSelector from '../hooks/useAppSelector';
 import CartItem from '../components/CartItem';
 import { Typography } from '@mui/material';
+import { Product } from '../interfaces/Product';
 
 const CartPage = () => {
   const cartItems = useAppSelector((state) => state.cartReducer);

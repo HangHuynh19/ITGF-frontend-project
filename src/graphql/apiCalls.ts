@@ -46,19 +46,26 @@ const getProductById = async <T>(id: number): Promise<T> => {
   }
 };
 
-const filterProductsByCategory = (
-  categoryName: string,
-  productList: Product[]
-): Product[] => {
-  const filteredProductList = productList.filter(
-    (product: Product) => product.category.name === categoryName
-  );
-  return filteredProductList;
+const searchProductsByNameAndCategory = async (
+  searchTerm: string,
+  categoryName: string
+): Promise<Product[]> => {
+  const products = await getAllProducts<Product[]>();
+  const filteredProducts = products.filter((product) => {
+    if (categoryName === 'All categories')
+      return product.title.toLowerCase().includes(searchTerm.toLowerCase());
+    return (
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      product.category.name === categoryName
+    );
+  });
+  console.log('apiCalls', filteredProducts);
+  return filteredProducts;
 };
 
 export {
   getAllCategories,
   getAllProducts,
   getProductById,
-  filterProductsByCategory,
+  searchProductsByNameAndCategory,
 };

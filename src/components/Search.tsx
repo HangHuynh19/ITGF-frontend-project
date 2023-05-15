@@ -1,75 +1,83 @@
 import React, { useEffect, useState } from 'react';
+
 import TextField from '@mui/material/TextField';
+import CategoryPicker from './CategoryPicker';
+import { Product } from '../interfaces/Product';
+import { searchProductsByNameAndCategory } from '../graphql/apiCalls';
 import {
-  FormControl,
-  InputLabel,
+  Autocomplete,
+  IconButton,
+  List,
+  ListItem,
   MenuItem,
   Select,
-  SelectChangeEvent,
 } from '@mui/material';
-
-import { Category } from '../interfaces/Category';
-import {
-  getAllCategories,
-  getAllProducts,
-  filterProductsByCategory,
-} from '../graphql/apiCalls';
-import { Product } from '../interfaces/Product';
+import { getAllProducts } from '../graphql/apiCalls';
+import { Link } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Search = () => {
-  const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [category, setCategory] = useState('All categories');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setCategoryList(await getAllCategories());
-      } catch (error) {
-        throw new Error((error as Error).message);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  /* useEffect(() => {
-    const result = async () => {
-      try {
-        const data = (await getAllProducts()) as Product[];
-        const filtered = filterProductsByCategory(category, data);
-        console.log('filtered', filtered);
-      } catch (error) {
-        throw new Error((error as Error).message);
-      }
-    };
-    result();
-  }, [category]); */
-
-  const handleCategoryChange = (event: SelectChangeEvent) => {
-    //console.log('handleCategoryChange', event.target.value);
-    setCategory(event.target.value as string);
+  const handleCategoryChange = (category: string) => {
+    //console.log('handleCategoryChange', category);
+    setCategory(category);
   };
 
+  const handleSearchTermChange = (
+    event: React.ChangeEvent<{}>,
+    value: string
+  ) => {
+    console.log('handleSearchTermChange', value);
+    setSearchTerm(value);
+  };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setSearchResults(await getAllProducts());
+      } catch (error) {
+        throw new Error((error as Error).message);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  console.log('searchResults', searchTerm, category);
   return (
     <div>
-      <TextField label='Search' variant='outlined' />
-      <FormControl>
-        <InputLabel htmlFor='categories'>Categories</InputLabel>
-        <Select
-          labelId='select-categories'
-          id='categories'
-          value={category}
-          label='Select Category'
-          onChange={handleCategoryChange}
+      <Autocomplete
+        freeSolo
+        disableClearable
+        options={searchResults.map((result) => result.title)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label='Search'
+            variant='outlined'
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+        //value={searchTerm}
+        onInputChange={handleSearchTermChange}
+      />
+      <CategoryPicker onCategoryChange={handleCategoryChange} />
+      <IconButton>
+        <Link
+          to={{
+            pathname: '/search',
+            search: `?searchTerm=${searchTerm}&category=${category}`,
+          }}
         >
-          <MenuItem value='All categories'>All Categories</MenuItem>
-          {categoryList.length > 0 &&
-            categoryList.map((category) => (
-              <MenuItem key={category.id} value={category.name}>
-                {category.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+          <SearchIcon />
+        </Link>
+      </IconButton>
     </div>
   );
 };

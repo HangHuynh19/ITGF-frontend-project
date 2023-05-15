@@ -3,8 +3,9 @@ import HomePage from './pages/HomePage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductRoot from './pages/ProductRoot';
+import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
-import {ThemeProvider} from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import globalTheme from './theme/globalTheme';
 
 const router = createBrowserRouter([
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />,
+      },
+      {
+        path: '/search',
+        element: <SearchPage />,
       },
       {
         path: '/product/:id',
@@ -33,7 +38,7 @@ const App = () => {
     <ThemeProvider theme={globalTheme}>
       <RouterProvider router={router} />;
     </ThemeProvider>
-  )
+  );
 };
 
 export default App;

@@ -4,8 +4,10 @@ import { Divider } from '@mui/material';
 import UserAccount from './UserAccount';
 import CartButton from './CartButton';
 import { Link } from 'react-router-dom';
+import { Product } from '../interfaces/Product';
 
 const Header = () => {
+
   return (
     <>
       <header>
