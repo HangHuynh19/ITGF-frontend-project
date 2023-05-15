@@ -16,12 +16,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
   //const {cart, loading, error} = useAppSelector(state => state.cartReducer);
   const dispatch = useAppDispatch();
   const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        ...product,
-        quantity: 1,
-      })
-    );
+    dispatch(addToCart(product));
   };
 
   return (

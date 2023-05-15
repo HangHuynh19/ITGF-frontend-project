@@ -1,12 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ProductWithQuantity } from '../../interfaces/Product';
+import { Product, ProductWithQuantity } from '../../interfaces/Product';
 
 const initalState: {
   cart: ProductWithQuantity[];
+  totalQuantity: number;
+  totalPrice: number;
   loading: boolean;
   error: string | null;
 } = {
   cart: [],
+  totalQuantity: 0,
+  totalPrice: 0,
   loading: false,
   error: null,
 };
@@ -15,32 +19,55 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initalState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ProductWithQuantity>) => {
+    addToCart: (state, action: PayloadAction<Product>) => {
       const newItem = action.payload;
-      if (state.cart.length === 0) {
-        state.cart.push(newItem);
+      const existingItem = state.cart.find((item) => item.id === newItem.id);
+      state.totalQuantity++;
+      state.totalPrice += newItem.price;
+
+      if (!existingItem) {
+        state.cart.push({ ...newItem, quantity: 1 });
         return;
       }
-      const existingItem = state.cart.find((item) => item.id === newItem.id);
-      if (!existingItem) {
-        state.cart.push(newItem);
-      } else {
-        existingItem.quantity += 1;
-      }
+      console.log('existingItem', state.totalQuantity);
+      existingItem.quantity += 1;
     },
-    removeFromCart: (state, action: PayloadAction<ProductWithQuantity>) => {
-      const index = state.cart.findIndex((item) => item.id === action.payload.id);
-      if (index >= 0) {
-        state.cart[index].quantity -= 1;
-        if (state.cart[index].quantity === 0) {
-          state.cart.splice(index, 1);
-        }
+    reduceQuantity: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const existingItem = state.cart.find((item) => item.id === id);
+
+      if (!existingItem) {
+        state.error = 'Item not found in cart';
+        return;
       }
+
+      state.totalQuantity--;
+      state.totalPrice -= existingItem.price;
+
+      if (existingItem.quantity === 1) {
+        state.cart = state.cart.filter((item) => item.id !== id);
+        return;
+      }
+      console.log('existingItem', existingItem.quantity);
+      existingItem.quantity -= 1;
+    },
+    deleteFromCart: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const existingItem = state.cart.find((item) => item.id === id);
+
+      if (!existingItem) {
+        state.error = 'Item not found in cart';
+        return;
+      }
+
+      state.totalQuantity -= existingItem.quantity;
+      state.totalPrice -= existingItem.price * existingItem.quantity;
+      state.cart = state.cart.filter((item) => item.id !== id);
     },
   },
 });
 
 const cartReducer = cartSlice.reducer;
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, reduceQuantity, deleteFromCart } = cartSlice.actions;
 
 export default cartReducer;

@@ -1,36 +1,71 @@
 import React from 'react';
-import { ProductWithQuantity } from '../interfaces/Product';
 import {
   Card,
   CardContent,
+  CardMedia,
   IconButton,
   Typography,
 } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { Link } from 'react-router-dom';
+
+import useAppDispatch from '../hooks/useAppDispatch';
+import { ProductWithQuantity } from '../interfaces/Product';
+import {
+  addToCart,
+  deleteFromCart,
+  reduceQuantity,
+} from '../store/reducers/cartReducer';
 
 const CartItem = ({ cartItem }: { cartItem: ProductWithQuantity }) => {
+  //const cartItems = useAppSelector((state) => state.cartReducer.cart);
+  const dispatch = useAppDispatch();
+  const handleReduceQuantity = () => {
+    dispatch(reduceQuantity(cartItem.id));
+  };
+  const handleIncreaseQuantity = () => {
+    dispatch(addToCart(cartItem));
+  };
+  const handleDeleteItem = () => {
+    dispatch(deleteFromCart(cartItem.id));
+  };
+
   return (
-    <Card>
-      <CardContent>
-        <Typography variant='subtitle1' component='div'>
+    <Card id='cart-item' variant='outlined'>
+      <Link to={`/products/${cartItem.id}`}>
+        <div id='cart-item__img-container'>
+          <CardMedia
+            id='cart-item__img'
+            component='img'
+            image={cartItem.images[0]}
+            alt={cartItem.title}
+          />
+        </div>
+      </Link>
+      <CardContent id='cart-item__content'>
+        <Typography variant='subtitle1' component='h6'>
           {cartItem.title}
         </Typography>
-        <Typography variant='body2' component='div'>
-          Price: {cartItem.price} EUR
+        <Typography variant='body2' component='p'>
+          Price: €{cartItem.price * cartItem.quantity}
         </Typography>
-        <Typography variant='body2' component='div'>
+        <Typography
+          id='cart-item__content-quantity'
+          variant='body2'
+          component='p'
+        >
           Quantity:
-          <IconButton>
-            <AddCircleOutlineOutlinedIcon />
+          <IconButton onClick={handleIncreaseQuantity}>
+            <AddIcon fontSize='small' />
           </IconButton>
           <span>{cartItem.quantity}</span>
-          <IconButton>
-            <RemoveCircleOutlineOutlinedIcon />
+          <IconButton onClick={handleReduceQuantity}>
+            <RemoveIcon fontSize='small' />
           </IconButton>
-          <IconButton>
-            <DeleteOutlineOutlinedIcon />
+          <IconButton onClick={handleDeleteItem}>
+            <DeleteOutlineOutlinedIcon fontSize='small' />
           </IconButton>
         </Typography>
       </CardContent>

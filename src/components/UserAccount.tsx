@@ -4,7 +4,7 @@ import PermIdentitySharpIcon from '@mui/icons-material/PermIdentitySharp';
 const UserAccount = () => {
   return (
     <div id='header__user-account'>
-      <PermIdentitySharpIcon />
+      <PermIdentitySharpIcon fontSize='medium' />
       <span>Hi, user!</span>
     </div>
   );
