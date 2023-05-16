@@ -1,18 +1,47 @@
-import { Box, TextField } from '@mui/material';
+import { Box, Button, Modal, TextField } from '@mui/material';
 import React from 'react';
 
-const RegisterForm = () => {
+const RegisterForm = ({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) => {
+  const handleCancel = () => {
+    onClose();
+  };
+
   return (
-    <Box component='form'>
-      <TextField id='name' label='Name' variant='outlined' />
-      <TextField id='email' label='Email' variant='outlined' />
-      <TextField id='password' label='Password' variant='outlined' />
-      <TextField
-        id='confirmPassword'
-        label='Confirm Password'
-        variant='outlined'
-      />
-    </Box>
+    <Modal open={open} onClose={onClose}>
+      <Box id='register-form' component='form'>
+        <TextField id='register-form__name' label='Name' variant='outlined' />
+        <TextField id='register-form__email' label='Email' variant='outlined' />
+        <TextField id='register-form__password' label='Password' variant='outlined' />
+        <TextField
+          id='register-form__confirmPassword'
+          label='Confirm Password'
+          variant='outlined'
+        />
+        <div id='register-form__btnGroup'>
+          <Button
+            id='register-form__cancelBtn'
+            variant='contained'
+            color='secondary'
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            id='register-form__submitBtn'
+            variant='contained'
+            color='primary'
+          >
+            Submit
+          </Button>
+        </div>
+      </Box>
+    </Modal>
   );
 };
 

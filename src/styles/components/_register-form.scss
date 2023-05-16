@@ -1,0 +1,44 @@
+@use '../variables/colors' as colors;
+@use '../variables/fonts' as fonts;
+
+#register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28em;
+  background-color: colors.$white;
+  padding: 2em;
+  border-radius: 0.5em;
+
+  #register-form__name,
+  #register-form__email,
+  #register-form__password,
+  #register-form__confirmPassword {
+    width: 25em;
+  }
+
+  #register-form__btnGroup {
+    #register-form__submitBtn {
+      width: 11em;
+      background-color: colors.$blue;
+      font-weight: 900;
+    }
+
+    #register-form__cancelBtn {
+      margin-right: 3em;
+      width: 11em;
+      font-weight: 900;
+    }
+  }
+
+  #register-form__register-link {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

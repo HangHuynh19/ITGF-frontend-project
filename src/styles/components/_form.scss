@@ -1,0 +1,42 @@
+@use '../variables/colors' as colors;
+@use '../variables/fonts' as fonts;
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28em;
+  background-color: colors.$white;
+  padding: 2em;
+  border-radius: 0.5em;
+
+  #login-form__email,
+  #login-form__password {
+    width: 25em;
+  }
+
+  #login-form__btnGroup {
+    #login-form__submitBtn {
+      width: 11em;
+      background-color: colors.$blue;
+      font-weight: 900;
+    }
+
+    #login-form__cancelBtn {
+      margin-right: 3em;
+      width: 11em;
+      font-weight: 900;
+    }
+  }
+
+  #login-form__register-link {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

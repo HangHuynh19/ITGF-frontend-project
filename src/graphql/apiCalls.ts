@@ -3,6 +3,7 @@ import { Product } from '../interfaces/Product';
 import {
   getAllCategoriesQuery,
   getAllProductsQuery,
+  getAllUsersQuery,
   getProductByIdQuery,
 } from './queries';
 
@@ -63,9 +64,22 @@ const searchProductsByNameAndCategory = async (
   return filteredProducts;
 };
 
+const getAllUsers = async <T>(): Promise<T> => {
+  try {
+    const response = await axios.post(baseURL, {
+      query: getAllUsersQuery,
+    });
+    //console.log('response from APICalls', response);
+    return response.data.data.users;
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+};
+
 export {
   getAllCategories,
   getAllProducts,
   getProductById,
   searchProductsByNameAndCategory,
+  getAllUsers,
 };

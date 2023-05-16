@@ -1,13 +1,33 @@
-import React from 'react';
-import Search from './Search';
-import { AppBar, Box, Divider, Toolbar } from '@mui/material';
-import UserAccount from './UserAccount';
-import CartButton from './CartButton';
+import React, { useState } from 'react';
+import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Product } from '../interfaces/Product';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
+import Search from './Search';
+import CartButton from './CartButton';
+import UserAccount from './UserAccount';
+import useAppSelector from '../hooks/useAppSelector';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+
 const Header = () => {
+  const user = useAppSelector((state) => state.userReducer);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+  const handleOpenLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+  const handleOpenRegisterModal = () => {
+    setIsRegisterModalOpen(true);
+  };
+  const handleCloseRegisterModal = () => {
+    setIsRegisterModalOpen(false);
+  };
+
   return (
     <>
       <AppBar position='static' color='transparent'>
@@ -22,11 +42,38 @@ const Header = () => {
             </Link>
           </Box>
           <Search />
-          <Box id='header__button-group'>
-            <UserAccount />
-            <FavoriteBorderIcon fontSize='small' />
-            <CartButton />
-          </Box>
+          {user.isLoggedIn ? (
+            <Box id='header__button-group'>
+              <UserAccount />
+              <FavoriteBorderIcon fontSize='small' />
+              <CartButton />
+            </Box>
+          ) : (
+            <Box>
+              <Button
+                variant='text'
+                color='secondary'
+                onClick={handleOpenLoginModal}
+              >
+                Login
+              </Button>
+              <LoginForm
+                open={isLoginModalOpen}
+                onClose={handleCloseLoginModal}
+              />
+              <Button
+                variant='text'
+                color='secondary'
+                onClick={handleOpenRegisterModal}
+              >
+                Register
+              </Button>
+              <RegisterForm
+                open={isRegisterModalOpen}
+                onClose={handleCloseRegisterModal}
+              />
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
     </>

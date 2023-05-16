@@ -5,23 +5,25 @@ const getAllCategoriesQuery = `
       name
       image
     }
-  }`;
+  }
+`;
 
 const getAllProductsQuery = `
-query {
-  products {
-    id
-    title
-    price
-    description
-    images
-    category {
+  query {
+    products {
       id
-      name
-      image
+      title
+      price
+      description
+      images
+      category {
+        id
+        name
+        image
+      }
     }
   }
-}`;
+`;
 
 const getProductByIdQuery = `
   query($id: ID!){
@@ -40,4 +42,21 @@ const getProductByIdQuery = `
   }
 `;
 
-export { getAllCategoriesQuery, getAllProductsQuery, getProductByIdQuery };
+const getAllUsersQuery = `
+  query {
+    users {
+      id
+      name
+      email
+      role
+      password
+    }
+  }
+`;
+
+export {
+  getAllCategoriesQuery,
+  getAllProductsQuery,
+  getProductByIdQuery,
+  getAllUsersQuery,
+};

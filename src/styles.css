@@ -125,6 +125,76 @@
   gap: 0.5em;
 }
 
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28em;
+  background-color: #f2f2f2;
+  padding: 2em;
+  border-radius: 0.5em;
+}
+#login-form #login-form__email,
+#login-form #login-form__password {
+  width: 25em;
+}
+#login-form #login-form__btnGroup #login-form__submitBtn {
+  width: 11em;
+  background-color: #5ec3eb;
+  font-weight: 900;
+}
+#login-form #login-form__btnGroup #login-form__cancelBtn {
+  margin-right: 3em;
+  width: 11em;
+  font-weight: 900;
+}
+#login-form #login-form__register-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28em;
+  background-color: #f2f2f2;
+  padding: 2em;
+  border-radius: 0.5em;
+}
+#register-form #register-form__name,
+#register-form #register-form__email,
+#register-form #register-form__password,
+#register-form #register-form__confirmPassword {
+  width: 25em;
+}
+#register-form #register-form__btnGroup #register-form__submitBtn {
+  width: 11em;
+  background-color: #5ec3eb;
+  font-weight: 900;
+}
+#register-form #register-form__btnGroup #register-form__cancelBtn {
+  margin-right: 3em;
+  width: 11em;
+  font-weight: 900;
+}
+#register-form #register-form__register-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 body {
   padding: 0 2em;
 }
