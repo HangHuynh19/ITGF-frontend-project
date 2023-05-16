@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
   FormControl,
   InputLabel,
   MenuItem,
@@ -34,9 +35,9 @@ const CategoryPicker = ({
   }, []);
 
   return (
-    <>
-      <FormControl>
-        <InputLabel htmlFor='categories'>Categories</InputLabel>
+    <Box id='header__search-container__category-picker'>
+      <FormControl color='secondary' size='small'>
+        <InputLabel htmlFor='categories'>Category</InputLabel>
         <Select
           labelId='select-categories'
           id='categories'
@@ -53,7 +54,7 @@ const CategoryPicker = ({
             ))}
         </Select>
       </FormControl>
-    </>
+    </Box>
   );
 };
 

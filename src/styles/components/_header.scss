@@ -1,31 +1,54 @@
 @use '../variables/colors' as colors;
 @use '../variables/fonts' as fonts;
 
-header {
+#header {
   display: flex;
-  align-items: center;
+  padding: 2em;
   justify-content: space-between;
-  padding: 1em;
-  gap: 1em;
-  font-family: fonts.$text_font;
+  //margin: 0 0 2em 0;
+  gap: 2em;
 
-  img {
+  #header__logo {
     width: 10em;
     height: 3em;
   }
 
-  #header__user-account {
+  #header__search-container {
     display: flex;
     align-items: center;
-    font-size: 0.7em;
-    font-weight: 700;
+    gap: 0.5em;
+
+    #header__search-container__search-field {
+      width: 12em;
+    }
   }
 
-  #header__cart {
+  #header__button-group {
     display: flex;
     align-items: center;
-    font-size: 0.75em;
-    font-weight: 700;
+    justify-content: space-between;
+    gap: 1em;
+
+    #header__user-account {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      #header__user-account__greetings {
+        font-size: 0.8em;
+        font-weight: 700;
+      }
+    }
+
+    #header__cart {
+      display: flex;
+      align-items: center;
+
+      #header__cart__total-amount {
+        font-size: 0.8em;
+        font-weight: 700;
+      }
+    }
   }
 
   a {

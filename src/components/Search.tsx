@@ -6,6 +6,7 @@ import { Product } from '../interfaces/Product';
 import { searchProductsByNameAndCategory } from '../graphql/apiCalls';
 import {
   Autocomplete,
+  Box,
   IconButton,
   List,
   ListItem,
@@ -48,8 +49,11 @@ const Search = () => {
 
   console.log('searchResults', searchTerm, category);
   return (
-    <div>
+    <Box id='header__search-container'>
+      <CategoryPicker onCategoryChange={handleCategoryChange} />
       <Autocomplete
+        id='header__search-container__search-field'
+        size='small'
         freeSolo
         disableClearable
         options={searchResults.map((result) => result.title)}
@@ -58,6 +62,7 @@ const Search = () => {
             {...params}
             label='Search'
             variant='outlined'
+            color='secondary'
             InputProps={{
               ...params.InputProps,
               type: 'search',
@@ -67,18 +72,15 @@ const Search = () => {
         //value={searchTerm}
         onInputChange={handleSearchTermChange}
       />
-      <CategoryPicker onCategoryChange={handleCategoryChange} />
-      <IconButton>
-        <Link
-          to={{
-            pathname: '/search',
-            search: `?searchTerm=${searchTerm}&category=${category}`,
-          }}
-        >
-          <SearchIcon />
-        </Link>
-      </IconButton>
-    </div>
+      <Link
+        to={{
+          pathname: '/search',
+          search: `?searchTerm=${searchTerm}&category=${category}`,
+        }}
+      >
+        <SearchIcon />
+      </Link>
+    </Box>
   );
 };
 

@@ -14,9 +14,6 @@ const SearchPage = () => {
   const category = searchParams.get('category');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
 
-  console.log('query', query);
-  console.log('category', category);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
