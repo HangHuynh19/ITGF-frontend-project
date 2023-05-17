@@ -21,7 +21,7 @@ const SearchPage = () => {
           query as string,
           category as string
         );
-        setSearchResults(products);
+        setSearchResults(products as Product[]);
       } catch (error) {
         throw new Error((error as Error).message);
       }

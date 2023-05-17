@@ -1,10 +1,12 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Product } from '../interfaces/Product';
 import {
   getAllCategoriesQuery,
   getAllProductsQuery,
   getAllUsersQuery,
   getProductByIdQuery,
+  getUserByAccessTokenQuery,
+  loginQuery,
 } from './queries';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
@@ -17,7 +19,12 @@ const getAllCategories = async <T>(): Promise<T> => {
     //console.log('response from APICalls', response);
     return response.data.data.categories;
   } catch (error) {
-    throw new Error((error as Error).message);
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
   }
 };
 
@@ -29,7 +36,12 @@ const getAllProducts = async <T>(): Promise<T> => {
     //console.log('response from APICalls', response);
     return response.data.data.products;
   } catch (error) {
-    throw new Error((error as Error).message);
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
   }
 };
 
@@ -43,25 +55,39 @@ const getProductById = async <T>(id: number): Promise<T> => {
     console.log('response from APICalls', response);
     return response.data.data.product;
   } catch (error) {
-    throw new Error((error as Error).message);
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
   }
 };
 
-const searchProductsByNameAndCategory = async (
+const searchProductsByNameAndCategory = async <T>(
   searchTerm: string,
   categoryName: string
-): Promise<Product[]> => {
-  const products = await getAllProducts<Product[]>();
-  const filteredProducts = products.filter((product) => {
-    if (categoryName === 'All categories')
-      return product.title.toLowerCase().includes(searchTerm.toLowerCase());
-    return (
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      product.category.name === categoryName
-    );
-  });
-  console.log('apiCalls', filteredProducts);
-  return filteredProducts;
+): Promise<T> => {
+  try {
+    const products = await getAllProducts<Product[]>();
+    const filteredProducts = products.filter((product) => {
+      if (categoryName === 'All categories')
+        return product.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return (
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        product.category.name === categoryName
+      );
+    });
+    console.log('apiCalls', filteredProducts);
+    return filteredProducts as unknown as T;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
 };
 
 const getAllUsers = async <T>(): Promise<T> => {
@@ -72,7 +98,58 @@ const getAllUsers = async <T>(): Promise<T> => {
     //console.log('response from APICalls', response);
     return response.data.data.users;
   } catch (error) {
-    throw new Error((error as Error).message);
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
+};
+
+const logingIn = async <T>(email: string, password: string): Promise<T> => {
+  try {
+    const response = await axios.post(baseURL, {
+      query: loginQuery,
+      variables: {
+        email: email,
+        password: password,
+      },
+    });
+    console.log('response from loggingin APICalls', response);
+    return response.data.data.login;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
+};
+
+const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
+  try {
+    const response = await axios.post(
+      baseURL,
+      {
+        query: getUserByAccessTokenQuery,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log('response from APICalls', response);
+    return response.data.data.myProfile;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const e = error as AxiosError<T, any>;
+      return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
   }
 };
 
@@ -82,4 +159,6 @@ export {
   getProductById,
   searchProductsByNameAndCategory,
   getAllUsers,
+  logingIn,
+  getUserByAccessToken,
 };

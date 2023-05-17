@@ -54,9 +54,29 @@ const getAllUsersQuery = `
   }
 `;
 
+const loginQuery = `
+  mutation ($email:String!, $password: String!){
+    login(email: $email, password: $password) {
+      access_token
+    }
+  }
+`;
+
+const getUserByAccessTokenQuery = `
+  query {
+    myProfile {
+      id
+      name
+      avatar
+    }
+  }
+`;
+
 export {
   getAllCategoriesQuery,
   getAllProductsQuery,
   getProductByIdQuery,
   getAllUsersQuery,
+  loginQuery,
+  getUserByAccessTokenQuery,
 };

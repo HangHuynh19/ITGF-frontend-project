@@ -2,15 +2,10 @@ import React from 'react';
 import PermIdentitySharpIcon from '@mui/icons-material/PermIdentitySharp';
 import {
   Box,
-  Button,
-  IconButton,
   Menu,
   MenuItem,
   Typography,
 } from '@mui/material';
-import useAppSelector from '../hooks/useAppSelector';
-import { User } from '../interfaces/User';
-import LoginForm from './LoginForm';
 
 const settings = ['Profile', 'Logout'];
 

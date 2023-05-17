@@ -1,9 +1,9 @@
 interface User {
   id: number;
   name: string;
-  role: 'admin' | 'customer';
+  role?: 'admin' | 'customer';
   email: string;
-  password: string;
+  password?: string;
 }
 
 export type { User };

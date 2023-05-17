@@ -47,7 +47,6 @@ const Search = () => {
     fetchProducts();
   }, []);
 
-  console.log('searchResults', searchTerm, category);
   return (
     <Box id='header__search-container'>
       <CategoryPicker onCategoryChange={handleCategoryChange} />
