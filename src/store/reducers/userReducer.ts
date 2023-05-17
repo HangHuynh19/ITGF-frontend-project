@@ -4,13 +4,11 @@ import { getUserByAccessToken, logingIn } from '../../graphql/apiCalls';
 
 const intialState: {
   user: User | null;
-  token: string | null;
   isLoggedIn: boolean;
   loading: boolean;
   error: string | null;
 } = {
   user: null,
-  token: null,
   isLoggedIn: false,
   loading: false,
   error: null,
@@ -24,7 +22,7 @@ export const authenticate = createAsyncThunk(
         email,
         password
       );
-      console.log('token in redux store', response.access_token);
+      localStorage.setItem('token', response.access_token);
       return response.access_token;
     } catch (err) {
       return err;
@@ -38,6 +36,7 @@ export const fetchUserByAccessToken = createAsyncThunk(
     try {
       const response: User = await getUserByAccessToken(accessToken);
       console.log('user in redux store', response);
+      localStorage.setItem('user', JSON.stringify(response));
       return response;
     } catch (err) {
       return err;
@@ -70,7 +69,6 @@ const userSlice = createSlice({
           return;
         }
         state.isLoggedIn = true;
-        state.token = action.payload as string;
         state.loading = false;
       })
       .addCase(fetchUserByAccessToken.pending, (state) => {
@@ -86,6 +84,12 @@ const userSlice = createSlice({
           state.loading = false;
           return;
         }
+        if (action.payload === null) {
+          state.isLoggedIn = false;
+          state.loading = false;
+          return;
+        }
+
         state.user = action.payload as User;
         state.isLoggedIn = true;
         state.loading = false;

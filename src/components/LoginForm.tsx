@@ -24,14 +24,15 @@ const LoginForm = ({
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const token = await dispatch(
       authenticate({ email: email.value, password: password.value })
     );
-    console.log('token in LoginForm: ', token.payload);
-    const user = await dispatch(
+    
+    await dispatch(
       fetchUserByAccessToken(token.payload as string)
     );
-    console.log('user in LoginForm: ', user.payload);
+
     onClose();
   };
 
@@ -41,6 +42,7 @@ const LoginForm = ({
         <TextField
           id='login-form__email'
           label='Email'
+          type='email'
           variant='outlined'
           color='secondary'
           onChange={email.onChange}
@@ -48,6 +50,7 @@ const LoginForm = ({
         <TextField
           id='login-form__password'
           label='Password'
+          type='password'
           variant='outlined'
           color='secondary'
           onChange={password.onChange}

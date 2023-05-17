@@ -8,8 +8,10 @@ import {
   getUserByAccessTokenQuery,
   loginQuery,
 } from './queries';
+import { User } from '../interfaces/User';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
+const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload';
 
 const getAllCategories = async <T>(): Promise<T> => {
   try {
@@ -130,7 +132,7 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
 
 const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
   try {
-    const response = await axios.post(
+    const response = await axios.post<User>(
       baseURL,
       {
         query: getUserByAccessTokenQuery,
@@ -142,11 +144,26 @@ const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
       }
     );
     console.log('response from APICalls', response);
-    return response.data.data.myProfile;
+    return response.data as T;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const e = error as AxiosError<T, any>;
       return e as T;
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
+};
+
+const postImage = async (file: string) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    await axios.post(uploadImageURL, formData);
+    console.log('Image upload succesfully from postImage APICalls');
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new AxiosError(error.message);
     } else {
       throw new Error((error as Error).message);
     }
@@ -161,4 +178,5 @@ export {
   getAllUsers,
   logingIn,
   getUserByAccessToken,
+  postImage,
 };

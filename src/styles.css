@@ -180,6 +180,9 @@
 #register-form #register-form__confirmPassword {
   width: 25em;
 }
+#register-form #register-form__avatar {
+  width: 26.5em;
+}
 #register-form #register-form__btnGroup #register-form__submitBtn {
   width: 11em;
   background-color: #5ec3eb;
