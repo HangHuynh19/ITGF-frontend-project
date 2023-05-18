@@ -1,6 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../interfaces/User';
-import { getUserByAccessToken, logingIn } from '../../graphql/apiCalls';
+import {
+  getUserByAccessToken,
+  logingIn,
+  postUser,
+} from '../../graphql/apiCalls';
 
 const intialState: {
   user: User | null;
@@ -43,6 +47,16 @@ export const fetchUserByAccessToken = createAsyncThunk(
     }
   }
 );
+
+export const createUser = createAsyncThunk('createUser', async (user: User) => {
+  try {
+    const response = await postUser(user);
+    //console.log('user in redux store', response);
+    return response;
+  } catch (err) {
+    return err;
+  }
+});
 
 const userSlice = createSlice({
   name: 'user',
@@ -92,6 +106,21 @@ const userSlice = createSlice({
 
         state.user = action.payload as User;
         state.isLoggedIn = true;
+        state.loading = false;
+      })
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Cannot create user';
+        state.loading = false;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        if (action.payload instanceof Error) {
+          state.error = action.payload.message;
+          state.loading = false;
+          return;
+        }
         state.loading = false;
       });
   },

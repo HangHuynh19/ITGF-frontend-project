@@ -37,18 +37,6 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  /* const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const fetchUser = async () => {
-      if (storedToken) {
-        await dispatch(fetchUserByAccessToken(storedToken));
-      }
-    };
-    fetchUser();
-  }, [dispatch]); */
-
   return (
     <ThemeProvider theme={globalTheme}>
       <RouterProvider router={router} />;

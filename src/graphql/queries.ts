@@ -72,6 +72,28 @@ const getUserByAccessTokenQuery = `
   }
 `;
 
+const postUserQuery = `
+  mutation (
+    $name: String!, 
+    $email: String!, 
+    $password: String!, 
+    $avatar: String!
+  ){
+    addUser(
+      data: {
+        name: $name
+        email: $email
+        password: $password
+        avatar: $avatar
+      }
+    ) {
+      id
+      name
+      avatar
+    }
+  }
+`;
+
 export {
   getAllCategoriesQuery,
   getAllProductsQuery,
@@ -79,4 +101,5 @@ export {
   getAllUsersQuery,
   loginQuery,
   getUserByAccessTokenQuery,
+  postUserQuery,
 };
