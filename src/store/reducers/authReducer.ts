@@ -32,7 +32,10 @@ const createExtraActions = () => {
           dispatch(authActions.setAuth(true))
           localStorage.setItem('token', response.data.data.login.access_token);
         } catch (err) {
-          //show error
+          //handle error o day
+          /*how to handle error: Write an alert reducer with value (message) state and
+          get it from store to display it in App. Toast component can be used.
+          */
           console.log(err)
         }
       }
