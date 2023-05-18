@@ -5,6 +5,7 @@ import useAppDispatch from '../hooks/useAppDispatch';
 import { Link } from 'react-router-dom';
 import useAppSelector from '../hooks/useAppSelector';
 import { log } from 'console';
+import { authActions } from '../store/reducers/authReducer';
 
 const settings = ['Profile', 'Logout'];
 
@@ -20,7 +21,8 @@ const UserAccount = () => {
   };
 
   const handleLogout = () => {
-    dispatch({ type: 'user/logout' });
+    dispatch(authActions.logout())
+    //dispatch({ type: 'user/logout' });
     console.log('token in localStorage', localStorage.getItem('token'));
     console.log('user in localStorage', localStorage.getItem('user'));
   };

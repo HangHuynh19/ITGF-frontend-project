@@ -37,17 +37,18 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const dispatch = useAppDispatch();
+  // No need to check token from here
+  //const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const fetchUser = async () => {
-      if (storedToken) {
-        await dispatch(fetchUserByAccessToken());
-      }
-    };
-    fetchUser();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem('token');
+  //   const fetchUser = async () => {
+  //     if (storedToken) {
+  //       await dispatch(fetchUserByAccessToken());
+  //     }
+  //   };
+  //   fetchUser();
+  // }, [dispatch]);
 
   return (
     <ThemeProvider theme={globalTheme}>

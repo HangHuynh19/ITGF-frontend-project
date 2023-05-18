@@ -6,6 +6,8 @@ import {
   postUser,
 } from '../../graphql/apiCalls';
 
+//separate user and auth as they function differently
+
 const intialState: {
   user: User | null;
   isLoggedIn: boolean;
@@ -18,21 +20,22 @@ const intialState: {
   error: null,
 };
 
-export const authenticate = createAsyncThunk(
-  'authenticate',
-  async ({ email, password }: { email: string; password: string }) => {
-    try {
-      const response: { access_token: string } = await logingIn(
-        email,
-        password
-      );
-      localStorage.setItem('token', response.access_token);
-      return response.access_token;
-    } catch (err) {
-      return err;
-    }
-  }
-);
+// export const authenticate = createAsyncThunk(
+//   'authenticate',
+//   async ({ email, password }: { email: string; password: string }) => {
+//     try {
+//       const response: { access_token: string } = await logingIn(
+//         email,
+//         password
+//       );
+//       localStorage.setItem('token', response.access_token);
+//       return response.access_token;
+//     } catch (err) {
+//       return err;
+//     }
+//   }
+// );
+
 
 export const fetchUserByAccessToken = createAsyncThunk(
   'fetchUserByAccessToken',
@@ -68,31 +71,32 @@ const userSlice = createSlice({
   name: 'user',
   initialState: intialState,
   reducers: {
-    logout: (state) => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      state.user = null;
-      state.isLoggedIn = false;
-    },
+    // logout: (state) => {
+    //   localStorage.removeItem('token');
+    //   localStorage.removeItem('user');
+    //   state.user = null;
+    //   state.isLoggedIn = false;
+    // },
   },
   extraReducers: (build) => {
     build
-      .addCase(authenticate.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(authenticate.rejected, (state, action) => {
-        state.error = action.error.message || 'Cannot login';
-        state.loading = false;
-      })
-      .addCase(authenticate.fulfilled, (state, action) => {
-        if (action.payload instanceof Error) {
-          state.error = action.payload.message;
-          state.loading = false;
-          return;
-        }
-        state.isLoggedIn = true;
-        state.loading = false;
-      })
+    //unnecessary in a small app because login is usually fast
+      // .addCase(authenticate.pending, (state) => {
+      //   state.loading = true;
+      // })
+      // .addCase(authenticate.rejected, (state, action) => {
+      //   state.error = action.error.message || 'Cannot login';
+      //   state.loading = false;
+      // })
+      // .addCase(authenticate.fulfilled, (state, action) => {
+      //   if (action.payload instanceof Error) {
+      //     state.error = action.payload.message;
+      //     state.loading = false;
+      //     return;
+      //   }
+      //   state.isLoggedIn = true;
+      //   state.loading = false;
+      // })
       .addCase(fetchUserByAccessToken.pending, (state) => {
         state.loading = true;
       })

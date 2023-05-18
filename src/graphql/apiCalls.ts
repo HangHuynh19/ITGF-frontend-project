@@ -131,6 +131,20 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
   }
 };
 
+//Giang xink comment
+/* No need to try catch here. Let it function simply as an api call. We will
+/catch error in reducer */
+const logIn = async <T>(email: string, password: string): Promise<T> => {
+  return await axios.post(baseURL, {
+    query: loginQuery,
+    variables: {
+      email: email,
+      password: password,
+    },
+  })
+};
+
+
 const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
   try {
     const response = await axios.post<User>(
@@ -206,4 +220,5 @@ export {
   getUserByAccessToken,
   postImage,
   postUser,
+  logIn
 };
