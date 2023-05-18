@@ -36,9 +36,15 @@ export const authenticate = createAsyncThunk(
 
 export const fetchUserByAccessToken = createAsyncThunk(
   'fetchUserByAccessToken',
-  async (accessToken: string) => {
+  async () => {
     try {
-      const response: User = await getUserByAccessToken(accessToken);
+      const response: User = await getUserByAccessToken(
+        localStorage.getItem('token') as string
+      );
+      console.log(
+        'token in redux store',
+        localStorage.getItem('token') as string
+      );
       console.log('user in redux store', response);
       localStorage.setItem('user', JSON.stringify(response));
       return response;
@@ -63,6 +69,8 @@ const userSlice = createSlice({
   initialState: intialState,
   reducers: {
     logout: (state) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       state.user = null;
       state.isLoggedIn = false;
     },

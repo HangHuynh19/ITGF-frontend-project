@@ -1,3 +1,4 @@
+import {fetchUserByAccessToken} from './../store/reducers/userReducer';
 import axios, { AxiosError } from 'axios';
 import { Product } from '../interfaces/Product';
 import {
@@ -116,7 +117,10 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
         password: password,
       },
     });
-    console.log('response from loggingin APICalls', response);
+    console.log(
+      'response from loggingin APICalls',
+      response.data.data.login.access_token
+    );
     return response.data.data.login;
   } catch (error) {
     if (error instanceof CustomError) {
