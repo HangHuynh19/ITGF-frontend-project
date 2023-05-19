@@ -11,7 +11,7 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 const Header = () => {
-  const user = useAppSelector((state) => state.userReducer);
+  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -42,7 +42,7 @@ const Header = () => {
             </Link>
           </Box>
           <Search />
-          {user.isLoggedIn ? (
+          {isLoggedIn ? (
             <Box id='header__button-group'>
               <UserAccount />
               <FavoriteBorderIcon fontSize='small' />

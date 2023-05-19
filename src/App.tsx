@@ -37,7 +37,7 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const dispatch = useAppDispatch();
+  /* const dispatch = useAppDispatch();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -47,7 +47,7 @@ const App = () => {
       }
     };
     fetchUser();
-  }, [dispatch]);
+  }, [dispatch]); */
 
   return (
     <ThemeProvider theme={globalTheme}>

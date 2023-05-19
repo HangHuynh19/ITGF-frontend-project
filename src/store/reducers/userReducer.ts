@@ -1,55 +1,41 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../interfaces/User';
 import {
   getUserByAccessToken,
-  logingIn,
   postUser,
 } from '../../graphql/apiCalls';
+import CustomError from '../../classes/CustomError';
+import { AxiosError } from 'axios';
 
 const intialState: {
   user: User | null;
-  isLoggedIn: boolean;
   loading: boolean;
   error: string | null;
 } = {
   user: null,
-  isLoggedIn: false,
   loading: false,
   error: null,
 };
-
-export const authenticate = createAsyncThunk(
-  'authenticate',
-  async ({ email, password }: { email: string; password: string }) => {
-    try {
-      const response: { access_token: string } = await logingIn(
-        email,
-        password
-      );
-      localStorage.setItem('token', response.access_token);
-      return response.access_token;
-    } catch (err) {
-      return err;
-    }
-  }
-);
 
 export const fetchUserByAccessToken = createAsyncThunk(
   'fetchUserByAccessToken',
   async () => {
     try {
-      const response: User = await getUserByAccessToken(
-        localStorage.getItem('token') as string
-      );
-      console.log(
-        'token in redux store',
-        localStorage.getItem('token') as string
-      );
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return new CustomError('Unauthorized');
+      }
+
+      const response: User = await getUserByAccessToken(token);
       console.log('user in redux store', response);
       localStorage.setItem('user', JSON.stringify(response));
       return response;
     } catch (err) {
-      return err;
+      if (err instanceof AxiosError) {
+        return new CustomError(err.response?.data.message);
+      } else {
+        return err;
+      }
     }
   }
 );
@@ -60,39 +46,20 @@ export const createUser = createAsyncThunk('createUser', async (user: User) => {
     //console.log('user in redux store', response);
     return response;
   } catch (err) {
-    return err;
+    if (err instanceof AxiosError) {
+      return new CustomError(err.response?.data.message);
+    } else {
+      return err;
+    }
   }
 });
 
 const userSlice = createSlice({
   name: 'user',
   initialState: intialState,
-  reducers: {
-    logout: (state) => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      state.user = null;
-      state.isLoggedIn = false;
-    },
-  },
+  reducers: {},
   extraReducers: (build) => {
     build
-      .addCase(authenticate.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(authenticate.rejected, (state, action) => {
-        state.error = action.error.message || 'Cannot login';
-        state.loading = false;
-      })
-      .addCase(authenticate.fulfilled, (state, action) => {
-        if (action.payload instanceof Error) {
-          state.error = action.payload.message;
-          state.loading = false;
-          return;
-        }
-        state.isLoggedIn = true;
-        state.loading = false;
-      })
       .addCase(fetchUserByAccessToken.pending, (state) => {
         state.loading = true;
       })
@@ -106,14 +73,13 @@ const userSlice = createSlice({
           state.loading = false;
           return;
         }
+
         if (action.payload === null) {
-          state.isLoggedIn = false;
           state.loading = false;
           return;
         }
 
         state.user = action.payload as User;
-        state.isLoggedIn = true;
         state.loading = false;
       })
       .addCase(createUser.pending, (state) => {

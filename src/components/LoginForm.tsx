@@ -3,10 +3,8 @@ import { Box, Button, Modal, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
-import {
-  authenticate,
-  fetchUserByAccessToken,
-} from '../store/reducers/userReducer';
+import { fetchUserByAccessToken } from '../store/reducers/userReducer';
+import { authenticate } from '../store/reducers/authReducer';
 
 const LoginForm = ({
   open,
@@ -23,14 +21,10 @@ const LoginForm = ({
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('email', email.value);
-    console.log('password', password.value);
-    const token = await dispatch(
+    await dispatch(
       authenticate({ email: email.value, password: password.value })
     );
-    console.log('token', token);
     await dispatch(fetchUserByAccessToken());
-
     onClose();
   };
 
