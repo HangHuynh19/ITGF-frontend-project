@@ -7,4 +7,6 @@ interface User {
   avatar: File | string;
 }
 
-export type { User };
+type UpdateUser = Partial<User>;
+
+export type { User, UpdateUser };

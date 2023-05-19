@@ -6,6 +6,8 @@ import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import { Button, Typography } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import RegisterForm from '../components/RegisterForm';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import EditProfileForm from '../components/EditProfileForm';
 
 const ProfilePage = () => {
   const user = useAppSelector((state) => state.userReducer.user);
@@ -52,7 +54,7 @@ const ProfilePage = () => {
             >
               Edit profile
             </Button>
-            <RegisterForm
+            <EditProfileForm
               open={isEditModalOpen}
               onClose={handleCloseEditModal}
             />

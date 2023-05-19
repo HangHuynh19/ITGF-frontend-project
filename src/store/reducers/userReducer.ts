@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { User } from '../../interfaces/User';
-import { getUserByAccessToken, postUser } from '../../graphql/apiCalls';
+import { UpdateUser, User } from '../../interfaces/User';
+import {
+  getUserByAccessToken,
+  postUser,
+  putUser,
+} from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { AxiosError } from 'axios';
 
@@ -53,6 +57,23 @@ export const createUser = createAsyncThunk('createUser', async (user: User) => {
   }
 });
 
+export const updateUser = createAsyncThunk(
+  'updateUser',
+  async ({ id, user }: { id: number; user: UpdateUser }) => {
+    try {
+      const response = await putUser(id, user);
+      console.log('user in redux store', response);
+      return response;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return new CustomError(err.response?.data.message);
+      } else {
+        return err;
+      }
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: intialState,
@@ -95,6 +116,22 @@ const userSlice = createSlice({
           return;
         }
         state.loading = false;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.error = action.error.message || 'Cannot update user';
+        state.loading = false;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        if (action.payload instanceof Error) {
+          state.error = action.payload.message;
+          state.loading = false;
+          return;
+        }
+        state.loading = false;
+        state.user = action.payload as User;
       });
   },
 });

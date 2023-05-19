@@ -9,11 +9,11 @@ import {
   loginQuery,
   postUserQuery,
 } from './queries';
-import { User } from '../interfaces/User';
+import { User, UpdateUser } from '../interfaces/User';
 import { ImageResponse } from '../interfaces/ServerResponses';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
-const restURL = 'https://api.escuelajs.co/api/v1/auth/profile';
+const restURL = 'https://api.escuelajs.co/api/v1';
 const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload';
 
 const getAllCategories = async <T>(): Promise<T> => {
@@ -81,7 +81,7 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
 };
 
 const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
-  const response = await axios.get(restURL, {
+  const response = await axios.get(`${restURL}/auth/profile`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -114,6 +114,16 @@ const postUser = async (user: User) => {
   return response.data;
 };
 
+const putUser = async (id: number, input: UpdateUser) => {
+  if (input.hasOwnProperty('avatar')) {
+    const avatar = await postImage(input.avatar as File);
+    input.avatar = avatar.location;
+  }
+  const response = await axios.put<User>(`${restURL}/users/${id}`, input);
+  console.log('response from putUser APICalls', response);
+  return response.data;
+};
+
 export {
   getAllCategories,
   getAllProducts,
@@ -124,4 +134,5 @@ export {
   getUserByAccessToken,
   postImage,
   postUser,
+  putUser,
 };
