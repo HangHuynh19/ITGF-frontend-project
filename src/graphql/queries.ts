@@ -68,6 +68,7 @@ const getUserByAccessTokenQuery = `
       id
       name
       avatar
+      email
     }
   }
 `;

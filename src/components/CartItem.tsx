@@ -18,9 +18,10 @@ import {
   deleteFromCart,
   reduceQuantity,
 } from '../store/reducers/cartReducer';
+import useAppSelector from '../hooks/useAppSelector';
 
 const CartItem = ({ cartItem }: { cartItem: ProductWithQuantity }) => {
-  //const cartItems = useAppSelector((state) => state.cartReducer.cart);
+  const user = useAppSelector((state) => state.userReducer.user);
   const dispatch = useAppDispatch();
   const handleReduceQuantity = () => {
     dispatch(reduceQuantity(cartItem.id));

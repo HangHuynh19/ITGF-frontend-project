@@ -6,7 +6,11 @@ import { Typography } from '@mui/material';
 import { Product } from '../interfaces/Product';
 
 const CartPage = () => {
-  const cartItems = useAppSelector((state) => state.cartReducer);
+  const user = useAppSelector((state) => state.userReducer.user);
+  console.log('user in CartPage', user);
+  const cartItems = useAppSelector(
+    (state) => state.cartReducer
+  );
   //console.log('cartItems', cartItems);
 
   return (
@@ -21,8 +25,8 @@ const CartPage = () => {
         </Typography>
       </div>
       {cartItems &&
-        cartItems.cart.map((item) => (
-          <CartItem key={item.id} cartItem={item} />
+        cartItems.cart.map((cartItem) => (
+          <CartItem key={cartItem.id} cartItem={cartItem} />
         ))}
     </>
   );

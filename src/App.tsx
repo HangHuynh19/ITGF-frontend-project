@@ -10,6 +10,7 @@ import globalTheme from './theme/globalTheme';
 import useAppSelector from './hooks/useAppSelector';
 import useAppDispatch from './hooks/useAppDispatch';
 import { fetchUserByAccessToken } from './store/reducers/userReducer';
+import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: '/cart',
     element: <CartPage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />,
   },
 ]);
 

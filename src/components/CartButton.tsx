@@ -5,6 +5,8 @@ import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const CartButton = () => {
+  const user = useAppSelector((state) => state.userReducer.user);
+  console.log('user in CartButton', user);
   const totalPrice = useAppSelector((state) => state.cartReducer.totalPrice);
 
   return (

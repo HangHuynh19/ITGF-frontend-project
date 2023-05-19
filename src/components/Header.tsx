@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -9,9 +9,12 @@ import UserAccount from './UserAccount';
 import useAppSelector from '../hooks/useAppSelector';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import {fetchUserByAccessToken} from '../store/reducers/userReducer';
+import useAppDispatch from '../hooks/useAppDispatch';
 
 const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+  const dispatch = useAppDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -27,6 +30,13 @@ const Header = () => {
   const handleCloseRegisterModal = () => {
     setIsRegisterModalOpen(false);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchUserByAccessToken());
+    }
+  }, [dispatch, isLoggedIn]);
+
 
   return (
     <>

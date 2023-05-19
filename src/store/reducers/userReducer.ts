@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../interfaces/User';
-import {
-  getUserByAccessToken,
-  postUser,
-} from '../../graphql/apiCalls';
+import { getUserByAccessToken, postUser } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { AxiosError } from 'axios';
 
@@ -27,8 +24,10 @@ export const fetchUserByAccessToken = createAsyncThunk(
       }
 
       const response: User = await getUserByAccessToken(token);
-      console.log('user in redux store', response);
-      localStorage.setItem('user', JSON.stringify(response));
+      if (!response) {
+        return new CustomError('User not found');
+      }
+
       return response;
     } catch (err) {
       if (err instanceof AxiosError) {

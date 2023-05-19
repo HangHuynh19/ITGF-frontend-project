@@ -18,6 +18,13 @@
       font-size: 2em;
       font-weight: 900;
       letter-spacing: 0.1em;
+      padding: 0.5em 0;
+    }
+
+    #product-detail__content__btn-group {
+      display: flex;
+      gap: 1em;
+      padding-top: 2em;
     }
   }
 }

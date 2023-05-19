@@ -1,22 +1,30 @@
 import React from 'react';
 import { Product } from '../interfaces/Product';
 import {
-  Box,
   Button,
   IconButton,
   ImageList,
   ImageListItem,
+  Typography,
 } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-//import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { addToCart } from '../store/reducers/cartReducer';
+import useAppSelector from '../hooks/useAppSelector';
+import { User } from '../interfaces/User';
+import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 
 const ProductDetail = ({ product }: { product: Product }) => {
-  //const {cart, loading, error} = useAppSelector(state => state.cartReducer);
+  const user = useAppSelector((state) => state.userReducer.user);
   const dispatch = useAppDispatch();
+
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
+    console.log('user in ProductDetail', user);
+    if (!user) {
+      dispatch(fetchUserByAccessToken());
+    } else {
+      dispatch(addToCart(product));
+    }
   };
 
   return (
@@ -36,11 +44,19 @@ const ProductDetail = ({ product }: { product: Product }) => {
         </ImageList>
       </div>
       <article id='product-detail__content'>
-        <h1>{product.title}</h1>
-        <p>{product.price} EUR</p>
-        <p>{product.description}</p>
-        <div>
-          <Button variant='contained' onClick={handleAddToCart}>
+        <Typography component='h1'>{product.title}</Typography>
+        <Typography component='p'>
+          <b>Price:</b> €{product.price}
+        </Typography>
+        <Typography component='p'>
+          <b>Description:</b> <br /> {product.description}
+        </Typography>
+        <div id='product-detail__content__btn-group'>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={handleAddToCart}
+          >
             Add to cart
           </Button>
           <IconButton>

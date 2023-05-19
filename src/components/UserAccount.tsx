@@ -3,7 +3,8 @@ import PermIdentitySharpIcon from '@mui/icons-material/PermIdentitySharp';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { Link } from 'react-router-dom';
-import {logout} from '../store/reducers/authReducer';
+import { logout } from '../store/reducers/authReducer';
+import {clearCart} from '../store/reducers/cartReducer';
 
 const UserAccount = () => {
   const dispatch = useAppDispatch();
@@ -16,9 +17,8 @@ const UserAccount = () => {
   };
 
   const handleLogout = () => {
+    dispatch(clearCart());
     dispatch(logout());
-    console.log('token in localStorage', localStorage.getItem('token'));
-    console.log('user in localStorage', localStorage.getItem('user'));
   };
 
   return (
@@ -46,7 +46,7 @@ const UserAccount = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem>
+        <MenuItem component={Link} to='/profile'>
           <Typography textAlign='center'>Profile</Typography>
         </MenuItem>
         <MenuItem component={Link} to='/' onClick={handleLogout}>

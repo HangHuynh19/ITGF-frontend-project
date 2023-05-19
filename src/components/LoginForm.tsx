@@ -37,6 +37,7 @@ const LoginForm = ({
           type='email'
           variant='outlined'
           color='secondary'
+          required
           onChange={email.onChange}
         />
         <TextField
@@ -45,6 +46,7 @@ const LoginForm = ({
           type='password'
           variant='outlined'
           color='secondary'
+          required
           onChange={password.onChange}
         />
         <div id='login-form__btnGroup'>

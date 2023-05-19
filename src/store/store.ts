@@ -4,7 +4,6 @@ import userReducer from './reducers/userReducer';
 import authReducer from './reducers/authReducer';
 
 const cartData = JSON.parse(localStorage.getItem('cart') || '[]');
-const userData = JSON.parse(localStorage.getItem('user') || '{}');
 
 const store = configureStore({
   reducer: {
@@ -14,7 +13,6 @@ const store = configureStore({
   },
   preloadedState: {
     cartReducer: cartData,
-    userReducer: userData,
   },
 });
 

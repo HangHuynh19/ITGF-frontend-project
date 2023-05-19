@@ -13,6 +13,7 @@ import { User } from '../interfaces/User';
 import { ImageResponse } from '../interfaces/ServerResponses';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
+const restURL = 'https://api.escuelajs.co/api/v1/auth/profile';
 const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload';
 
 const getAllCategories = async <T>(): Promise<T> => {
@@ -80,19 +81,13 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
 };
 
 const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
-  const response = await axios.post<User>(
-    baseURL,
-    {
-      query: getUserByAccessTokenQuery,
+  const response = await axios.get(restURL, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-  console.log('response from APICalls', response);
-  return response.data as T;
+  });
+  console.log('response from APICalls', response.data);
+  return response.data;
 };
 
 const postImage = async (file: File): Promise<ImageResponse> => {
