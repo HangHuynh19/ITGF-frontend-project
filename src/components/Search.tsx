@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
-
 import TextField from '@mui/material/TextField';
-import CategoryPicker from './CategoryPicker';
-import { Product } from '../interfaces/Product';
-import { searchProductsByNameAndCategory } from '../graphql/apiCalls';
-import {
-  Autocomplete,
-  Box,
-  IconButton,
-  List,
-  ListItem,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import { getAllProducts } from '../graphql/apiCalls';
+import { Autocomplete, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
+import useAppDispatch from '../hooks/useAppDispatch';
+import { fetchAllProducts } from '../store/reducers/productReducer';
+import CategoryPicker from './CategoryPicker';
+import { Product } from '../interfaces/Product';
+
 const Search = () => {
+  const dispatch = useAppDispatch();
   const [category, setCategory] = useState('All categories');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
@@ -31,21 +24,17 @@ const Search = () => {
     event: React.ChangeEvent<{}>,
     value: string
   ) => {
-    console.log('handleSearchTermChange', value);
     setSearchTerm(value);
   };
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        setSearchResults(await getAllProducts());
-      } catch (error) {
-        throw new Error((error as Error).message);
-      }
+      const allProducts = await dispatch(fetchAllProducts());
+      setSearchResults(allProducts.payload as Product[]);
     };
 
     fetchProducts();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box id='header__search-container'>
@@ -68,7 +57,6 @@ const Search = () => {
             }}
           />
         )}
-        //value={searchTerm}
         onInputChange={handleSearchTermChange}
       />
       <Link

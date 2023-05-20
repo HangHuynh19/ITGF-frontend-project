@@ -17,7 +17,7 @@ import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 const ProductDetail = ({ product }: { product: Product }) => {
   const user = useAppSelector((state) => state.userReducer.user);
   const dispatch = useAppDispatch();
-
+  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const handleAddToCart = () => {
     console.log('user in ProductDetail', user);
     if (!user) {
@@ -51,18 +51,20 @@ const ProductDetail = ({ product }: { product: Product }) => {
         <Typography component='p'>
           <b>Description:</b> <br /> {product.description}
         </Typography>
-        <div id='product-detail__content__btn-group'>
-          <Button
-            variant='contained'
-            color='secondary'
-            onClick={handleAddToCart}
-          >
-            Add to cart
-          </Button>
-          <IconButton>
-            <FavoriteBorderOutlinedIcon />
-          </IconButton>
-        </div>
+        {isLoggedIn && (
+          <div id='product-detail__content__btn-group'>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={handleAddToCart}
+            >
+              Add to cart
+            </Button>
+            <IconButton>
+              <FavoriteBorderOutlinedIcon />
+            </IconButton>
+          </div>
+        )}
       </article>
     </div>
   );

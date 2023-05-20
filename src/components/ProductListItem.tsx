@@ -19,7 +19,7 @@ const ProductListItem = ({ product }: { product: Product }) => {
           <ImageListItemBar
             className='product-main__image-title'
             title={product.title}
-            subtitle={`${product.price} EUR`}
+            subtitle={`€${product.price}`}
           />
         </Link>
       </ImageListItem>

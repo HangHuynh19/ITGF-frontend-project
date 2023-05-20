@@ -5,7 +5,6 @@ import {
   getAllProductsQuery,
   getAllUsersQuery,
   getProductByIdQuery,
-  getUserByAccessTokenQuery,
   loginQuery,
   postUserQuery,
 } from './queries';
@@ -33,13 +32,11 @@ const getAllProducts = async <T>(): Promise<T> => {
 };
 
 const getProductById = async <T>(id: number): Promise<T> => {
-  console.log('id from APICalls', id);
-
   const response = await axios.post(baseURL, {
     query: getProductByIdQuery,
     variables: { id: id },
   });
-  console.log('response from APICalls', response);
+  console.log('response from APICalls', response.data.data.product);
   return response.data.data.product;
 };
 

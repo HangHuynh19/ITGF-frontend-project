@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import SideMenu from '../components/SideMenu';
-import { getAllProducts } from '../graphql/apiCalls';
+import React, { useEffect } from 'react';
 import ProductList from '../components/ProductList';
-import { Product } from '../interfaces/Product';
+import useAppDispatch from '../hooks/useAppDispatch';
+import useAppSelector from '../hooks/useAppSelector';
+import { fetchAllProducts } from '../store/reducers/productReducer';
 
 const HomePage = () => {
-  const [productList, setProductList] = useState<Product[]>([]);
+  const dispatch = useAppDispatch();
+  const productList = useAppSelector((state) => state.productReducer.products);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        setProductList(await getAllProducts());
-      } catch (error) {
-        throw new Error((error as Error).message);
-      }
+      await dispatch(fetchAllProducts());
     };
     fetchProducts();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
