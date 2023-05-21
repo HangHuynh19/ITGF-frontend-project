@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Modal, TextField } from '@mui/material';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
@@ -31,6 +31,9 @@ const LoginForm = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box id='login-form' component='form' onSubmit={handleSubmit}>
+        <Typography id='login-form__form-title' variant='h5'>
+          Login
+        </Typography>
         <TextField
           id='login-form__email'
           label='Email'

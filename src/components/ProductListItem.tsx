@@ -1,10 +1,13 @@
 import React from 'react';
-import { ImageListItem, ImageListItemBar } from '@mui/material';
+import { IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Product } from '../interfaces/Product';
+import useAppSelector from '../hooks/useAppSelector';
 
 const ProductListItem = ({ product }: { product: Product }) => {
+  const user = useAppSelector((state) => state.userReducer.user);
+
   return (
     <>
       <ImageListItem>

@@ -7,6 +7,10 @@ const useInputHook = (initialValue: string) => {
     setValue(e.target.value);
   };
 
+  React.useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   return { value, onChange };
 };
 

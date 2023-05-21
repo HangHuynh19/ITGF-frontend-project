@@ -10,17 +10,21 @@ import {
 import { Category } from '../interfaces/Category';
 import { getAllCategories } from '../graphql/apiCalls';
 
-const CategoryPicker = ({
+type CategoryPickerProps = {
+  onCategoryChange?: (category: string) => void;
+  defaultValue: string;
+};
+
+const CategoryPicker: React.FC<CategoryPickerProps> = ({
   onCategoryChange,
-}: {
-  onCategoryChange: (category: string) => void;
+  defaultValue,
 }) => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [category, setCategory] = useState('All categories');
+  const [category, setCategory] = useState(defaultValue);
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
-    onCategoryChange(event.target.value as string);
+    onCategoryChange?.(event.target.value as string);
   };
 
   useEffect(() => {

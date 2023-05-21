@@ -13,4 +13,12 @@ interface ProductWithQuantity extends Product {
   quantity: number;
 }
 
-export type { Product, ProductWithQuantity };
+interface ProductInput {
+  id?: number;
+  title: string;
+  price: number;
+  description: string;
+  images: File[] | string[];
+}
+
+export type { Product, ProductWithQuantity, ProductInput };

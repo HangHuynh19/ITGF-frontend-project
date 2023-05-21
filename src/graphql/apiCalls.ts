@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Product } from '../interfaces/Product';
+import { Product, ProductInput } from '../interfaces/Product';
 import {
   getAllCategoriesQuery,
   getAllProductsQuery,
@@ -7,13 +7,23 @@ import {
   getProductByIdQuery,
   loginQuery,
   postUserQuery,
+  putProductQuery,
 } from './queries';
 import { User, UpdateUser } from '../interfaces/User';
 import { ImageResponse } from '../interfaces/ServerResponses';
+import { Category } from '../interfaces/Category';
 
 const baseURL = 'https://api.escuelajs.co/graphql';
 const restURL = 'https://api.escuelajs.co/api/v1';
 const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload';
+
+const postImage = async (file: File): Promise<ImageResponse> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const imageUrl = await axios.post<ImageResponse>(uploadImageURL, formData);
+  //console.log('Image upload succesfully from postImage APICalls', imageUrl);
+  return imageUrl.data;
+};
 
 const getAllCategories = async <T>(): Promise<T> => {
   const response = await axios.post(baseURL, {
@@ -40,6 +50,35 @@ const getProductById = async <T>(id: number): Promise<T> => {
   return response.data.data.product;
 };
 
+const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
+  if (product.images[0] instanceof File) {
+    const image = await postImage(product.images[0]);
+    product.images = [image.location];
+  }
+
+  const response = await axios.post(baseURL, {
+    query: putProductQuery,
+    variables: {
+      id: id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      images: product.images,
+    },
+  });
+  console.log(
+    'response from putProduct APICalls',
+    response.data.data.updateProduct
+  );
+  return response.data.data.updateProduct;
+};
+
+const deleteProduct = async (id: number): Promise<boolean> => {
+  const response = await axios.delete<boolean>(`${restURL}/products/${id}`);
+  console.log('response from deleteProduct APICalls', response.data);
+  return response.data;
+};
+
 const searchProductsByNameAndCategory = async <T>(
   searchTerm: string,
   categoryName: string
@@ -50,7 +89,7 @@ const searchProductsByNameAndCategory = async <T>(
       return product.title.toLowerCase().includes(searchTerm.toLowerCase());
     return (
       product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      product.category.name === categoryName
+      (product.category as Category).name === categoryName
     );
   });
   console.log('apiCalls', filteredProducts);
@@ -87,14 +126,6 @@ const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
   return response.data;
 };
 
-const postImage = async (file: File): Promise<ImageResponse> => {
-  const formData = new FormData();
-  formData.append('file', file);
-  const imageUrl = await axios.post<ImageResponse>(uploadImageURL, formData);
-  //console.log('Image upload succesfully from postImage APICalls', imageUrl);
-  return imageUrl.data;
-};
-
 const postUser = async (user: User) => {
   const avatar = user.avatar !== '' ? await postImage(user.avatar as File) : '';
 
@@ -122,14 +153,16 @@ const putUser = async (id: number, input: UpdateUser) => {
 };
 
 export {
+  postImage,
   getAllCategories,
   getAllProducts,
   getProductById,
+  putProduct,
+  deleteProduct,
   searchProductsByNameAndCategory,
   getAllUsers,
   logingIn,
   getUserByAccessToken,
-  postImage,
   postUser,
   putUser,
 };

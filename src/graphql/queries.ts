@@ -42,6 +42,50 @@ const getProductByIdQuery = `
   }
 `;
 
+const postProductQuery = `
+  mutation($title: String!, $price: Float!, $description: String!, $categoryId: Float!, $images: [String!]!) {
+    addProduct(
+      data: {
+        title: $title
+        price: $price
+        description: $description
+        categoryId: $categoryId
+        images: $images
+      }
+    ) {
+      title
+      price
+      description
+      images
+      category {
+        id
+        name
+        image
+      }
+    }
+  }
+`;
+
+const putProductQuery = `
+  mutation($id: ID!, $title: String!, $price: Float!, $description: String!, $images: [String!]!) {
+    updateProduct(id: $id, changes: { 
+      title: $title,  price: $price
+      description: $description
+      images: $images 
+    }) {
+      title
+      price
+      images
+      description
+      category {
+        id
+        name
+        image
+      }
+    }
+  }
+`;
+
 const getAllUsersQuery = `
   query {
     users {
@@ -99,6 +143,8 @@ export {
   getAllCategoriesQuery,
   getAllProductsQuery,
   getProductByIdQuery,
+  postProductQuery,
+  putProductQuery,
   getAllUsersQuery,
   loginQuery,
   getUserByAccessTokenQuery,

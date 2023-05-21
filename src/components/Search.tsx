@@ -38,7 +38,10 @@ const Search = () => {
 
   return (
     <Box id='header__search-container'>
-      <CategoryPicker onCategoryChange={handleCategoryChange} />
+      <CategoryPicker
+        onCategoryChange={handleCategoryChange}
+        defaultValue='All categories'
+      />
       <Autocomplete
         id='header__search-container__search-field'
         size='small'

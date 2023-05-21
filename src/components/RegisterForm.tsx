@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Input, Modal, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Input,
+  Modal,
+  TextField,
+  Typography,
+} from '@mui/material';
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { createUser } from '../store/reducers/userReducer';
@@ -57,6 +64,9 @@ const RegisterForm = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box id='register-form' component='form' onSubmit={handleSubmit}>
+        <Typography id='register-form__form-title' variant='h5'>
+          Register
+        </Typography>
         <TextField
           id='register-form__name'
           label='Name'

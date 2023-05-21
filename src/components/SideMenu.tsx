@@ -1,11 +1,10 @@
-import { MenuItem, MenuList } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getAllCategories } from '../graphql/apiCalls';
-import { Category } from '../interfaces/Category';
+import { MenuItem, MenuList } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
 import { fetchAllCategories } from '../store/reducers/categoryReducer';
-import { Link } from 'react-router-dom';
 
 const SideMenu = () => {
   const dispatch = useAppDispatch();
@@ -30,16 +29,24 @@ const SideMenu = () => {
   return (
     <div className='product-main__side-menu'>
       <MenuList dense>
+        <Link
+          to={{
+            pathname: '/search',
+            search: `?searchTerm=&category=All categories`,
+          }}
+          key='all-categories-link'
+        >
+          <MenuItem onClick={handleMenuItemClick}>All categories</MenuItem>
+        </Link>
         {categoryList.map((category) => (
           <Link
             to={{
               pathname: '/search',
               search: `?searchTerm=&category=${category.name}`,
             }}
+            key={category.id}
           >
-            <MenuItem key={category.id} onClick={handleMenuItemClick}>
-              {category.name}
-            </MenuItem>
+            <MenuItem onClick={handleMenuItemClick}>{category.name}</MenuItem>
           </Link>
         ))}
       </MenuList>

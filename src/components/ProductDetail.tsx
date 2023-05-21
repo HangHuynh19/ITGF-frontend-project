@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Product } from '../interfaces/Product';
 import {
   Button,
@@ -7,17 +7,26 @@ import {
   ImageListItem,
   Typography,
 } from '@mui/material';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { addToCart } from '../store/reducers/cartReducer';
 import useAppSelector from '../hooks/useAppSelector';
-import { User } from '../interfaces/User';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditProductForm from './EditProductForm';
+import {
+  fetchProductById,
+  removeProduct,
+} from '../store/reducers/productReducer';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetail = ({ product }: { product: Product }) => {
   const user = useAppSelector((state) => state.userReducer.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const handleAddToCart = () => {
     console.log('user in ProductDetail', user);
     if (!user) {
@@ -25,6 +34,20 @@ const ProductDetail = ({ product }: { product: Product }) => {
     } else {
       dispatch(addToCart(product));
     }
+  };
+  const handleOpenEditModal = () => {
+    console.log('open edit modal', product);
+    setIsEditModalOpen(true);
+  };
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+  const handleProductUpdate = () => {
+    dispatch(fetchProductById(product.id));
+  };
+  const handleProductDelete = () => {
+    dispatch(removeProduct(product.id));
+    navigate('/');
   };
 
   return (
@@ -51,6 +74,9 @@ const ProductDetail = ({ product }: { product: Product }) => {
         <Typography component='p'>
           <b>Description:</b> <br /> {product.description}
         </Typography>
+        <Typography component='p'>
+          <b>Category:</b> <br /> {product.category.name}
+        </Typography>
         {isLoggedIn && (
           <div id='product-detail__content__btn-group'>
             <Button
@@ -60,9 +86,22 @@ const ProductDetail = ({ product }: { product: Product }) => {
             >
               Add to cart
             </Button>
-            <IconButton>
-              <FavoriteBorderOutlinedIcon />
-            </IconButton>
+            {user?.role === 'admin' && (
+              <>
+                <IconButton onClick={handleOpenEditModal}>
+                  <BorderColorIcon color='secondary' />
+                </IconButton>
+                <EditProductForm
+                  open={isEditModalOpen}
+                  onClose={handleCloseEditModal}
+                  product={product}
+                  onProductUpdate={handleProductUpdate}
+                />
+                <IconButton onClick={handleProductDelete}>
+                  <DeleteIcon color='secondary' />
+                </IconButton>
+              </>
+            )}
           </div>
         )}
       </article>

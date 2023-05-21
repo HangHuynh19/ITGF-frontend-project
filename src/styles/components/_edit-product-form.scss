@@ -1,7 +1,7 @@
 @use '../variables/colors' as colors;
 @use '../variables/fonts' as fonts;
 
-#register-form {
+#edit-product-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
   padding: 2em;
   border-radius: 0.5em;
 
-  #register-form__form-title {
+  #edit-product-form__form-title {
     font-size: 1.5em;
     font-weight: 900;
     font-family: fonts.$heading-font;
@@ -24,27 +24,26 @@
     padding-bottom: 0.5em;
   }
 
-  #register-form__name,
-  #register-form__email,
-  #register-form__password,
-  #register-form__confirmPassword {
+  #edit-product-form__title,
+  #edit-product-form__price,
+  #edit-product-form__description {
     width: 25em;
   }
 
-  #register-form__avatar {
+  #edit-product-form__image {
     width: 26.5em;
   }
 
-  #register-form__btnGroup {
+  #edit-product-form__btnGroup {
     padding-top: 1em;
 
-    #register-form__submitBtn {
+    #edit-product-form__submitBtn {
       width: 11em;
       background-color: colors.$blue;
       font-weight: 900;
     }
 
-    #register-form__cancelBtn {
+    #edit-product-form__cancelBtn {
       margin-right: 3em;
       width: 11em;
       font-weight: 900;
