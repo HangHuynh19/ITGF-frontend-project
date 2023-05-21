@@ -6,6 +6,7 @@ import {
   getAllUsersQuery,
   getProductByIdQuery,
   loginQuery,
+  postProductQuery,
   postUserQuery,
   putProductQuery,
 } from './queries';
@@ -48,6 +49,29 @@ const getProductById = async <T>(id: number): Promise<T> => {
   });
   console.log('response from APICalls', response.data.data.product);
   return response.data.data.product;
+};
+
+const postProduct = async <T>(product: ProductInput): Promise<T> => {
+  if (product.images[0] instanceof File) {
+    const image = await postImage(product.images[0]);
+    product.images = [image.location];
+  }
+
+  const response = await axios.post(baseURL, {
+    query: postProductQuery,
+    variables: {
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      categoryId: product.categoryId,
+      images: product.images,
+    },
+  });
+  console.log(
+    'response from postProduct APICalls',
+    response.data.data.addProduct
+  );
+  return response.data.data.addProduct;
 };
 
 const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
@@ -157,6 +181,7 @@ export {
   getAllCategories,
   getAllProducts,
   getProductById,
+  postProduct,
   putProduct,
   deleteProduct,
   searchProductsByNameAndCategory,

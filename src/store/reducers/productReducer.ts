@@ -3,6 +3,7 @@ import {
   deleteProduct,
   getAllProducts,
   getProductById,
+  postProduct,
   putProduct,
   searchProductsByNameAndCategory,
 } from '../../graphql/apiCalls';
@@ -67,6 +68,22 @@ export const filterProducts = createAsyncThunk(
         searchTerm,
         categoryName
       );
+      return response;
+    } catch (err) {
+      if (err instanceof CustomError) {
+        return new CustomError(err.message);
+      } else {
+        return err;
+      }
+    }
+  }
+);
+
+export const createProduct = createAsyncThunk(
+  'createProduct',
+  async (product: ProductInput) => {
+    try {
+      const response: Product = await postProduct(product);
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -207,6 +224,23 @@ const productSlice = createSlice({
       })
       .addCase(removeProduct.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot remove product';
+        state.loading = false;
+      })
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        if (action.payload instanceof CustomError) {
+          state.error = action.payload.message;
+          state.loading = false;
+          return;
+        }
+
+        state.loading = false;
+        state.products = [...state.products, action.payload as Product];
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.error = action.error.message || 'Cannot create product';
         state.loading = false;
       });
   },

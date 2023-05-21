@@ -297,9 +297,56 @@
   width: 11em;
   font-weight: 900;
 }
-#edit-product-form #register-form__register-link {
-  text-decoration: underline;
-  cursor: pointer;
+
+#create-product-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28em;
+  background-color: #f2f2f2;
+  padding: 2em;
+  border-radius: 0.5em;
+}
+#create-product-form #create-product-form__form-title {
+  font-size: 1.5em;
+  font-weight: 900;
+  font-family: "Roboto Condensed", sans-serif;
+  letter-spacing: 0.1em;
+  padding-bottom: 0.5em;
+}
+#create-product-form #create-product-form__title,
+#create-product-form #create-product-form__price,
+#create-product-form #create-product-form__description {
+  width: 25em;
+}
+#create-product-form #create-product-form__category-picker-and-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 26.5em;
+  gap: 1em;
+}
+#create-product-form #create-product-form__image {
+  width: 26.5em;
+}
+#create-product-form #create-product-form__btnGroup {
+  padding-top: 1em;
+}
+#create-product-form #create-product-form__btnGroup #create-product-form__submitBtn {
+  width: 11em;
+  background-color: #5ec3eb;
+  font-weight: 900;
+}
+#create-product-form #create-product-form__btnGroup #create-product-form__cancelBtn {
+  margin-right: 3em;
+  width: 11em;
+  font-weight: 900;
 }
 
 body {
