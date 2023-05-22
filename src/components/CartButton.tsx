@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import useAppSelector from '../hooks/useAppSelector';
 import { Box, Typography } from '@mui/material';
@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 
 const CartButton = () => {
   const totalPrice = useAppSelector((state) => state.cartReducer.totalPrice);
+
+  useEffect(() => {
+    console.log('totalPrice', totalPrice);
+  }, [totalPrice]);
 
   return (
     <Link to='/cart'>

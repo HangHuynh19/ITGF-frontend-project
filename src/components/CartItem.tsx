@@ -35,7 +35,7 @@ const CartItem = ({ cartItem }: { cartItem: ProductWithQuantity }) => {
 
   return (
     <Card id='cart-item' variant='outlined'>
-      <Link to={`/products/${cartItem.id}`}>
+      <Link to={`/product/${cartItem.id}`}>
         <div id='cart-item__img-container'>
           <CardMedia
             id='cart-item__img'

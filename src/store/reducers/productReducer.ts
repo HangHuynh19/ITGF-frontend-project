@@ -121,6 +121,7 @@ export const updateProduct = createAsyncThunk(
   async ({ id, product }: { id: number; product: ProductInput }) => {
     try {
       const response: Product = await putProduct(id, product);
+      console.log('response from redux store', response);
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -264,7 +265,6 @@ const productSlice = createSlice({
           state.loading = false;
           return;
         }
-
         state.loading = false;
         state.products = [...state.products, action.payload as Product];
       })

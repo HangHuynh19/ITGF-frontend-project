@@ -53,6 +53,7 @@ const postProductQuery = `
         images: $images
       }
     ) {
+      id
       title
       price
       description
@@ -73,6 +74,7 @@ const putProductQuery = `
       description: $description
       images: $images 
     }) {
+      id
       title
       price
       images

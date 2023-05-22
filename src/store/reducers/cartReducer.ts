@@ -1,5 +1,11 @@
+import { updateProduct } from './productReducer';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Product, ProductWithQuantity } from '../../interfaces/Product';
+import {
+  Product,
+  ProductInput,
+  ProductWithQuantity,
+} from '../../interfaces/Product';
+import store from '../store';
 
 const initialState: {
   cart: ProductWithQuantity[];
@@ -51,6 +57,31 @@ const cartSlice = createSlice({
       console.log('existingItem', existingItem.quantity);
       existingItem.quantity -= 1;
     },
+    updateCartItem: (
+      state,
+      action: PayloadAction<{ id: number; product: Product }>
+    ) => {
+      const { id, product } = action.payload;
+      const existingItemIndex = state.cart.findIndex((item) => item.id === id);
+
+      if (existingItemIndex === -1) {
+        state.error = 'Item not found in cart';
+        return;
+      }
+
+      const updatedCart = [...state.cart];
+      updatedCart[existingItemIndex] = {
+        ...updatedCart[existingItemIndex],
+        ...product,
+      };
+
+      const totalPrice = updatedCart.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+      console.log('updatedCart', updatedCart);
+      state.cart = updatedCart;
+      state.totalPrice = totalPrice;
+    },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const existingItem = state.cart.find((item) => item.id === id);
@@ -73,6 +104,12 @@ const cartSlice = createSlice({
 });
 
 const cartReducer = cartSlice.reducer;
-export const { addToCart, reduceQuantity, deleteFromCart, clearCart } = cartSlice.actions;
+export const {
+  addToCart,
+  reduceQuantity,
+  updateCartItem,
+  deleteFromCart,
+  clearCart,
+} = cartSlice.actions;
 
 export default cartReducer;

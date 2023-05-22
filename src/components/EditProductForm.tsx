@@ -12,7 +12,12 @@ import CategoryPicker from './CategoryPicker';
 import { Product, ProductInput } from '../interfaces/Product';
 import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
-import { updateProduct } from '../store/reducers/productReducer';
+import {
+  fetchAllProducts,
+  fetchProductById,
+  updateProduct,
+} from '../store/reducers/productReducer';
+import { updateCartItem } from '../store/reducers/cartReducer';
 
 const EditProductForm = ({
   open,
@@ -25,9 +30,7 @@ const EditProductForm = ({
   product: Product;
   onProductUpdate: () => void;
 }) => {
-  const categories = useAppSelector(
-    (state) => state.categoryReducer.categories
-  );
+  const products = useAppSelector((state) => state.productReducer.products);
   const dispatch = useAppDispatch();
   const title = useInputHook(product.title);
   const price = useInputHook(product.price.toString());
@@ -60,12 +63,21 @@ const EditProductForm = ({
       description: description.value,
       images: image === null ? product.images : [image as File],
     };
-    console.log('productInput from EditProductForm', productInput);
 
     await dispatch(
       updateProduct({
         id: product.id,
         product: productInput,
+      })
+    );
+
+    const updatedProduct = await dispatch(fetchProductById(product.id));
+    console.log('updateProduct in EditProductForm', updatedProduct);
+
+    dispatch(
+      updateCartItem({
+        id: product.id,
+        product: updatedProduct.payload as Product,
       })
     );
 
