@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 const CartButton = () => {
   const totalPrice = useAppSelector((state) => state.cartReducer.totalPrice);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log('totalPrice', totalPrice);
-  }, [totalPrice]);
+  }, [totalPrice]); */
 
   return (
     <Link to='/cart'>

@@ -30,7 +30,6 @@ const EditProductForm = ({
   product: Product;
   onProductUpdate: () => void;
 }) => {
-  const products = useAppSelector((state) => state.productReducer.products);
   const dispatch = useAppDispatch();
   const title = useInputHook(product.title);
   const price = useInputHook(product.price.toString());

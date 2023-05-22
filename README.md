@@ -14,7 +14,7 @@ A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.
 
 #### Technologies <a name="technologies"></a>
 
-- JavaScript
+- SASS
 - React
 - TypeScript
 
