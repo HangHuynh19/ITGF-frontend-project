@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   deleteProduct,
   getAllProducts,
@@ -22,11 +22,27 @@ const initialState: {
   error: null,
 };
 
+const sortProductsByPrice = (products: Product[], order: string) => {
+  const sortedProducts = products.sort((a, b) => {
+    if (order === 'Price | lowest to highest') {
+      return a.price - b.price;
+    } else {
+      return b.price - a.price;
+    }
+  });
+  return sortedProducts;
+};
+
 export const fetchAllProducts = createAsyncThunk(
   'fetchAllProducts',
-  async () => {
+  async (sortingCondition?: string) => {
     try {
-      const response = await getAllProducts();
+      let response: Product[] = await getAllProducts();
+
+      if (sortingCondition) {
+        response = sortProductsByPrice(response, sortingCondition);
+      }
+
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -59,15 +75,20 @@ export const filterProducts = createAsyncThunk(
   async ({
     searchTerm,
     categoryName,
+    sortingCondition,
   }: {
     searchTerm: string;
     categoryName: string;
+    sortingCondition?: string;
   }) => {
     try {
-      const response = await searchProductsByNameAndCategory(
+      let response: Product[] = await searchProductsByNameAndCategory(
         searchTerm,
         categoryName
       );
+      if (sortingCondition) {
+        response = sortProductsByPrice(response, sortingCondition);
+      }
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -130,7 +151,15 @@ export const removeProduct = createAsyncThunk(
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {},
+  reducers: {
+    sortProducts(state, action: PayloadAction<string>) {
+      const sortedProducts = sortProductsByPrice(
+        state.products,
+        action.payload
+      );
+      state.products = sortedProducts;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllProducts.pending, (state) => {
@@ -247,5 +276,7 @@ const productSlice = createSlice({
 });
 
 const productReducer = productSlice.reducer;
+
+//export const { sortProductsByPrice } = productSlice.actions;
 
 export default productReducer;

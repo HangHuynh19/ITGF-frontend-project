@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Product } from '../interfaces/Product';
 import ProductList from '../components/ProductList';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { filterProducts } from '../store/reducers/productReducer';
+import { MainContext } from '../contexts/MainContext';
 
 const SearchPage = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const SearchPage = () => {
   const category = searchParams.get('category');
   const dispatch = useAppDispatch();
   const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const { sortingCondition } = useContext(MainContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,6 +23,7 @@ const SearchPage = () => {
           filterProducts({
             searchTerm: query as string,
             categoryName: category as string,
+            sortingCondition: sortingCondition,
           })
         );
         setSearchResults(products.payload as Product[]);
@@ -29,7 +32,7 @@ const SearchPage = () => {
       }
     };
     fetchProducts();
-  }, [query, category, dispatch]);
+  }, [query, category, dispatch, sortingCondition]);
 
   return (
     <>

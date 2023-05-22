@@ -7,15 +7,18 @@ import './styles.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { MainProvider } from './contexts/MainContext';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <MainProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </MainProvider>
   </React.StrictMode>
 );
 

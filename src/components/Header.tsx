@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import Search from './Search';
 import CartButton from './CartButton';
@@ -9,7 +8,7 @@ import UserAccount from './UserAccount';
 import useAppSelector from '../hooks/useAppSelector';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import {fetchUserByAccessToken} from '../store/reducers/userReducer';
+import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import useAppDispatch from '../hooks/useAppDispatch';
 
 const Header = () => {
@@ -37,7 +36,6 @@ const Header = () => {
     }
   }, [dispatch, isLoggedIn]);
 
-
   return (
     <>
       <AppBar position='static' color='transparent'>
@@ -55,7 +53,6 @@ const Header = () => {
           {isLoggedIn ? (
             <Box id='header__button-group'>
               <UserAccount />
-              <FavoriteBorderIcon fontSize='small' />
               <CartButton />
             </Box>
           ) : (

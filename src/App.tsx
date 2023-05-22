@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import HomePage from './pages/HomePage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
-import ProductRoot from './pages/ProductRoot';
+import Root from './pages/Root';
 import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,7 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ProductRoot />,
+    element: <Root />,
     children: [
       {
         path: '/',

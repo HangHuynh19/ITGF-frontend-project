@@ -3,16 +3,16 @@ import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import { Product } from '../interfaces/Product';
-import { Button } from '@mui/material';
+import { Button, Menu, MenuItem, Select, Typography } from '@mui/material';
 import AddProductForm from '../components/AddProductForm';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { fetchAllProducts } from '../store/reducers/productReducer';
 import useAppSelector from '../hooks/useAppSelector';
+import SortConditionPicker from '../components/SortConditionPicker';
 
-const ProductRoot = () => {
+const Root = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
-  const user = useAppSelector((state) => state.userReducer.user);
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] =
     useState(false);
   const handleOpenCreateProductModal = () => {
@@ -32,15 +32,19 @@ const ProductRoot = () => {
       <div className='product-main'>
         <SideMenu />
         <div>
-          {isLoggedIn && user && user.role === 'admin' && (
-            <Button
-              variant='contained'
-              color='secondary'
-              onClick={handleOpenCreateProductModal}
-            >
-              Add Product
-            </Button>
-          )}
+          <div id='product-main__btn-group'>
+            <SortConditionPicker />
+            {isLoggedIn && (
+              <Button
+                id='product-main__btn-group__btn-add-product'
+                variant='contained'
+                color='secondary'
+                onClick={handleOpenCreateProductModal}
+              >
+                Add Product
+              </Button>
+            )}
+          </div>
           <AddProductForm
             open={isCreateProductModalOpen}
             onClose={handleCloseCreateProductModal}
@@ -53,4 +57,4 @@ const ProductRoot = () => {
   );
 };
 
-export default ProductRoot;
+export default Root;
