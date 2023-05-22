@@ -1,51 +1,106 @@
-# Front-end Project
+## Breweries App
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-This project requires implementation of TypeScript and SASS.
+A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/).
 
-## Requirement
+#### Table of content
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Home page, product page,
-profile page (only available if user logins), and cart page (cart could be a page or a modal)
-3. Create Redux store for following features:
-    - product reducer: get all products, find a single products, sort products by
-    categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp. For example, you can check if user is your admin account before let them delete product)
-    - user reducer: Register and Login
-    - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Deploy the application and rewrite README file.
+- [Technologies](#technologies)
+- [Project structure](#project-structure)
+- [Getting started](#getting-started)
 
-## Bonus
+#### Technologies <a name="technologies"></a>
 
-1. Use context API to switch theme
-2. Implement unit testing for the reducers
+- JavaScript
+- React
+- TypeScript
 
-## Instruction to start the project
+#### Project structure <a name="project-structure"></a>
 
-In the project directory, you can run:
+```
+├── src
+│   ├── App.tsx
+│   ├── assets
+│   │   └── logo.png
+│   ├── classes
+│   │   └── CustomError.ts
+│   ├── components
+│   │   ├── AddProductForm.tsx
+│   │   ├── CartButton.tsx
+│   │   ├── CartItem.tsx
+│   │   ├── CategoryPicker.tsx
+│   │   ├── EditProductForm.tsx
+│   │   ├── EditProfileForm.tsx
+│   │   ├── Header.tsx
+│   │   ├── LoginForm.tsx
+│   │   ├── ProductDetail.tsx
+│   │   ├── ProductList.tsx
+│   │   ├── ProductListItem.tsx
+│   │   ├── RegisterForm.tsx
+│   │   ├── Search.tsx
+│   │   ├── SideMenu.tsx
+│   │   ├── SortConditionPicker.tsx
+│   │   └── UserAccount.tsx
+│   ├── contexts
+│   │   └── MainContext.tsx
+│   ├── graphql
+│   │   ├── apiCalls.ts
+│   │   └── queries.ts
+│   ├── hooks
+│   │   ├── useAppDispatch.ts
+│   │   ├── useAppSelector.ts
+│   │   └── useInputHook.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── interfaces
+│   │   ├── Category.ts
+│   │   ├── Product.ts
+│   │   ├── ServerResponses.ts
+│   │   └── User.ts
+│   ├── pages
+│   │   ├── CartPage.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── ProductDetailPage.tsx
+│   │   ├── ProfilePage.tsx
+│   │   ├── Root.tsx
+│   │   └── SearchPage.tsx
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+│   ├── store
+│   │   ├── reducers
+│   │   │   ├── authReducer.ts
+│   │   │   ├── cartReducer.ts
+│   │   │   ├── categoryReducer.ts
+│   │   │   ├── productReducer.ts
+│   │   │   └── userReducer.ts
+│   │   └── store.ts
+│   ├── styles
+│   │   ├── components
+│   │   │   ├── _add-product-form.scss
+│   │   │   ├── _cart.scss
+│   │   │   ├── _edit-product-form.scss
+│   │   │   ├── _form.scss
+│   │   │   ├── _header.scss
+│   │   │   ├── _product-detail.scss
+│   │   │   ├── _product-list.scss
+│   │   │   ├── _profile.scss
+│   │   │   └── _register-form.scss
+│   │   ├── styles.scss
+│   │   └── variables
+│   │       ├── _colors.scss
+│   │       └── _fonts.scss
+│   ├── styles.css
+│   ├── styles.css.map
+│   └── theme
+│       └── globalTheme.ts
+└── tsconfig.json
+```
 
-### `npm install`
+#### Getting started <a name="getting-started"></a>
 
-Install all the dependencies
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Clone the repository from GitHub using `git clone`
+- Run `npm install` to install all dependencies
