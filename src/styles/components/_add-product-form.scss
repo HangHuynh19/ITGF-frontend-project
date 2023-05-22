@@ -36,6 +36,15 @@
     align-items: center;
     width: 26.5em;
     gap: 1em;
+
+    #create-product-form__category-picker {
+      display: flex;
+      flex-direction: column;
+
+      #create-product-form__error {
+        font-size: 0.65em;
+      }
+    }
   }
 
   #create-product-form__image {

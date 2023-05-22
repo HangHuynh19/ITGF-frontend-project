@@ -17,6 +17,8 @@ const LoginForm = ({
   const email = useInputHook('');
   const password = useInputHook('');
   const handleCancel = () => {
+    email.reset();
+    password.reset();
     onClose();
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

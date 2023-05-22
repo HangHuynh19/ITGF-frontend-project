@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const useInputHook = (initialValue: string) => {
   const [value, setValue] = React.useState(initialValue);
@@ -7,11 +7,15 @@ const useInputHook = (initialValue: string) => {
     setValue(e.target.value);
   };
 
-  React.useEffect(() => {
+  const reset = () => {
+    setValue(initialValue);
+  };
+
+  useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
-  return { value, onChange };
+  return { value, onChange, reset };
 };
 
 export default useInputHook;

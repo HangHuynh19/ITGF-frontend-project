@@ -32,8 +32,15 @@ const AddProductForm = ({
   const description = useInputHook('');
   const [category, setCategory] = useState('All categories');
   const [image, setImage] = useState<File | null>(null);
+  const [error, setError] = useState('');
 
   const handleCancel = () => {
+    title.reset();
+    price.reset();
+    description.reset();
+    setCategory('All categories');
+    setImage(null);
+    setError('');
     onClose();
   };
 
@@ -50,6 +57,12 @@ const AddProductForm = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (category === 'All categories') {
+      setError('Please select a category');
+      return;
+    }
+
     onClose();
 
     const categoryId = categories.find((c) => c.name === category)?.id;
@@ -80,19 +93,33 @@ const AddProductForm = ({
           value={title.value}
           variant='outlined'
           color='secondary'
+          required
           onChange={title.onChange}
         />
         <div id='create-product-form__category-picker-and-price'>
-          <CategoryPicker
-            defaultValue='All categories'
-            onCategoryChange={handleCategoryChange}
-          />
+          <div id='create-product-form__category-picker'>
+            <CategoryPicker
+              defaultValue='All categories'
+              onCategoryChange={handleCategoryChange}
+            />
+            {error && (
+              <Typography
+                id='create-product-form__error'
+                variant='body2'
+                color='error'
+              >
+                {error}
+              </Typography>
+            )}
+          </div>
           <TextField
             id='create-product-form__price'
             label='Price'
             value={price.value}
             variant='outlined'
             color='secondary'
+            required
+            type='number'
             onChange={price.onChange}
           />
         </div>
@@ -104,11 +131,13 @@ const AddProductForm = ({
           value={description.value}
           variant='outlined'
           color='secondary'
+          required
           onChange={description.onChange}
         />
         <Input
           id='create-product-form__image'
           type='file'
+          required
           disableUnderline={true}
           inputProps={{ accept: 'image/*' }}
           onChange={handleImageChange}

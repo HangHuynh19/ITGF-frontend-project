@@ -27,6 +27,12 @@ const RegisterForm = ({
   const [avatar, setAvatar] = useState<File | null>(null);
 
   const handleCancel = () => {
+    name.reset();
+    email.reset();
+    password.reset();
+    confirmedPassword.reset();
+    setAvatar(null);
+    setPasswordError('');
     onClose();
   };
 

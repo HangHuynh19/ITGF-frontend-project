@@ -36,6 +36,11 @@ const EditProductForm = ({
   const [image, setImage] = useState<File | null>(null);
 
   const handleCancel = () => {
+    title.reset();
+    price.reset();
+    description.reset();
+    category.reset();
+    setImage(null);
     onClose();
   };
 
@@ -84,6 +89,7 @@ const EditProductForm = ({
         <TextField
           id='edit-product-form__price'
           label='Price'
+          type='number'
           value={price.value}
           variant='outlined'
           color='secondary'
