@@ -57,7 +57,7 @@ const cartSlice = createSlice({
       console.log('existingItem', existingItem.quantity);
       existingItem.quantity -= 1;
     },
-    updateCartItem: (
+    updateCartWhenProductUpdated: (
       state,
       action: PayloadAction<{ id: number; product: Product }>
     ) => {
@@ -81,6 +81,20 @@ const cartSlice = createSlice({
       console.log('updatedCart', updatedCart);
       state.cart = updatedCart;
       state.totalPrice = totalPrice;
+    },
+    updateCartWhenProductDeleted: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const existingItem = state.cart.find((item) => item.id === id);
+
+      if (!existingItem) {
+        state.error = 'Item not found in cart';
+        return;
+      }
+
+      const updatedCart = state.cart.filter((item) => item.id !== id);
+      state.cart = updatedCart;
+      state.totalQuantity -= existingItem.quantity;
+      state.totalPrice -= existingItem.price * existingItem.quantity;
     },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -107,7 +121,8 @@ const cartReducer = cartSlice.reducer;
 export const {
   addToCart,
   reduceQuantity,
-  updateCartItem,
+  updateCartWhenProductUpdated,
+  updateCartWhenProductDeleted,
   deleteFromCart,
   clearCart,
 } = cartSlice.actions;

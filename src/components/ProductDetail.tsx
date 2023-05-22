@@ -8,7 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 import useAppDispatch from '../hooks/useAppDispatch';
-import { addToCart } from '../store/reducers/cartReducer';
+import {
+  addToCart,
+  updateCartWhenProductDeleted,
+} from '../store/reducers/cartReducer';
 import useAppSelector from '../hooks/useAppSelector';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -47,6 +50,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
   };
   const handleProductDelete = () => {
     dispatch(removeProduct(product.id));
+    dispatch(updateCartWhenProductDeleted(product.id));
     navigate('/');
   };
 

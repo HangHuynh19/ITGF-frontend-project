@@ -17,7 +17,7 @@ import {
   fetchProductById,
   updateProduct,
 } from '../store/reducers/productReducer';
-import { updateCartItem } from '../store/reducers/cartReducer';
+import { updateCartWhenProductUpdated } from '../store/reducers/cartReducer';
 
 const EditProductForm = ({
   open,
@@ -75,7 +75,7 @@ const EditProductForm = ({
     console.log('updateProduct in EditProductForm', updatedProduct);
 
     dispatch(
-      updateCartItem({
+      updateCartWhenProductUpdated({
         id: product.id,
         product: updatedProduct.payload as Product,
       })
