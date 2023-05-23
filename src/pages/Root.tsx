@@ -23,7 +23,7 @@ const Root = () => {
   };
 
   const handleProductCreated = () => {
-    dispatch(fetchAllProducts());
+    dispatch(fetchAllProducts('Price | lowest to highest'));
   };
 
   return (
