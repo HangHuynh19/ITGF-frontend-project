@@ -59,7 +59,6 @@ const authSlice = createSlice({
           state.isLoading = false;
           return;
         }
-
         state.isLoggedIn = true;
         state.isLoading = false;
       })

@@ -8,14 +8,12 @@ import { Product } from '../interfaces/Product';
 const CartPage = () => {
   const user = useAppSelector((state) => state.userReducer.user);
   console.log('user in CartPage', user);
-  const cartItems = useAppSelector(
-    (state) => state.cartReducer
-  );
+  const cartItems = useAppSelector((state) => state.cartReducer);
   //console.log('cartItems', cartItems);
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div id='cart'>
         <Typography id='cart__header' variant='h5' component='h2'>
           Cart ({cartItems.totalQuantity})

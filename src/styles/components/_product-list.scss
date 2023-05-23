@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1em;
+    background-color: colors.$gray100;
 
     #product-main__btn-group__btn-add-product {
       font-size: 0.8em;
@@ -29,9 +30,9 @@
     object-fit: cover;
   }
 
-  .product-main__image-title {
-    bottom: 0.25em;
-  }
+  /* .product-main__image-title {
+    bottom: 0;
+  } */
 
   .product-main__side-menu {
     font-family: fonts.$heading_font;

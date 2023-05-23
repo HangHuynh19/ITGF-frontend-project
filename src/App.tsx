@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import HomePage from './pages/HomePage';
 import {
   Navigate,
-  Navigation,
   Route,
   RouterProvider,
-  Routes,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
 } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
-import Root from './pages/Root';
+import MenuAndFilter from './pages/MenuAndFilter';
 import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
 import { ThemeProvider } from '@mui/material/styles';
 import globalTheme from './theme/globalTheme';
 import ProfilePage from './pages/ProfilePage';
 import useAppSelector from './hooks/useAppSelector';
+import Root from './pages/Root';
 
 export const ProtectedRoute = ({
   children,
@@ -31,60 +29,32 @@ export const ProtectedRoute = ({
   return children;
 };
 
-/* const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    children: [
-      {
-        path: '/',
-        element: <HomePage />,
-      },
-      {
-        path: '/search',
-        element: <SearchPage />,
-      },
-      {
-        path: '/product/:id',
-        element: <ProductDetailPage />,
-      },
-    ],
-  },
-  {
-    path: '/cart',
-    element: <CartPage />,
-  },
-  {
-    path: '/profile',
-    element: <ProfilePage />,
-  },
-]);
- */
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Root />}>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/search' element={<SearchPage />} />
-        <Route path='/product/:id' element={<ProductDetailPage />} />
+        <Route path='/' element={<MenuAndFilter />}>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/search' element={<SearchPage />} />
+          <Route path='/product/:id' element={<ProductDetailPage />} />
+        </Route>
+        <Route
+          path='/cart'
+          element={
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
-      <Route
-        path='/cart'
-        element={
-          <ProtectedRoute>
-            <CartPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/profile'
-        element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
-      />
     </>
   )
 );

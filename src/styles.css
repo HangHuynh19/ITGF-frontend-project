@@ -51,6 +51,9 @@
   align-items: flex-start;
   padding: 1.5em 1em 1.5em 0;
   gap: 2em;
+  /* .product-main__image-title {
+    bottom: 0;
+  } */
 }
 .product-main #product-main__btn-group {
   display: flex;
@@ -58,6 +61,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1em;
+  background-color: #cccccc;
 }
 .product-main #product-main__btn-group #product-main__btn-group__btn-add-product {
   font-size: 0.8em;
@@ -69,9 +73,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-.product-main .product-main__image-title {
-  bottom: 0.25em;
 }
 .product-main .product-main__side-menu {
   font-family: "Roboto Condensed", sans-serif;

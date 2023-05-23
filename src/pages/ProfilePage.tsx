@@ -29,7 +29,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {user ? (
         <div id='profile'>
           <div id='profile__avatar-container'>
