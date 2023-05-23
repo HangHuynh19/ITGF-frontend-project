@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1em;
-    background-color: colors.$gray100;
+    //background-color: colors.$gray100;
 
     #product-main__btn-group__btn-add-product {
       font-size: 0.8em;
@@ -35,7 +35,22 @@
   } */
 
   .product-main__side-menu {
-    font-family: fonts.$heading_font;
+    background-color: colors.$gray700;
     width: 20%;
+    height: 85vh;
+    padding: 1em;
+
+    .product-main__side-menu__link {
+      font-family: fonts.$heading_font;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: colors.$white;
+      //padding: 0.5em 0;
+      border-bottom: 1px solid colors.$white;
+      margin-bottom: 1em;
+      box-shadow: 0 0 0 0 transparent;
+    }
   }
 }

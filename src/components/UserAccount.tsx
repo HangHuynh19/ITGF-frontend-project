@@ -4,10 +4,12 @@ import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { Link } from 'react-router-dom';
 import { logout } from '../store/reducers/authReducer';
-import {clearCart} from '../store/reducers/cartReducer';
+import { clearCart } from '../store/reducers/cartReducer';
+import useAppSelector from '../hooks/useAppSelector';
 
 const UserAccount = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userReducer.user);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -27,7 +29,7 @@ const UserAccount = () => {
         <PermIdentitySharpIcon fontSize='small' />
         <span>
           <Typography id='header__user-account__greetings'>
-            Hi, user!
+            Hi, {user?.name}!
           </Typography>
         </span>
       </div>

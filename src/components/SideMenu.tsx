@@ -30,23 +30,35 @@ const SideMenu = () => {
     <div className='product-main__side-menu'>
       <MenuList dense>
         <Link
+          className='product-main__side-menu__link'
           to={{
             pathname: '/search',
             search: `?searchTerm=&category=All categories`,
           }}
           key='all-categories-link'
         >
-          <MenuItem onClick={handleMenuItemClick}>All categories</MenuItem>
+          <MenuItem
+            className='product-main__side-menu__link'
+            onClick={handleMenuItemClick}
+          >
+            All categories
+          </MenuItem>
         </Link>
         {categoryList.map((category) => (
           <Link
+            className='product-main__side-menu__link'
             to={{
               pathname: '/search',
               search: `?searchTerm=&category=${category.name}`,
             }}
             key={category.id}
           >
-            <MenuItem onClick={handleMenuItemClick}>{category.name}</MenuItem>
+            <MenuItem
+              className='product-main__side-menu__link'
+              onClick={handleMenuItemClick}
+            >
+              {category.name}
+            </MenuItem>
           </Link>
         ))}
       </MenuList>
