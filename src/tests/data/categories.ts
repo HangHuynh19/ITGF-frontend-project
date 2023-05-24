@@ -1,4 +1,4 @@
-import { Category } from '../../../interfaces/Category';
+import { Category } from '../../interfaces/Category';
 
 const clothes: Category = {
   id: 1,

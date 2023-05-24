@@ -7,7 +7,7 @@ import ProductListItem from './ProductListItem';
 const ProductList = ({ productList }: { productList: Product[] }) => {
   return (
     <Box sx={{ height: '80vh', overflowY: 'scroll' }}>
-      <ImageList cols={3} gap={8}>
+      <ImageList cols={4} gap={8}>
         {productList.map((product) => (
           <ProductListItem key={product.id} product={product} />
         ))}

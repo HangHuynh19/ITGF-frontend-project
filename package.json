@@ -24,7 +24,6 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "sass": "^1.62.1",
-    "ts-jest": "^29.1.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -42,6 +41,11 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -53,5 +57,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/user-event": "^14.4.3",
+    "ts-jest": "^29.1.0"
   }
 }

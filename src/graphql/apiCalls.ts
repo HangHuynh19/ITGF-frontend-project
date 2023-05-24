@@ -1,4 +1,5 @@
-import axios from 'axios';
+//import axios from 'axios';
+import { instance1, instance2 } from '../axiosConfig';
 import { Product, ProductInput } from '../interfaces/Product';
 import {
   getAllCategoriesQuery,
@@ -14,20 +15,23 @@ import { User, UpdateUser } from '../interfaces/User';
 import { ImageResponse } from '../interfaces/ServerResponses';
 import { Category } from '../interfaces/Category';
 
-const baseURL = 'https://api.escuelajs.co/graphql';
+/* const baseURL = 'https://api.escuelajs.co/graphql';
 const restURL = 'https://api.escuelajs.co/api/v1';
-const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload';
+const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload'; */
 
 const postImage = async (file: File): Promise<ImageResponse> => {
   const formData = new FormData();
   formData.append('file', file);
-  const imageUrl = await axios.post<ImageResponse>(uploadImageURL, formData);
+  const imageUrl = await instance2.post<ImageResponse>(
+    '/files/upload',
+    formData
+  );
   //console.log('Image upload succesfully from postImage APICalls', imageUrl);
   return imageUrl.data;
 };
 
 const getAllCategories = async <T>(): Promise<T> => {
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: getAllCategoriesQuery,
   });
   //console.log('response from APICalls', response);
@@ -35,7 +39,7 @@ const getAllCategories = async <T>(): Promise<T> => {
 };
 
 const getAllProducts = async <T>(): Promise<T> => {
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: getAllProductsQuery,
   });
   //console.log('response from APICalls', response);
@@ -43,7 +47,7 @@ const getAllProducts = async <T>(): Promise<T> => {
 };
 
 const getProductById = async <T>(id: number): Promise<T> => {
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: getProductByIdQuery,
     variables: { id: id },
   });
@@ -57,7 +61,7 @@ const postProduct = async <T>(product: ProductInput): Promise<T> => {
     product.images = [image.location];
   }
 
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: postProductQuery,
     variables: {
       title: product.title,
@@ -80,7 +84,7 @@ const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
     product.images = [image.location];
   }
 
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: putProductQuery,
     variables: {
       id: id,
@@ -98,7 +102,9 @@ const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
 };
 
 const deleteProduct = async (id: number): Promise<boolean> => {
-  const response = await axios.delete<boolean>(`${restURL}/products/${id}`);
+  const response = await instance2.delete<boolean>(
+    `${instance2.getUri()}/products/${id}`
+  );
   console.log('response from deleteProduct APICalls', response.data);
   return response.data;
 };
@@ -121,7 +127,7 @@ const searchProductsByNameAndCategory = async <T>(
 };
 
 const getAllUsers = async <T>(): Promise<T> => {
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: getAllUsersQuery,
   });
   //console.log('response from APICalls', response);
@@ -129,7 +135,7 @@ const getAllUsers = async <T>(): Promise<T> => {
 };
 
 const logingIn = async <T>(email: string, password: string): Promise<T> => {
-  const response = await axios.post(baseURL, {
+  const response = await instance1.post(instance1.getUri(), {
     query: loginQuery,
     variables: {
       email: email,
@@ -141,7 +147,7 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
 };
 
 const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
-  const response = await axios.get(`${restURL}/auth/profile`, {
+  const response = await instance2.get(`${instance2.getUri()}/auth/profile`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -153,7 +159,7 @@ const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
 const postUser = async (user: User) => {
   const avatar = user.avatar !== '' ? await postImage(user.avatar as File) : '';
 
-  const response = await axios.post<User>(baseURL, {
+  const response = await instance1.post<User>(instance1.getUri(), {
     query: postUserQuery,
     variables: {
       name: user.name,
@@ -171,7 +177,10 @@ const putUser = async (id: number, input: UpdateUser) => {
     const avatar = await postImage(input.avatar as File);
     input.avatar = avatar.location;
   }
-  const response = await axios.put<User>(`${restURL}/users/${id}`, input);
+  const response = await instance2.put<User>(
+    `${instance2.getUri()}/users/${id}`,
+    input
+  );
   console.log('response from putUser APICalls', response);
   return response.data;
 };

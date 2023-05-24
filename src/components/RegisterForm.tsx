@@ -10,6 +10,7 @@ import {
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { createUser } from '../store/reducers/userReducer';
+import { authenticate } from '../store/reducers/authReducer';
 
 const RegisterForm = ({
   open,
@@ -42,17 +43,26 @@ const RegisterForm = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      createUser({
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        avatar: avatar === null ? '' : avatar,
-      })
-    );
-    console.log('submitted');
+
+    try {
+      await dispatch(
+        createUser({
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          avatar: avatar === null ? '' : avatar,
+        })
+      );
+
+      await dispatch(
+        authenticate({ email: email.value, password: password.value })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  
     onClose();
   };
 

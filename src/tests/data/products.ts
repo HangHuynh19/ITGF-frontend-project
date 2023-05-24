@@ -1,4 +1,4 @@
-import { Product } from '../../../interfaces/Product';
+import { Product } from '../../interfaces/Product';
 import { clothes, electronics, furniture, others, shoes } from './categories';
 
 const product1: Product = {

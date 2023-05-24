@@ -160,6 +160,9 @@ const productSlice = createSlice({
       );
       state.products = sortedProducts;
     },
+    cleanUpProductReducer: (state) => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -277,6 +280,6 @@ const productSlice = createSlice({
 
 const productReducer = productSlice.reducer;
 
-//export const { sortProductsByPrice } = productSlice.actions;
+export const { sortProducts, cleanUpProductReducer } = productSlice.actions;
 
 export default productReducer;
