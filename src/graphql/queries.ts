@@ -1,5 +1,5 @@
 const getAllCategoriesQuery = `
-  query {
+  query getAllCategoriesQuery {
     categories {
       id
       name
@@ -9,7 +9,7 @@ const getAllCategoriesQuery = `
 `;
 
 const getAllProductsQuery = `
-  query {
+  query getAllProductsQuery {
     products {
       id
       title
@@ -26,7 +26,7 @@ const getAllProductsQuery = `
 `;
 
 const getProductByIdQuery = `
-  query($id: ID!){
+  query getProductByIdQuery($id: ID!){
     product(id: $id) {
       id
       title
@@ -43,7 +43,7 @@ const getProductByIdQuery = `
 `;
 
 const postProductQuery = `
-  mutation($title: String!, $price: Float!, $description: String!, $categoryId: Float!, $images: [String!]!) {
+  mutation postProductQuery($title: String!, $price: Float!, $description: String!, $categoryId: Float!, $images: [String!]!) {
     addProduct(
       data: {
         title: $title
@@ -68,7 +68,7 @@ const postProductQuery = `
 `;
 
 const putProductQuery = `
-  mutation($id: ID!, $title: String!, $price: Float!, $description: String!, $images: [String!]!) {
+  mutation putProductQuery($id: ID!, $title: String!, $price: Float!, $description: String!, $images: [String!]!) {
     updateProduct(id: $id, changes: { 
       title: $title,  price: $price
       description: $description
@@ -88,8 +88,14 @@ const putProductQuery = `
   }
 `;
 
+const deleteProductQuery = `
+  mutation deleteProductQuery($id: ID!) {
+    deleteProduct(id: $id)
+  }
+`;
+
 const getAllUsersQuery = `
-  query {
+  query getAllUsersQuery{
     users {
       id
       name
@@ -101,7 +107,7 @@ const getAllUsersQuery = `
 `;
 
 const loginQuery = `
-  mutation ($email:String!, $password: String!){
+  mutation loginQuery($email:String!, $password: String!){
     login(email: $email, password: $password) {
       access_token
     }
@@ -109,7 +115,7 @@ const loginQuery = `
 `;
 
 const getUserByAccessTokenQuery = `
-  query {
+  query getUserByAccessTokenQuery{
     myProfile {
       id
       name
@@ -120,7 +126,7 @@ const getUserByAccessTokenQuery = `
 `;
 
 const postUserQuery = `
-  mutation (
+  mutation postUserQuery(
     $name: String!, 
     $email: String!, 
     $password: String!, 
@@ -147,6 +153,7 @@ export {
   getProductByIdQuery,
   postProductQuery,
   putProductQuery,
+  deleteProductQuery,
   getAllUsersQuery,
   loginQuery,
   getUserByAccessTokenQuery,

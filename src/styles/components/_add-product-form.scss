@@ -40,11 +40,13 @@
     #create-product-form__category-picker {
       display: flex;
       flex-direction: column;
-
-      #create-product-form__error {
-        font-size: 0.65em;
-      }
     }
+  }
+
+  #create-product-form__error {
+    font-size: 0.65em;
+    align-self: flex-start;
+    padding-left: 1em;
   }
 
   #create-product-form__image {

@@ -63,6 +63,11 @@ const AddProductForm = ({
       return;
     }
 
+    if (Number(price.value) <= 0) {
+      setError('Price must be greater than 0');
+      return;
+    }
+
     onClose();
 
     const categoryId = categories.find((c) => c.name === category)?.id;
@@ -97,21 +102,10 @@ const AddProductForm = ({
           onChange={title.onChange}
         />
         <div id='create-product-form__category-picker-and-price'>
-          <div id='create-product-form__category-picker'>
-            <CategoryPicker
-              defaultValue='All categories'
-              onCategoryChange={handleCategoryChange}
-            />
-            {error && (
-              <Typography
-                id='create-product-form__error'
-                variant='body2'
-                color='error'
-              >
-                {error}
-              </Typography>
-            )}
-          </div>
+          <CategoryPicker
+            defaultValue='All categories'
+            onCategoryChange={handleCategoryChange}
+          />
           <TextField
             id='create-product-form__price'
             label='Price'
@@ -123,6 +117,15 @@ const AddProductForm = ({
             onChange={price.onChange}
           />
         </div>
+        {error && (
+          <Typography
+            id='create-product-form__error'
+            variant='body2'
+            color='error'
+          >
+            {error}
+          </Typography>
+        )}
         <TextField
           id='create-product-form__description'
           label='Description'

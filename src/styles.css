@@ -362,8 +362,10 @@
   display: flex;
   flex-direction: column;
 }
-#create-product-form #create-product-form__category-picker-and-price #create-product-form__category-picker #create-product-form__error {
+#create-product-form #create-product-form__error {
   font-size: 0.65em;
+  align-self: flex-start;
+  padding-left: 1em;
 }
 #create-product-form #create-product-form__image {
   width: 26.5em;

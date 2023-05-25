@@ -2,6 +2,7 @@
 import { instance1, instance2 } from '../axiosConfig';
 import { Product, ProductInput } from '../interfaces/Product';
 import {
+  deleteProductQuery,
   getAllCategoriesQuery,
   getAllProductsQuery,
   getAllUsersQuery,
@@ -102,9 +103,16 @@ const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
 };
 
 const deleteProduct = async (id: number): Promise<boolean> => {
-  const response = await instance2.delete<boolean>(
+  /* const response = await instance2.delete<boolean>(
     `${instance2.getUri()}/products/${id}`
-  );
+  ); */
+  
+  const response = await instance1.post(instance1.getUri(), {
+    query: deleteProductQuery,
+    variables: {
+      id: id,
+    },
+  });
   console.log('response from deleteProduct APICalls', response.data);
   return response.data;
 };

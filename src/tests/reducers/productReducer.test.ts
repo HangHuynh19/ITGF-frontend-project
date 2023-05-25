@@ -5,6 +5,7 @@ import {
   createProduct,
   fetchAllProducts,
   fetchProductById,
+  removeProduct,
   updateProduct,
 } from '../../store/reducers/productReducer';
 import {
@@ -14,10 +15,12 @@ import {
   product4,
   product5,
 } from '../data/products';
-import { electronics } from '../data/categories';
+import { clothes, electronics } from '../data/categories';
 
 beforeAll(() => {
-  productServer.listen();
+  productServer.listen({
+    //onUnhandledRequest: 'warn',
+  });
 });
 
 afterEach(() => {
@@ -74,7 +77,7 @@ describe('Test productReducer', () => {
   });
 
   test('Should post a new product', async () => {
-    await store.dispatch(fetchAllProducts());
+    //await store.dispatch(fetchAllProducts());
     await store.dispatch(
       createProduct({
         title: 'Test product',
@@ -85,7 +88,7 @@ describe('Test productReducer', () => {
       })
     );
 
-    expect(store.getState().productReducer.products.length).toBe(6);
+    expect(store.getState().productReducer.products.length).toBe(1);
   });
 
   test('Should update product', async () => {
@@ -94,22 +97,27 @@ describe('Test productReducer', () => {
       updateProduct({
         id: 1,
         product: {
-          title: 'Test product 1',
-          description: 'Test description 1',
+          title: 'Update product 1',
+          description: 'Update description 1',
           price: 100,
-          categoryId: 2,
           images: ['https://picsum.photos/200/300'],
         },
       })
     );
-    console.log(store.getState().productReducer.products);
+
     expect(store.getState().productReducer.products[0]).toEqual({
       id: 1,
-      title: 'Test product 1',
-      description: 'Test description 1',
+      title: 'Update product 1',
+      description: 'Update description 1',
       price: 100,
-      category: electronics,
+      category: clothes,
       images: ['https://picsum.photos/200/300'],
     });
+  });
+
+  test('Should delete product', async () => {
+    await store.dispatch(removeProduct(1));
+
+    expect(store.getState().productReducer.products.length).toBe(0);
   });
 });

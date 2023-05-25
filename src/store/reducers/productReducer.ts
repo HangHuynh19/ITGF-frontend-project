@@ -214,6 +214,7 @@ const productSlice = createSlice({
         state.loading = false;
       })
       .addCase(filterProducts.rejected, (state, action) => {
+        console.log(action.error);
         state.error = action.error.message || 'Cannot fetch products';
         state.loading = false;
       })
