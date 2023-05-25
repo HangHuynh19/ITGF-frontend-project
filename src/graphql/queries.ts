@@ -142,6 +142,7 @@ const postUserQuery = `
     ) {
       id
       name
+      email
       avatar
     }
   }

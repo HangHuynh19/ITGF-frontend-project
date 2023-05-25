@@ -12,7 +12,6 @@ import {
 import { categories } from '../data/categories';
 
 const graphqlURL = graphql.link(instance1.getUri());
-
 const handlers = [
   graphqlURL.query('getAllProductsQuery', (req, res, ctx) => {
     return res(

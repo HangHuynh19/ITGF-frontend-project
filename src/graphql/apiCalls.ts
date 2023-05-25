@@ -106,7 +106,7 @@ const deleteProduct = async (id: number): Promise<boolean> => {
   /* const response = await instance2.delete<boolean>(
     `${instance2.getUri()}/products/${id}`
   ); */
-  
+
   const response = await instance1.post(instance1.getUri(), {
     query: deleteProductQuery,
     variables: {
@@ -164,10 +164,10 @@ const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
   return response.data;
 };
 
-const postUser = async (user: User) => {
+const postUser = async <T>(user: User): Promise<T> => {
   const avatar = user.avatar !== '' ? await postImage(user.avatar as File) : '';
 
-  const response = await instance1.post<User>(instance1.getUri(), {
+  const response = await instance1.post(instance1.getUri(), {
     query: postUserQuery,
     variables: {
       name: user.name,
@@ -176,8 +176,8 @@ const postUser = async (user: User) => {
       avatar: avatar ? avatar.location : '',
     },
   });
-  //console.log('response from postUser APICalls', response);
-  return response.data;
+  //console.log('response from postUser APICalls', response.data.data.addUser);
+  return response.data.data.addUser;
 };
 
 const putUser = async (id: number, input: UpdateUser) => {
