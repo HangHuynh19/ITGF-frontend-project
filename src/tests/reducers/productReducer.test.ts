@@ -15,11 +15,11 @@ import {
   product4,
   product5,
 } from '../data/products';
-import { clothes, electronics } from '../data/categories';
+import { clothes } from '../data/categories';
 
 beforeAll(() => {
   productServer.listen({
-    //onUnhandledRequest: 'warn',
+    onUnhandledRequest: 'warn',
   });
 });
 

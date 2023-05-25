@@ -70,4 +70,6 @@ const product5: Product = {
   category: others,
 };
 
-export { product1, product2, product3, product4, product5 };
+const products: Product[] = [product1, product2, product3, product4, product5];
+
+export { product1, product2, product3, product4, product5, products };

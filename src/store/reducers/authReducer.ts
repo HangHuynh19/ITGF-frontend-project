@@ -56,6 +56,15 @@ const authSlice = createSlice({
           state.isLoading = false;
           return;
         }
+
+        if (action.payload instanceof TypeError) {
+          console.log('authenticate', action.payload);
+          state.error = 'Cannot login';
+          state.isLoggedIn = false;
+          state.isLoading = false;
+          return;
+        }
+
         state.isLoggedIn = true;
         state.isLoading = false;
       })
@@ -65,11 +74,12 @@ const authSlice = createSlice({
       .addCase(authenticate.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot login';
         state.isLoading = false;
+        state.isLoggedIn = false;
       });
   },
 });
 
 const authReducer = authSlice.reducer;
-export const { logout } = authSlice.actions;
+export const { logout, cleanUpAuthReducer } = authSlice.actions;
 
 export default authReducer;
