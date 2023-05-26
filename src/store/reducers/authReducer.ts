@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { logingIn } from '../../graphql/apiCalls';
 import { AxiosError } from 'axios';
+
+import { logingIn } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 
 const token = localStorage.getItem('token');

@@ -16,12 +16,10 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const { sortingCondition } = useContext(MainContext);
-
   const handleCategoryChange = (category: string) => {
     setCategory(category);
     console.log('handleCategoryChange', category);
   };
-
   const handleSearchTermChange = (
     event: React.ChangeEvent<{}>,
     value: string

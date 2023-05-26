@@ -17,7 +17,6 @@ const UserAccount = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
   const handleLogout = () => {
     dispatch(clearCart());
     dispatch(logout());

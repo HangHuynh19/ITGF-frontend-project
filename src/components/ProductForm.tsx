@@ -1,4 +1,13 @@
 import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Input,
+  Modal,
+  TextField,
+  Typography,
+} from '@mui/material';
+
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
 import useInputHook from '../hooks/useInputHook';
@@ -9,14 +18,6 @@ import {
   updateProduct,
 } from '../store/reducers/productReducer';
 import { updateCartWhenProductUpdated } from '../store/reducers/cartReducer';
-import {
-  Box,
-  Button,
-  Input,
-  Modal,
-  TextField,
-  Typography,
-} from '@mui/material';
 import CategoryPicker from './CategoryPicker';
 
 const ProductForm = ({
@@ -62,7 +63,6 @@ const ProductForm = ({
       setImage(e.target.files[0]);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { Category } from '../../interfaces/Category';
 import { getAllCategories } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';

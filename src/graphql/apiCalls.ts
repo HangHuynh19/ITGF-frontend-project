@@ -16,10 +16,6 @@ import { User, UpdateUser } from '../interfaces/User';
 import { ImageResponse } from '../interfaces/ServerResponses';
 import { Category } from '../interfaces/Category';
 
-/* const baseURL = 'https://api.escuelajs.co/graphql';
-const restURL = 'https://api.escuelajs.co/api/v1';
-const uploadImageURL = 'https://api.escuelajs.co/api/v1/files/upload'; */
-
 const postImage = async (file: File): Promise<ImageResponse> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -27,7 +23,6 @@ const postImage = async (file: File): Promise<ImageResponse> => {
     '/files/upload',
     formData
   );
-  //console.log('Image upload succesfully from postImage APICalls', imageUrl);
   return imageUrl.data;
 };
 
@@ -35,7 +30,6 @@ const getAllCategories = async <T>(): Promise<T> => {
   const response = await instance1.post(instance1.getUri(), {
     query: getAllCategoriesQuery,
   });
-  //console.log('response from APICalls', response);
   return response.data.data.categories;
 };
 
@@ -43,7 +37,6 @@ const getAllProducts = async <T>(): Promise<T> => {
   const response = await instance1.post(instance1.getUri(), {
     query: getAllProductsQuery,
   });
-  //console.log('response from APICalls', response);
   return response.data.data.products;
 };
 
@@ -52,7 +45,6 @@ const getProductById = async <T>(id: number): Promise<T> => {
     query: getProductByIdQuery,
     variables: { id: id },
   });
-  console.log('response from APICalls', response.data.data.product);
   return response.data.data.product;
 };
 
@@ -72,10 +64,7 @@ const postProduct = async <T>(product: ProductInput): Promise<T> => {
       images: product.images,
     },
   });
-  console.log(
-    'response from postProduct APICalls',
-    response.data.data.addProduct
-  );
+
   return response.data.data.addProduct;
 };
 
@@ -95,25 +84,17 @@ const putProduct = async <T>(id: number, product: ProductInput): Promise<T> => {
       images: product.images,
     },
   });
-  console.log(
-    'response from putProduct APICalls',
-    response.data.data.updateProduct
-  );
+  
   return response.data.data.updateProduct;
 };
 
 const deleteProduct = async (id: number): Promise<boolean> => {
-  /* const response = await instance2.delete<boolean>(
-    `${instance2.getUri()}/products/${id}`
-  ); */
-
   const response = await instance1.post(instance1.getUri(), {
     query: deleteProductQuery,
     variables: {
       id: id,
     },
   });
-  console.log('response from deleteProduct APICalls', response.data);
   return response.data;
 };
 
@@ -130,7 +111,6 @@ const searchProductsByNameAndCategory = async <T>(
       (product.category as Category).name === categoryName
     );
   });
-  console.log('apiCalls', filteredProducts);
   return filteredProducts as unknown as T;
 };
 
@@ -138,7 +118,6 @@ const getAllUsers = async <T>(): Promise<T> => {
   const response = await instance1.post(instance1.getUri(), {
     query: getAllUsersQuery,
   });
-  //console.log('response from APICalls', response);
   return response.data.data.users;
 };
 
@@ -150,7 +129,6 @@ const logingIn = async <T>(email: string, password: string): Promise<T> => {
       password: password,
     },
   });
-
   return response.data.data.login;
 };
 
@@ -160,13 +138,11 @@ const getUserByAccessToken = async <T>(accessToken: string): Promise<T> => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  console.log('response from APICalls', response.data);
   return response.data;
 };
 
 const postUser = async <T>(user: User): Promise<T> => {
   const avatar = user.avatar !== '' ? await postImage(user.avatar as File) : '';
-
   const response = await instance1.post(instance1.getUri(), {
     query: postUserQuery,
     variables: {
@@ -176,7 +152,6 @@ const postUser = async <T>(user: User): Promise<T> => {
       avatar: avatar ? avatar.location : '',
     },
   });
-  //console.log('response from postUser APICalls', response.data.data.addUser);
   return response.data.data.addUser;
 };
 
@@ -189,7 +164,6 @@ const putUser = async (id: number, input: UpdateUser) => {
     `${instance2.getUri()}/users/${id}`,
     input
   );
-  console.log('response from putUser APICalls', response);
   return response.data;
 };
 

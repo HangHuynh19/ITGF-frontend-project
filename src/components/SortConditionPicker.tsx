@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Box,
   FormControl,
@@ -6,7 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import React, { useContext, useState } from 'react';
+
 import { MainContext } from '../contexts/MainContext';
 
 const SortConditionPicker = () => {
@@ -14,8 +15,6 @@ const SortConditionPicker = () => {
   const handleConditionChange = (event: SelectChangeEvent<string>) => {
     setSortingCondition((prevCondition) => {
       const newCondition = event.target.value as string;
-      console.log('Select event: ', event.target.value);
-      console.log('Select condition: ', newCondition);
       return newCondition;
     });
   };

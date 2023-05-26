@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Product } from '../interfaces/Product';
 import {
   Button,
@@ -7,6 +7,9 @@ import {
   ImageListItem,
   Typography,
 } from '@mui/material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useNavigate } from 'react-router-dom';
+
 import useAppDispatch from '../hooks/useAppDispatch';
 import {
   addToCart,
@@ -14,13 +17,11 @@ import {
 } from '../store/reducers/cartReducer';
 import useAppSelector from '../hooks/useAppSelector';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   fetchProductById,
   removeProduct,
 } from '../store/reducers/productReducer';
-import { useNavigate } from 'react-router-dom';
 import ProductForm from './ProductForm';
 
 const ProductDetail = ({ product }: { product: Product }) => {
@@ -29,7 +30,6 @@ const ProductDetail = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
   const handleAddToCart = () => {
     console.log('user in ProductDetail', user);
     if (!user) {

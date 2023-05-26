@@ -12,6 +12,11 @@ const SideMenu = () => {
     (state) => state.categoryReducer.categories
   );
   const [category, setCategory] = useState('All categories');
+  const handleMenuItemClick = (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>
+  ) => {
+    setCategory(event.currentTarget.textContent as string);
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -19,12 +24,6 @@ const SideMenu = () => {
     };
     fetchCategories();
   }, [dispatch]);
-
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>
-  ) => {
-    setCategory(event.currentTarget.textContent as string);
-  };
 
   return (
     <div className='product-main__side-menu'>

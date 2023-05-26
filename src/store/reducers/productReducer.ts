@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import {
   deleteProduct,
   getAllProducts,
@@ -38,11 +39,9 @@ export const fetchAllProducts = createAsyncThunk(
   async (sortingCondition?: string) => {
     try {
       let response: Product[] = await getAllProducts();
-
       if (sortingCondition) {
         response = sortProductsByPrice(response, sortingCondition);
       }
-
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -121,7 +120,6 @@ export const updateProduct = createAsyncThunk(
   async ({ id, product }: { id: number; product: ProductInput }) => {
     try {
       const response: Product = await putProduct(id, product);
-      console.log('response from redux store', response);
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -214,7 +212,6 @@ const productSlice = createSlice({
         state.loading = false;
       })
       .addCase(filterProducts.rejected, (state, action) => {
-        console.log(action.error);
         state.error = action.error.message || 'Cannot fetch products';
         state.loading = false;
       })

@@ -86,7 +86,6 @@ const ProfileForm = ({
 
     onClose();
   };
-
   const handleConfirmedPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {

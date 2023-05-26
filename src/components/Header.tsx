@@ -16,7 +16,6 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
   const handleOpenLoginModal = () => {
     setIsLoginModalOpen(true);
   };

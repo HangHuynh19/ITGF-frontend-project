@@ -7,6 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+
 import { Category } from '../interfaces/Category';
 import { getAllCategories } from '../graphql/apiCalls';
 
@@ -23,7 +24,6 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
 }) => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [category, setCategory] = useState(defaultValue);
-
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
     onCategoryChange(event.target.value as string);

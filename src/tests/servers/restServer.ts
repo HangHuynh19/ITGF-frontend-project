@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+
 import { instance2 } from '../../axiosConfig';
 import { user1 } from '../data/users';
 

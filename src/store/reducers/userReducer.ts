@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+
 import { UpdateUser, User } from '../../interfaces/User';
 import {
   getUserByAccessToken,
@@ -6,7 +8,6 @@ import {
   putUser,
 } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
-import { AxiosError } from 'axios';
 
 const intialState: {
   user: User | null;
@@ -26,16 +27,14 @@ export const fetchUserByAccessToken = createAsyncThunk(
       if (!token) {
         return new CustomError('Unauthorized');
       }
-
       const response: User = await getUserByAccessToken(token);
       if (!response) {
         return new CustomError('User not found');
       }
-
       return response;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return new CustomError(err.response?.data.message);
+      if (err instanceof CustomError) {
+        return new CustomError(err.message);
       } else {
         return err;
       }
@@ -46,11 +45,10 @@ export const fetchUserByAccessToken = createAsyncThunk(
 export const createUser = createAsyncThunk('createUser', async (user: User) => {
   try {
     const response = await postUser(user);
-    //console.log('user in redux store', response);
     return response;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      return new CustomError(err.response?.data.message);
+    if (err instanceof CustomError) {
+      return new CustomError(err.message);
     } else {
       return err;
     }
@@ -62,11 +60,10 @@ export const updateUser = createAsyncThunk(
   async ({ id, user }: { id: number; user: UpdateUser }) => {
     try {
       const response = await putUser(id, user);
-      console.log('user in redux store', response);
       return response;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return new CustomError(err.response?.data.message);
+      if (err instanceof CustomError) {
+        return new CustomError(err.message);
       } else {
         return err;
       }
@@ -97,12 +94,10 @@ const userSlice = createSlice({
           state.loading = false;
           return;
         }
-
         if (action.payload === null) {
           state.loading = false;
           return;
         }
-
         state.user = action.payload as User;
         state.loading = false;
       })
