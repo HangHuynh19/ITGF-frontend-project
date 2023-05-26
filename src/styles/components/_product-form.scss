@@ -1,7 +1,7 @@
 @use '../variables/colors' as colors;
 @use '../variables/fonts' as fonts;
 
-#create-product-form {
+#product-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
   padding: 2em;
   border-radius: 0.5em;
 
-  #create-product-form__form-title {
+  #product-form__form-title {
     font-size: 1.5em;
     font-weight: 900;
     font-family: fonts.$heading-font;
@@ -24,45 +24,45 @@
     padding-bottom: 0.5em;
   }
 
-  #create-product-form__title,
-  #create-product-form__price,
-  #create-product-form__description {
+  #product-form__title,
+  #product-form__price,
+  #product-form__description {
     width: 25em;
   }
 
-  #create-product-form__category-picker-and-price {
+  #product-form__category-picker-and-price {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 26.5em;
     gap: 1em;
 
-    #create-product-form__category-picker {
+    #product-form__category-picker {
       display: flex;
       flex-direction: column;
     }
   }
 
-  #create-product-form__error {
+  #product-form__error {
     font-size: 0.65em;
     align-self: flex-start;
     padding-left: 1em;
   }
 
-  #create-product-form__image {
+  #product-form__image {
     width: 26.5em;
   }
 
-  #create-product-form__btnGroup {
+  #product-form__btnGroup {
     padding-top: 1em;
 
-    #create-product-form__submitBtn {
+    #product-form__submitBtn {
       width: 11em;
       background-color: colors.$blue;
       font-weight: 900;
     }
 
-    #create-product-form__cancelBtn {
+    #product-form__cancelBtn {
       margin-right: 3em;
       width: 11em;
       font-weight: 900;

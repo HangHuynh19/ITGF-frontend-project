@@ -16,12 +16,12 @@ import useAppSelector from '../hooks/useAppSelector';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditProductForm from './EditProductForm';
 import {
   fetchProductById,
   removeProduct,
 } from '../store/reducers/productReducer';
 import { useNavigate } from 'react-router-dom';
+import ProductForm from './ProductForm';
 
 const ProductDetail = ({ product }: { product: Product }) => {
   const user = useAppSelector((state) => state.userReducer.user);
@@ -95,11 +95,12 @@ const ProductDetail = ({ product }: { product: Product }) => {
                 <IconButton onClick={handleOpenEditModal}>
                   <BorderColorIcon color='secondary' />
                 </IconButton>
-                <EditProductForm
+                <ProductForm
+                  formTitle='Edit Product'
+                  product={product}
                   open={isEditModalOpen}
                   onClose={handleCloseEditModal}
-                  product={product}
-                  onProductUpdate={handleProductUpdate}
+                  onFormSubmit={handleProductUpdate}
                 />
                 <IconButton onClick={handleProductDelete}>
                   <DeleteIcon color='secondary' />

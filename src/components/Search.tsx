@@ -18,8 +18,8 @@ const Search = () => {
   const { sortingCondition } = useContext(MainContext);
 
   const handleCategoryChange = (category: string) => {
-    //console.log('handleCategoryChange', category);
     setCategory(category);
+    console.log('handleCategoryChange', category);
   };
 
   const handleSearchTermChange = (
@@ -43,6 +43,7 @@ const Search = () => {
       <CategoryPicker
         onCategoryChange={handleCategoryChange}
         defaultValue='All categories'
+        disable={false}
       />
       <Autocomplete
         id='header__search-container__search-field'
