@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,14 +7,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+
 import useInputHook from '../hooks/useInputHook';
-import CategoryPicker from './CategoryPicker';
 import { Product, ProductInput } from '../interfaces/Product';
-import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
 import {
-  fetchAllProducts,
   fetchProductById,
   updateProduct,
 } from '../store/reducers/productReducer';
@@ -36,7 +34,6 @@ const EditProductForm = ({
   const description = useInputHook(product.description);
   const category = useInputHook(product.category.name);
   const [image, setImage] = useState<File | null>(null);
-
   const handleCancel = () => {
     title.reset();
     price.reset();
@@ -45,13 +42,11 @@ const EditProductForm = ({
     setImage(null);
     onClose();
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImage(e.target.files[0]);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onClose();
@@ -71,7 +66,6 @@ const EditProductForm = ({
     );
 
     const updatedProduct = await dispatch(fetchProductById(product.id));
-    console.log('updateProduct in EditProductForm', updatedProduct);
 
     dispatch(
       updateCartWhenProductUpdated({
@@ -79,7 +73,6 @@ const EditProductForm = ({
         product: updatedProduct.payload as Product,
       })
     );
-
     onProductUpdate();
   };
 

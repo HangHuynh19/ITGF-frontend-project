@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,7 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+
 import useInputHook from '../hooks/useInputHook';
 import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
@@ -33,7 +34,6 @@ const AddProductForm = ({
   const [category, setCategory] = useState('All categories');
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState('');
-
   const handleCancel = () => {
     title.reset();
     price.reset();
@@ -43,18 +43,14 @@ const AddProductForm = ({
     setError('');
     onClose();
   };
-
   const handleCategoryChange = (category: string) => {
-    //console.log('handleCategoryChange', category);
     setCategory(category);
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImage(e.target.files[0]);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -71,7 +67,6 @@ const AddProductForm = ({
     onClose();
 
     const categoryId = categories.find((c) => c.name === category)?.id;
-    console.log('categoryId from AddProductForm', category);
     const productInput: ProductInput = {
       title: title.value,
       price: Number(price.value),
@@ -80,9 +75,7 @@ const AddProductForm = ({
       images: [image as File],
     };
 
-    console.log('productInput from AddProductForm', productInput);
     await dispatch(createProduct(productInput));
-
     onProductCreated();
   };
 

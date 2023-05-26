@@ -4,7 +4,7 @@
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/).
+A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/). The website can be viewed [here](https://grandeur-baazar.onrender.com).
 
 #### Table of content
 
