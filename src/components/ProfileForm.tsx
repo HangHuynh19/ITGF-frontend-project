@@ -1,27 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Input, Modal, TextField } from '@mui/material';
-import useInputHook from '../hooks/useInputHook';
+import React from 'react';
+import {
+  Box,
+  Button,
+  Input,
+  Modal,
+  TextField,
+  Typography,
+} from '@mui/material';
+
 import useAppDispatch from '../hooks/useAppDispatch';
-import { createUser, updateUser } from '../store/reducers/userReducer';
 import useAppSelector from '../hooks/useAppSelector';
+import useInputHook from '../hooks/useInputHook';
+import { createUser, updateUser } from '../store/reducers/userReducer';
+import { authenticate } from '../store/reducers/authReducer';
 import { UpdateUser } from '../interfaces/User';
 
-const EditProfileForm = ({
+const ProfileForm = ({
+  formTitle,
   open,
   onClose,
 }: {
+  formTitle: string;
   open: boolean;
   onClose: () => void;
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userReducer.user);
-  const name = useInputHook(user?.name as string);
-  const email = useInputHook(user?.email as string);
+  const name = useInputHook(user ? (user.name as string) : '');
+  const email = useInputHook(user ? (user.email as string) : '');
   const password = useInputHook('');
   const confirmedPassword = useInputHook('');
-  const [passwordError, setPasswordError] = useState('');
-  const [avatar, setAvatar] = useState<File | null>(null);
-
+  const [passwordError, setPasswordError] = React.useState('');
+  const [avatar, setAvatar] = React.useState<File | null>(null);
   const handleCancel = () => {
     name.reset();
     email.reset();
@@ -31,36 +41,49 @@ const EditProfileForm = ({
     setPasswordError('');
     onClose();
   };
-
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setAvatar(e.target.files[0]);
     }
   };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const userInput = {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      avatar: avatar,
-    };
+    if (formTitle === 'Register') {
+      await dispatch(
+        createUser({
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          avatar: avatar === null ? '' : avatar,
+        })
+      );
 
-    const updateObj: UpdateUser = Object.entries(userInput)
-      .filter(([key, value]) => Boolean(value))
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+      await dispatch(
+        authenticate({ email: email.value, password: password.value })
+      );
+    }
 
-    console.log(updateObj);
+    if (formTitle === 'Edit Profile') {
+      const userInput = {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        avatar: avatar,
+      };
 
-    dispatch(
-      updateUser({
-        id: user?.id as number,
-        user: updateObj,
-      })
-    );
-    console.log('submitted');
+      const updateObj: UpdateUser = Object.entries(userInput)
+        .filter(([key, value]) => Boolean(value))
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+      dispatch(
+        updateUser({
+          id: user?.id as number,
+          user: updateObj,
+        })
+      );
+    }
+
     onClose();
   };
 
@@ -77,52 +100,58 @@ const EditProfileForm = ({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box id='register-form' component='form' onSubmit={handleSubmit}>
+      <Box id='profile-form' component='form' onSubmit={handleSubmit}>
+        <Typography id='profile-form__form-title' variant='h5'>
+          {formTitle}
+        </Typography>
         <TextField
-          id='register-form__name'
+          id='profile-form__name'
           label='Name'
-          value={name.value}
           variant='outlined'
           color='secondary'
+          required={formTitle === 'Register'}
           onChange={name.onChange}
         />
         <TextField
-          id='register-form__email'
+          id='profile-form__email'
           label='Email'
-          value={email.value}
           type='email'
           variant='outlined'
           color='secondary'
+          required={formTitle === 'Register'}
           onChange={email.onChange}
         />
         <TextField
-          id='register-form__password'
+          id='profile-form__password'
           label='Password'
           type='password'
           variant='outlined'
           color='secondary'
+          required={formTitle === 'Register'}
           onChange={password.onChange}
         />
         <TextField
-          id='register-form__confirmPassword'
+          id='profile-form__confirmPassword'
           label='Confirm Password'
           type='password'
           variant='outlined'
           color='secondary'
+          required={formTitle === 'Register'}
           error={!!passwordError}
           helperText={passwordError ? `${passwordError}` : ''}
           onChange={handleConfirmedPasswordChange}
         />
         <Input
-          id='register-form__avatar'
+          id='profile-form__avatar'
           type='file'
           disableUnderline={true}
+          required={formTitle === 'Register'}
           inputProps={{ accept: 'image/*' }}
           onChange={handleAvatarChange}
         />
-        <div id='register-form__btnGroup'>
+        <div id='profile-form__btnGroup'>
           <Button
-            id='register-form__cancelBtn'
+            id='profile-form__cancelBtn'
             variant='contained'
             color='secondary'
             onClick={handleCancel}
@@ -130,7 +159,7 @@ const EditProfileForm = ({
             Cancel
           </Button>
           <Button
-            id='register-form__submitBtn'
+            id='profile-form__submitBtn'
             variant='contained'
             color='primary'
             type='submit'
@@ -143,4 +172,4 @@ const EditProfileForm = ({
   );
 };
 
-export default EditProfileForm;
+export default ProfileForm;

@@ -7,9 +7,9 @@ import CartButton from './CartButton';
 import UserAccount from './UserAccount';
 import useAppSelector from '../hooks/useAppSelector';
 import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import useAppDispatch from '../hooks/useAppDispatch';
+import ProfileForm from './ProfileForm';
 
 const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
@@ -75,7 +75,8 @@ const Header = () => {
               >
                 Register
               </Button>
-              <RegisterForm
+              <ProfileForm
+                formTitle='Register'
                 open={isRegisterModalOpen}
                 onClose={handleCloseRegisterModal}
               />
