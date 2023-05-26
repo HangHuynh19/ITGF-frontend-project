@@ -31,15 +31,13 @@ const ProductDetail = ({ product }: { product: Product }) => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleAddToCart = () => {
-    console.log('user in ProductDetail', user);
-    if (!user) {
-      dispatch(fetchUserByAccessToken());
-    } else {
+    if (user) {
+      /* dispatch(fetchUserByAccessToken());
+    } else { */
       dispatch(addToCart(product));
     }
   };
   const handleOpenEditModal = () => {
-    console.log('open edit modal', product);
     setIsEditModalOpen(true);
   };
   const handleCloseEditModal = () => {
