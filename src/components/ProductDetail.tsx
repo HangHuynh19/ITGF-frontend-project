@@ -16,7 +16,6 @@ import {
   updateCartWhenProductDeleted,
 } from '../store/reducers/cartReducer';
 import useAppSelector from '../hooks/useAppSelector';
-import { fetchUserByAccessToken } from '../store/reducers/userReducer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   fetchProductById,
@@ -31,11 +30,11 @@ const ProductDetail = ({ product }: { product: Product }) => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleAddToCart = () => {
-    if (user) {
-      /* dispatch(fetchUserByAccessToken());
+    /* if (!isLoggedIn) {
+      navigate('/');
     } else { */
-      dispatch(addToCart(product));
-    }
+    dispatch(addToCart(product));
+    //}
   };
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);

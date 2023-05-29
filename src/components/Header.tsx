@@ -29,11 +29,11 @@ const Header = () => {
     setIsRegisterModalOpen(false);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchUserByAccessToken());
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, isLoggedIn]); */
 
   return (
     <>
