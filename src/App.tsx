@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomePage from './pages/HomePage';
 import {
   Navigate,
@@ -16,6 +16,8 @@ import globalTheme from './theme/globalTheme';
 import ProfilePage from './pages/ProfilePage';
 import useAppSelector from './hooks/useAppSelector';
 import Root from './pages/Root';
+import useAppDispatch from './hooks/useAppDispatch';
+import { fetchUserByAccessToken } from './store/reducers/userReducer';
 
 export const ProtectedRoute = ({
   children,
@@ -60,6 +62,15 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      await dispatch(fetchUserByAccessToken());
+    };
+    fetchUser();
+  }, [dispatch]);
+
   return (
     <ThemeProvider theme={globalTheme}>
       <RouterProvider router={router} />

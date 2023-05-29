@@ -29,6 +29,7 @@ export const fetchUserByAccessToken = createAsyncThunk(
       }
       const response: User = await getUserByAccessToken(token);
       if (!response) {
+        localStorage.removeItem('token');
         return new CustomError('User not found');
       }
       return response;
