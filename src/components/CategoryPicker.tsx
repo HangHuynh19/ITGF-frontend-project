@@ -7,24 +7,26 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+
 import { Category } from '../interfaces/Category';
 import { getAllCategories } from '../graphql/apiCalls';
 
 type CategoryPickerProps = {
-  onCategoryChange?: (category: string) => void;
+  onCategoryChange: (category: string) => void;
   defaultValue: string;
+  disable?: boolean;
 };
 
 const CategoryPicker: React.FC<CategoryPickerProps> = ({
   onCategoryChange,
   defaultValue,
+  disable,
 }) => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [category, setCategory] = useState(defaultValue);
-
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
-    onCategoryChange?.(event.target.value as string);
+    onCategoryChange(event.target.value as string);
   };
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
           id='categories'
           label='Select Category'
           value={category}
+          disabled={disable}
           onChange={handleCategoryChange}
         >
           <MenuItem value='All categories'>All Categories</MenuItem>

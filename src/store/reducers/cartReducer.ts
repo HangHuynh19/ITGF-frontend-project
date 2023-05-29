@@ -1,11 +1,6 @@
-import { updateProduct } from './productReducer';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import {
-  Product,
-  ProductInput,
-  ProductWithQuantity,
-} from '../../interfaces/Product';
-import store from '../store';
+
+import { Product, ProductWithQuantity } from '../../interfaces/Product';
 
 const initialState: {
   cart: ProductWithQuantity[];
@@ -27,15 +22,15 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
       const newItem = action.payload;
-      const existingItem = state.cart.find((item) => item.id === newItem.id);
+      const existingItem =
+        state.cart.find((item) => item.id === newItem.id) || null;
+
       state.totalQuantity++;
       state.totalPrice += newItem.price;
-
       if (!existingItem) {
         state.cart.push({ ...newItem, quantity: 1 });
         return;
       }
-      console.log('existingItem', state.totalQuantity);
       existingItem.quantity += 1;
     },
     reduceQuantity: (state, action: PayloadAction<number>) => {
@@ -46,15 +41,12 @@ const cartSlice = createSlice({
         state.error = 'Item not found in cart';
         return;
       }
-
       state.totalQuantity--;
       state.totalPrice -= existingItem.price;
-
       if (existingItem.quantity === 1) {
         state.cart = state.cart.filter((item) => item.id !== id);
         return;
       }
-      console.log('existingItem', existingItem.quantity);
       existingItem.quantity -= 1;
     },
     updateCartWhenProductUpdated: (
@@ -70,6 +62,7 @@ const cartSlice = createSlice({
       }
 
       const updatedCart = [...state.cart];
+
       updatedCart[existingItemIndex] = {
         ...updatedCart[existingItemIndex],
         ...product,
@@ -78,7 +71,7 @@ const cartSlice = createSlice({
       const totalPrice = updatedCart.reduce((acc, item) => {
         return acc + item.price * item.quantity;
       }, 0);
-      console.log('updatedCart', updatedCart);
+
       state.cart = updatedCart;
       state.totalPrice = totalPrice;
     },
@@ -92,6 +85,7 @@ const cartSlice = createSlice({
       }
 
       const updatedCart = state.cart.filter((item) => item.id !== id);
+
       state.cart = updatedCart;
       state.totalQuantity -= existingItem.quantity;
       state.totalPrice -= existingItem.price * existingItem.quantity;

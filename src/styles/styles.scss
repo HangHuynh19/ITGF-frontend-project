@@ -3,10 +3,9 @@
 @use 'components/product-detail';
 @use 'components/cart';
 @use 'components/form';
-@use 'components/register-form';
+@use 'components/profile-form';
 @use 'components/profile';
-@use 'components/edit-product-form';
-@use 'components/add-product-form';
+@use 'components/product-form';
 @use 'variables/fonts' as fonts;
 @use 'variables/colors' as colors;
 

@@ -1,7 +1,7 @@
 @use '../variables/colors' as colors;
 @use '../variables/fonts' as fonts;
 
-#register-form {
+#profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
   padding: 2em;
   border-radius: 0.5em;
 
-  #register-form__form-title {
+  #profile-form__form-title {
     font-size: 1.5em;
     font-weight: 900;
     font-family: fonts.$heading-font;
@@ -24,34 +24,34 @@
     padding-bottom: 0.5em;
   }
 
-  #register-form__name,
-  #register-form__email,
-  #register-form__password,
-  #register-form__confirmPassword {
+  #profile-form__name,
+  #profile-form__email,
+  #profile-form__password,
+  #profile-form__confirmPassword {
     width: 25em;
   }
 
-  #register-form__avatar {
+  #profile-form__avatar {
     width: 26.5em;
   }
 
-  #register-form__btnGroup {
+  #profile-form__btnGroup {
     padding-top: 1em;
 
-    #register-form__submitBtn {
+    #profile-form__submitBtn {
       width: 11em;
       background-color: colors.$blue;
       font-weight: 900;
     }
 
-    #register-form__cancelBtn {
+    #profile-form__cancelBtn {
       margin-right: 3em;
       width: 11em;
       font-weight: 900;
     }
   }
 
-  #register-form__register-link {
+  #profile-form__register-link {
     text-decoration: underline;
     cursor: pointer;
   }

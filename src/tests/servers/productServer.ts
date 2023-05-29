@@ -1,7 +1,7 @@
-import { instance1, instance2 } from '../../../src/axiosConfig';
-
-import { graphql, rest } from 'msw';
+import { graphql } from 'msw';
 import { setupServer } from 'msw/node';
+
+import { instance1 } from '../../../src/axiosConfig';
 import {
   product1,
   product2,

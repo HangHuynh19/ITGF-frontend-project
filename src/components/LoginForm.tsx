@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';

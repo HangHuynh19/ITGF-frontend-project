@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
+import { Button } from '@mui/material';
+
 import SideMenu from '../components/SideMenu';
-import { Product } from '../interfaces/Product';
-import { Button, Menu, MenuItem, Select, Typography } from '@mui/material';
-import AddProductForm from '../components/AddProductForm';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { fetchAllProducts } from '../store/reducers/productReducer';
 import useAppSelector from '../hooks/useAppSelector';
 import SortConditionPicker from '../components/SortConditionPicker';
+import ProductForm from '../components/ProductForm';
 
 const MenuAndFilter = () => {
   const dispatch = useAppDispatch();
@@ -21,14 +20,12 @@ const MenuAndFilter = () => {
   const handleCloseCreateProductModal = () => {
     setIsCreateProductModalOpen(false);
   };
-
   const handleProductCreated = () => {
     dispatch(fetchAllProducts('Price | lowest to highest'));
   };
 
   return (
     <>
-      {/* <Header /> */}
       <div className='product-main'>
         <SideMenu />
         <div>
@@ -45,10 +42,11 @@ const MenuAndFilter = () => {
               </Button>
             )}
           </div>
-          <AddProductForm
+          <ProductForm
+            formTitle='Add Product'
             open={isCreateProductModalOpen}
             onClose={handleCloseCreateProductModal}
-            onProductCreated={handleProductCreated}
+            onFormSubmit={handleProductCreated}
           />
           <Outlet />
         </div>

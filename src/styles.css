@@ -201,7 +201,7 @@
   cursor: pointer;
 }
 
-#register-form {
+#profile-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -216,36 +216,36 @@
   padding: 2em;
   border-radius: 0.5em;
 }
-#register-form #register-form__form-title {
+#profile-form #profile-form__form-title {
   font-size: 1.5em;
   font-weight: 900;
   font-family: "Roboto Condensed", sans-serif;
   letter-spacing: 0.1em;
   padding-bottom: 0.5em;
 }
-#register-form #register-form__name,
-#register-form #register-form__email,
-#register-form #register-form__password,
-#register-form #register-form__confirmPassword {
+#profile-form #profile-form__name,
+#profile-form #profile-form__email,
+#profile-form #profile-form__password,
+#profile-form #profile-form__confirmPassword {
   width: 25em;
 }
-#register-form #register-form__avatar {
+#profile-form #profile-form__avatar {
   width: 26.5em;
 }
-#register-form #register-form__btnGroup {
+#profile-form #profile-form__btnGroup {
   padding-top: 1em;
 }
-#register-form #register-form__btnGroup #register-form__submitBtn {
+#profile-form #profile-form__btnGroup #profile-form__submitBtn {
   width: 11em;
   background-color: #5ec3eb;
   font-weight: 900;
 }
-#register-form #register-form__btnGroup #register-form__cancelBtn {
+#profile-form #profile-form__btnGroup #profile-form__cancelBtn {
   margin-right: 3em;
   width: 11em;
   font-weight: 900;
 }
-#register-form #register-form__register-link {
+#profile-form #profile-form__register-link {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -280,7 +280,7 @@
   padding-bottom: 2em;
 }
 
-#edit-product-form {
+#product-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -295,90 +295,46 @@
   padding: 2em;
   border-radius: 0.5em;
 }
-#edit-product-form #edit-product-form__form-title {
+#product-form #product-form__form-title {
   font-size: 1.5em;
   font-weight: 900;
   font-family: "Roboto Condensed", sans-serif;
   letter-spacing: 0.1em;
   padding-bottom: 0.5em;
 }
-#edit-product-form #edit-product-form__title,
-#edit-product-form #edit-product-form__price,
-#edit-product-form #edit-product-form__description {
+#product-form #product-form__title,
+#product-form #product-form__price,
+#product-form #product-form__description {
   width: 25em;
 }
-#edit-product-form #edit-product-form__image {
-  width: 26.5em;
-}
-#edit-product-form #edit-product-form__btnGroup {
-  padding-top: 1em;
-}
-#edit-product-form #edit-product-form__btnGroup #edit-product-form__submitBtn {
-  width: 11em;
-  background-color: #5ec3eb;
-  font-weight: 900;
-}
-#edit-product-form #edit-product-form__btnGroup #edit-product-form__cancelBtn {
-  margin-right: 3em;
-  width: 11em;
-  font-weight: 900;
-}
-
-#create-product-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 28em;
-  background-color: #f2f2f2;
-  padding: 2em;
-  border-radius: 0.5em;
-}
-#create-product-form #create-product-form__form-title {
-  font-size: 1.5em;
-  font-weight: 900;
-  font-family: "Roboto Condensed", sans-serif;
-  letter-spacing: 0.1em;
-  padding-bottom: 0.5em;
-}
-#create-product-form #create-product-form__title,
-#create-product-form #create-product-form__price,
-#create-product-form #create-product-form__description {
-  width: 25em;
-}
-#create-product-form #create-product-form__category-picker-and-price {
+#product-form #product-form__category-picker-and-price {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 26.5em;
   gap: 1em;
 }
-#create-product-form #create-product-form__category-picker-and-price #create-product-form__category-picker {
+#product-form #product-form__category-picker-and-price #product-form__category-picker {
   display: flex;
   flex-direction: column;
 }
-#create-product-form #create-product-form__error {
+#product-form #product-form__error {
   font-size: 0.65em;
   align-self: flex-start;
   padding-left: 1em;
 }
-#create-product-form #create-product-form__image {
+#product-form #product-form__image {
   width: 26.5em;
 }
-#create-product-form #create-product-form__btnGroup {
+#product-form #product-form__btnGroup {
   padding-top: 1em;
 }
-#create-product-form #create-product-form__btnGroup #create-product-form__submitBtn {
+#product-form #product-form__btnGroup #product-form__submitBtn {
   width: 11em;
   background-color: #5ec3eb;
   font-weight: 900;
 }
-#create-product-form #create-product-form__btnGroup #create-product-form__cancelBtn {
+#product-form #product-form__btnGroup #product-form__cancelBtn {
   margin-right: 3em;
   width: 11em;
   font-weight: 900;

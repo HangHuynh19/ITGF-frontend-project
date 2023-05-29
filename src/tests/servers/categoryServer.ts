@@ -1,7 +1,8 @@
 import { graphql } from 'msw';
+import { setupServer } from 'msw/node';
+
 import { instance1 } from '../../axiosConfig';
 import { categories } from '../data/categories';
-import { setupServer } from 'msw/node';
 
 const graphqlURL = graphql.link(instance1.getUri());
 const handlers = [
