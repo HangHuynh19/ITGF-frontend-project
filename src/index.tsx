@@ -14,11 +14,11 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <MainProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <MainProvider>
         <App />
-      </Provider>
-    </MainProvider>
+      </MainProvider>
+    </Provider>
   </React.StrictMode>
 );
 
