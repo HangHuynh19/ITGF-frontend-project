@@ -24,14 +24,14 @@ const cartSlice = createSlice({
       const newItem = action.payload;
       const existingItem =
         state.cart.find((item) => item.id === newItem.id) || null;
-
-      state.totalQuantity++;
-      state.totalPrice += newItem.price;
       if (!existingItem) {
         state.cart.push({ ...newItem, quantity: 1 });
-        return;
+      } else {
+        existingItem.quantity += 1;
       }
-      existingItem.quantity += 1;
+      state.totalQuantity++;
+      state.totalPrice += newItem.price;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     reduceQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -48,6 +48,7 @@ const cartSlice = createSlice({
         return;
       }
       existingItem.quantity -= 1;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     updateCartWhenProductUpdated: (
       state,
@@ -74,6 +75,7 @@ const cartSlice = createSlice({
 
       state.cart = updatedCart;
       state.totalPrice = totalPrice;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     updateCartWhenProductDeleted: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -89,6 +91,7 @@ const cartSlice = createSlice({
       state.cart = updatedCart;
       state.totalQuantity -= existingItem.quantity;
       state.totalPrice -= existingItem.price * existingItem.quantity;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -102,11 +105,10 @@ const cartSlice = createSlice({
       state.totalQuantity -= existingItem.quantity;
       state.totalPrice -= existingItem.price * existingItem.quantity;
       state.cart = state.cart.filter((item) => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     clearCart: (state) => {
-      state.cart = [];
-      state.totalQuantity = 0;
-      state.totalPrice = 0;
+      return initialState;
     },
   },
 });
