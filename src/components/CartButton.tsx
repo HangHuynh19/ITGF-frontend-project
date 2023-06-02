@@ -5,8 +5,10 @@ import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const CartButton = () => {
-  const totalPrice = useAppSelector((state) => state.cartReducer.totalPrice);
-
+  let totalPrice = useAppSelector((state) => state.cartReducer.totalPrice);
+  if (!totalPrice) {
+    totalPrice = 0;
+  }
   return (
     <Link to='/cart'>
       <Box id='header__cart'>

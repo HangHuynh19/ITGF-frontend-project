@@ -46,28 +46,33 @@ const authSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem('token');
       state.isLoggedIn = false;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(authenticate.fulfilled, (state, action) => {
         if (action.payload instanceof Error) {
+          console.log('authenticate', action.payload);
           state.error = action.payload.message;
+          console.log('state.error in authReducer', state.error);
           state.isLoggedIn = false;
           state.isLoading = false;
           return;
         }
 
-        if (action.payload instanceof TypeError) {
-          console.log('authenticate', action.payload);
+        /* if (action.payload instanceof TypeError) {
+          console.log('authenticate that have TypeError', action.payload);
           state.error = 'Cannot login';
           state.isLoggedIn = false;
           state.isLoading = false;
           return;
-        }
+        } */
 
         state.isLoggedIn = true;
         state.isLoading = false;
+        state.error = null;
+        console.log('state.error in authReducer', state.error);
       })
       .addCase(authenticate.pending, (state) => {
         state.isLoading = true;

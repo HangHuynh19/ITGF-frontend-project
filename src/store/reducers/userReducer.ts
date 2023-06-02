@@ -24,15 +24,17 @@ export const fetchUserByAccessToken = createAsyncThunk(
   async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        return new CustomError('Unauthorized');
-      }
-      const response: User = await getUserByAccessToken(token);
-      if (!response) {
+      if (token) {
+        /* return new CustomError('Unauthorized');
+      }  */
+        const response: User = await getUserByAccessToken(token);
+
+        /* if (!response) {
         localStorage.removeItem('token');
         return new CustomError('User not found');
+      } */
+        return response;
       }
-      return response;
     } catch (err) {
       if (err instanceof CustomError) {
         return new CustomError(err.message);
@@ -90,9 +92,10 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchUserByAccessToken.fulfilled, (state, action) => {
-        if (action.payload instanceof Error) {
+        if (action.payload instanceof CustomError) {
           state.error = action.payload.message;
           state.loading = false;
+          state.user = null;
           return;
         }
         if (action.payload === null) {
