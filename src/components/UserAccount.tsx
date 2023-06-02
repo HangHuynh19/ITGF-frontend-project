@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store/reducers/authReducer';
 import { clearCart } from '../store/reducers/cartReducer';
 import useAppSelector from '../hooks/useAppSelector';
+import { clearUser } from '../store/reducers/userReducer';
 
 const UserAccount = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const UserAccount = () => {
   const handleLogout = () => {
     dispatch(clearCart());
     dispatch(logout());
+    dispatch(clearUser());
   };
 
   return (
