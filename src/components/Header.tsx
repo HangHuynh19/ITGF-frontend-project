@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Search from './Search';
 import CartButton from './CartButton';
@@ -15,8 +15,8 @@ const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const { searchTerm, setSearchTerm } = useContext(MainContext);
-  const { category, setCategory } = useContext(MainContext);
+  const { setSearchTerm } = useContext(MainContext);
+  const { setCategory } = useContext(MainContext);
   const onLogoClick = () => {
     setSearchTerm('');
     setCategory('All categories');
@@ -39,16 +39,14 @@ const Header = () => {
     <>
       <AppBar position='static' color='transparent'>
         <Toolbar id='header'>
-          <Box>
-            {/* <Link to='/'> */}
+          <div>
             <img
               id='header__logo'
               src={require('../assets/logo.png')}
               alt='logo'
               onClick={onLogoClick}
             />
-            {/* </Link> */}
-          </Box>
+          </div>
           <Search />
           {isLoggedIn ? (
             <Box id='header__button-group'>
@@ -56,7 +54,7 @@ const Header = () => {
               <CartButton />
             </Box>
           ) : (
-            <Box>
+            <div>
               <Button
                 variant='text'
                 color='secondary'
@@ -80,7 +78,7 @@ const Header = () => {
                 open={isRegisterModalOpen}
                 onClose={handleCloseRegisterModal}
               />
-            </Box>
+            </div>
           )}
         </Toolbar>
       </AppBar>

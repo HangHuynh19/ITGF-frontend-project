@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
 
-import { Product } from '../interfaces/Product';
 import ProductList from '../components/ProductList';
 import useAppDispatch from '../hooks/useAppDispatch';
 import {
@@ -22,32 +20,24 @@ const HomePage = () => {
   const { sortingCondition } = useContext(MainContext);
 
   useEffect(() => {
-    //if (!searchTerm && category === 'All categories') {
     const fetchProducts = async () => {
       await dispatch(fetchAllProducts());
     };
     fetchProducts();
-    //}
-  }, [dispatch /* , searchTerm, category */]);
+  }, [dispatch]);
 
   useEffect(() => {
-    //if (searchTerm || category !== 'All categories') {
     dispatch(
       filterProducts({
         searchTerm: searchTerm as string,
         categoryName: category as string,
       })
     );
-    //}
   }, [searchTerm, category, dispatch]);
 
   useEffect(() => {
     dispatch(sortProducts(sortingCondition));
   }, [products, sortingCondition, dispatch]);
-
-  /* useEffect(() => {
-    console.log('products in HomePage', products);
-  }, [products]); */
 
   return (
     <>

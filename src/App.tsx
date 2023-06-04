@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
 import MenuAndFilter from './pages/MenuAndFilter';
-import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
 import { ThemeProvider } from '@mui/material/styles';
 import globalTheme from './theme/globalTheme';
@@ -18,7 +17,9 @@ import useAppSelector from './hooks/useAppSelector';
 import Root from './pages/Root';
 import useAppDispatch from './hooks/useAppDispatch';
 import { fetchUserByAccessToken } from './store/reducers/userReducer';
-import { fetchAllProducts } from './store/reducers/productReducer';
+import {fetchProductById} from './store/reducers/productReducer';
+import {updateCartWhenProductDeleted, updateCartWhenProductUpdated} from './store/reducers/cartReducer';
+import {Product} from './interfaces/Product';
 
 export const ProtectedRoute = ({
   children,
@@ -38,7 +39,6 @@ const router = createBrowserRouter(
       <Route path='/' element={<Root />}>
         <Route path='/' element={<MenuAndFilter />}>
           <Route path='/' element={<HomePage />} />
-          <Route path='/search' element={<SearchPage />} />
           <Route path='/product/:id' element={<ProductDetailPage />} />
         </Route>
         <Route
@@ -64,6 +64,7 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cartReducer.cart);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -71,6 +72,21 @@ const App = () => {
     };
     fetchUser();
   }, [dispatch]);
+
+  useEffect(() => {
+    cart.map(async (item) => {
+      const existedItem = await dispatch(fetchProductById(item.id));
+      if (!existedItem) {
+        dispatch(updateCartWhenProductDeleted(item.id));
+        return;
+      }
+
+      dispatch(updateCartWhenProductUpdated({
+        id: item.id,
+        product: item as Product,
+      }));
+    });
+  }, [cart, dispatch]);
 
   return (
     <ThemeProvider theme={globalTheme}>

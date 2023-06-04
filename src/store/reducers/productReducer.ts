@@ -1,4 +1,3 @@
-//import {filterProducts} from './productReducer';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import {
@@ -7,7 +6,6 @@ import {
   getProductById,
   postProduct,
   putProduct,
-  searchProductsByNameAndCategory,
 } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { Product, ProductInput } from '../../interfaces/Product';
@@ -72,36 +70,6 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-/* export const filterProducts = createAsyncThunk(
-  'filterProducts',
-  async ({
-    searchTerm,
-    categoryName,
-    sortingCondition,
-  }: {
-    searchTerm: string;
-    categoryName: string;
-    sortingCondition?: string;
-  }) => {
-    try {
-      let response: Product[] = await searchProductsByNameAndCategory(
-        searchTerm,
-        categoryName
-      );
-      if (sortingCondition) {
-        response = sortProductsByPrice(response, sortingCondition);
-      }
-      return response;
-    } catch (err) {
-      if (err instanceof CustomError) {
-        return new CustomError(err.message);
-      } else {
-        return err;
-      }
-    }
-  }
-); */
-
 export const createProduct = createAsyncThunk(
   'createProduct',
   async (product: ProductInput) => {
@@ -163,16 +131,6 @@ const productSlice = createSlice({
     ) => {
       const { searchTerm, categoryName } = action.payload;
       if (categoryName === 'All categories' && !searchTerm) {
-        /* state.filteredProducts = state.products.filter((product) =>
-          product.title
-            .toLowerCase()
-            .includes(action.payload.searchTerm.toLowerCase())
-        );
-        console.log('products in redux store 1', state.products);
-        console.log(
-          'filteredProducts in redux store 1',
-          state.filteredProducts
-        ); */
         state.filteredProducts = [...state.products];
         return;
       }
@@ -185,18 +143,6 @@ const productSlice = createSlice({
         return;
       }
       if (categoryName !== 'All categories' && !searchTerm) {
-        /* state.filteredProducts = state.products.filter(
-          (product) =>
-            product.title
-              .toLowerCase()
-              .includes(action.payload.searchTerm.toLowerCase()) &&
-            product.category.name === action.payload.categoryName
-        );
-        console.log('products in redux store 2', state.products);
-        console.log(
-          'filteredProducts in redux store 2',
-          state.filteredProducts
-        ); */
         state.filteredProducts = state.products.filter(
           (product) => product.category.name === action.payload.categoryName
         );
@@ -262,24 +208,6 @@ const productSlice = createSlice({
         state.error = action.error.message || 'Cannot fetch product';
         state.loading = false;
       })
-      /* .addCase(filterProducts.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(filterProducts.fulfilled, (state, action) => {
-        if (action.payload instanceof CustomError) {
-          state.error = action.payload.message;
-          state.loading = false;
-          return;
-        }
-
-        //state.filteredProducts = action.payload as Product[];
-        state.products = action.payload as Product[];
-        state.loading = false;
-      })
-      .addCase(filterProducts.rejected, (state, action) => {
-        state.error = action.error.message || 'Cannot fetch products';
-        state.loading = false;
-      }) */
       .addCase(updateProduct.pending, (state) => {
         state.loading = true;
       })

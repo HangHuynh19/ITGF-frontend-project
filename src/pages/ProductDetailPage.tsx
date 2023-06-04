@@ -10,7 +10,6 @@ const ProductDetailPage = () => {
   const id = parseInt(useParams<{ id: string }>().id as string);
   const dispatch = useAppDispatch();
   const product = useAppSelector(
-    //(state) => state.productReducer.filteredProducts[0]
     (state) => state.productReducer.products[0]
   );
 

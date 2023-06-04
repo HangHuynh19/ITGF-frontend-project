@@ -1,41 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Autocomplete, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
-import useAppDispatch from '../hooks/useAppDispatch';
-import { fetchAllProducts } from '../store/reducers/productReducer';
 import CategoryPicker from './CategoryPicker';
-import { Product } from '../interfaces/Product';
 import { MainContext } from '../contexts/MainContext';
 import useAppSelector from '../hooks/useAppSelector';
 
 const Search = () => {
   const navigate = useNavigate();
   const products = useAppSelector((state) => state.productReducer.products);
-  //const [category, setCategory] = useState('All categories');
-  const { category, setCategory } = useContext(MainContext);
-  //const [searchTerm, setSearchTerm] = useState('');
+  const { setCategory } = useContext(MainContext);
   const [enteredSearchTerm, setEnteredSearchTerm] = useState('');
-  const { searchTerm, setSearchTerm } = useContext(MainContext);
-  //const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const { sortingCondition } = useContext(MainContext);
-
+  const { setSearchTerm } = useContext(MainContext);
   const handleCategoryChange = (category: string) => {
     setCategory(category);
-    //console.log('handleCategoryChange', category);
   };
   const handleSearchTermChange = (
     event: React.ChangeEvent<{}>,
     value: string
   ) => {
     setEnteredSearchTerm(value);
-    //console.log('handleSearchTermChange', value);
   };
   const onSearchIconClick = () => {
     setSearchTerm(enteredSearchTerm);
-    //setCategory(category);
     navigate('/');
   };
 
@@ -66,14 +55,7 @@ const Search = () => {
         )}
         onInputChange={handleSearchTermChange}
       />
-      {/* <Link
-        to={{
-          pathname: '/search',
-          search: `?searchTerm=${searchTerm}&category=${category}`,
-        }}
-      > */}
       <SearchIcon onClick={onSearchIconClick} />
-      {/*  </Link> */}
     </Box>
   );
 };

@@ -36,7 +36,7 @@ describe('Test productReducer', () => {
   test('Should return initial state', () => {
     expect(store.getState().productReducer).toEqual({
       products: [],
-      //filteredProducts: [],
+      filteredProducts: [],
       loading: false,
       error: null,
     });
