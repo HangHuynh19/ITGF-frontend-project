@@ -1,3 +1,4 @@
+//import {filterProducts} from './productReducer';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import {
@@ -27,9 +28,11 @@ const sortProductsByPrice = (products: Product[], order: string) => {
   const sortedProducts = products.sort((a, b) => {
     if (order === 'Price | lowest to highest') {
       return a.price - b.price;
-    } else {
+    }
+    if (order === 'Price | highest to lowest') {
       return b.price - a.price;
     }
+    return 0;
   });
   return sortedProducts;
 };
@@ -69,7 +72,7 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-export const filterProducts = createAsyncThunk(
+/* export const filterProducts = createAsyncThunk(
   'filterProducts',
   async ({
     searchTerm,
@@ -97,7 +100,7 @@ export const filterProducts = createAsyncThunk(
       }
     }
   }
-);
+); */
 
 export const createProduct = createAsyncThunk(
   'createProduct',
@@ -151,12 +154,70 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    sortProducts(state, action: PayloadAction<string>) {
-      const sortedProducts = sortProductsByPrice(
-        state.products,
+    filterProducts: (
+      state,
+      action: PayloadAction<{
+        searchTerm: string;
+        categoryName: string;
+      }>
+    ) => {
+      const { searchTerm, categoryName } = action.payload;
+      if (categoryName === 'All categories' && !searchTerm) {
+        /* state.filteredProducts = state.products.filter((product) =>
+          product.title
+            .toLowerCase()
+            .includes(action.payload.searchTerm.toLowerCase())
+        );
+        console.log('products in redux store 1', state.products);
+        console.log(
+          'filteredProducts in redux store 1',
+          state.filteredProducts
+        ); */
+        state.filteredProducts = [...state.products];
+        return;
+      }
+      if (categoryName === 'All categories' && searchTerm) {
+        state.filteredProducts = state.products.filter((product) =>
+          product.title
+            .toLowerCase()
+            .includes(action.payload.searchTerm.toLowerCase())
+        );
+        return;
+      }
+      if (categoryName !== 'All categories' && !searchTerm) {
+        /* state.filteredProducts = state.products.filter(
+          (product) =>
+            product.title
+              .toLowerCase()
+              .includes(action.payload.searchTerm.toLowerCase()) &&
+            product.category.name === action.payload.categoryName
+        );
+        console.log('products in redux store 2', state.products);
+        console.log(
+          'filteredProducts in redux store 2',
+          state.filteredProducts
+        ); */
+        state.filteredProducts = state.products.filter(
+          (product) => product.category.name === action.payload.categoryName
+        );
+        return;
+      }
+      if (categoryName !== 'All categories' && searchTerm) {
+        state.filteredProducts = state.products.filter(
+          (product) =>
+            product.title
+              .toLowerCase()
+              .includes(action.payload.searchTerm.toLowerCase()) &&
+            product.category.name === action.payload.categoryName
+        );
+        return;
+      }
+    },
+    sortProducts: (state, action: PayloadAction<string>) => {
+      state.filteredProducts = sortProductsByPrice(
+        state.filteredProducts,
         action.payload
       );
-      state.products = sortedProducts;
     },
     cleanUpProductReducer: (state) => {
       return initialState;
@@ -174,7 +235,9 @@ const productSlice = createSlice({
           return;
         }
 
-        state.products = action.payload as Product[];
+        const fetchedProducts = action.payload as Product[];
+        state.products = fetchedProducts;
+        state.filteredProducts = [...fetchedProducts];
         state.loading = false;
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
@@ -192,13 +255,14 @@ const productSlice = createSlice({
         }
 
         state.filteredProducts = [action.payload as Product];
+        state.products = [action.payload as Product];
         state.loading = false;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot fetch product';
         state.loading = false;
       })
-      .addCase(filterProducts.pending, (state) => {
+      /* .addCase(filterProducts.pending, (state) => {
         state.loading = true;
       })
       .addCase(filterProducts.fulfilled, (state, action) => {
@@ -208,13 +272,14 @@ const productSlice = createSlice({
           return;
         }
 
-        state.filteredProducts = action.payload as Product[];
+        //state.filteredProducts = action.payload as Product[];
+        state.products = action.payload as Product[];
         state.loading = false;
       })
       .addCase(filterProducts.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot fetch products';
         state.loading = false;
-      })
+      }) */
       .addCase(updateProduct.pending, (state) => {
         state.loading = true;
       })
@@ -278,6 +343,7 @@ const productSlice = createSlice({
 
 const productReducer = productSlice.reducer;
 
-export const { sortProducts, cleanUpProductReducer } = productSlice.actions;
+export const { filterProducts, sortProducts, cleanUpProductReducer } =
+  productSlice.actions;
 
 export default productReducer;

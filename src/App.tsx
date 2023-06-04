@@ -18,6 +18,7 @@ import useAppSelector from './hooks/useAppSelector';
 import Root from './pages/Root';
 import useAppDispatch from './hooks/useAppDispatch';
 import { fetchUserByAccessToken } from './store/reducers/userReducer';
+import { fetchAllProducts } from './store/reducers/productReducer';
 
 export const ProtectedRoute = ({
   children,

@@ -28,7 +28,7 @@ const MenuAndFilter = () => {
     <>
       <div className='product-main'>
         <SideMenu />
-        <div>
+        <div className='product-main__list'>
           <div id='product-main__btn-group'>
             <SortConditionPicker />
             {isLoggedIn && (

@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Search from './Search';
 import CartButton from './CartButton';
 import UserAccount from './UserAccount';
 import useAppSelector from '../hooks/useAppSelector';
 import LoginForm from './LoginForm';
-import { fetchUserByAccessToken } from '../store/reducers/userReducer';
-import useAppDispatch from '../hooks/useAppDispatch';
 import ProfileForm from './ProfileForm';
+import { MainContext } from '../contexts/MainContext';
 
 const Header = () => {
+  const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
-  const dispatch = useAppDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const { searchTerm, setSearchTerm } = useContext(MainContext);
+  const { category, setCategory } = useContext(MainContext);
+  const onLogoClick = () => {
+    setSearchTerm('');
+    setCategory('All categories');
+    navigate('/');
+  };
   const handleOpenLoginModal = () => {
     setIsLoginModalOpen(true);
   };
@@ -29,24 +35,19 @@ const Header = () => {
     setIsRegisterModalOpen(false);
   };
 
-  /* useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchUserByAccessToken());
-    }
-  }, [dispatch, isLoggedIn]); */
-
   return (
     <>
       <AppBar position='static' color='transparent'>
         <Toolbar id='header'>
           <Box>
-            <Link to='/'>
-              <img
-                id='header__logo'
-                src={require('../assets/logo.png')}
-                alt='logo'
-              />
-            </Link>
+            {/* <Link to='/'> */}
+            <img
+              id='header__logo'
+              src={require('../assets/logo.png')}
+              alt='logo'
+              onClick={onLogoClick}
+            />
+            {/* </Link> */}
           </Box>
           <Search />
           {isLoggedIn ? (

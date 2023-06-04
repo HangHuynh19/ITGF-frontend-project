@@ -36,7 +36,7 @@ describe('Test productReducer', () => {
   test('Should return initial state', () => {
     expect(store.getState().productReducer).toEqual({
       products: [],
-      filteredProducts: [],
+      //filteredProducts: [],
       loading: false,
       error: null,
     });
@@ -71,9 +71,8 @@ describe('Test productReducer', () => {
 
   test('Should fetch product by id', async () => {
     await store.dispatch(fetchProductById(1));
-    expect(store.getState().productReducer.filteredProducts).toEqual([
-      product1,
-    ]);
+    //expect(store.getState().productReducer.filteredProducts).toEqual([
+    expect(store.getState().productReducer.products).toEqual([product1]);
   });
 
   test('Should post a new product', async () => {

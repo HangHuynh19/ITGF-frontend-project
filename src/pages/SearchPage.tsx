@@ -4,39 +4,34 @@ import { useLocation } from 'react-router-dom';
 import { Product } from '../interfaces/Product';
 import ProductList from '../components/ProductList';
 import useAppDispatch from '../hooks/useAppDispatch';
-import { filterProducts } from '../store/reducers/productReducer';
+import { filterProducts, sortProducts } from '../store/reducers/productReducer';
 import { MainContext } from '../contexts/MainContext';
+import useAppSelector from '../hooks/useAppSelector';
 
 const SearchPage = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get('searchTerm');
-  const category = searchParams.get('category');
+  const products = useAppSelector((state) => state.productReducer.products);
+  const { category } = useContext(MainContext);
+  const { searchTerm } = useContext(MainContext);
   const dispatch = useAppDispatch();
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
   const { sortingCondition } = useContext(MainContext);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const products = await dispatch(
-          filterProducts({
-            searchTerm: query as string,
-            categoryName: category as string,
-            sortingCondition: sortingCondition,
-          })
-        );
-        setSearchResults(products.payload as Product[]);
-      } catch (error) {
-        return new Error((error as Error).message);
-      }
-    };
-    fetchProducts();
-  }, [query, category, dispatch, sortingCondition]);
+    console.log('searchTerm in SearchPage', searchTerm);
+    dispatch(
+      filterProducts({
+        searchTerm: searchTerm as string,
+        categoryName: category as string,
+      })
+    );
+  }, [searchTerm, category, dispatch]);
+
+  useEffect(() => {
+    dispatch(sortProducts(sortingCondition));
+  }, [sortingCondition, dispatch]);
 
   return (
     <>
-      <ProductList productList={searchResults} />
+      <ProductList productList={products} />
     </>
   );
 };
