@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
-  IconButton,
   Modal,
   Snackbar,
   TextField,
@@ -12,8 +11,7 @@ import {
 import useInputHook from '../hooks/useInputHook';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { fetchUserByAccessToken } from '../store/reducers/userReducer';
-import authReducer, { authenticate } from '../store/reducers/authReducer';
-import CloseIcon from '@mui/icons-material/Close';
+import { authenticate } from '../store/reducers/authReducer';
 import useAppSelector from '../hooks/useAppSelector';
 
 const LoginForm = ({

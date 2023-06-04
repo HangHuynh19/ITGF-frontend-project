@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Search from './Search';
 import CartButton from './CartButton';
 import UserAccount from './UserAccount';
 import useAppSelector from '../hooks/useAppSelector';
 import LoginForm from './LoginForm';
-import { fetchUserByAccessToken } from '../store/reducers/userReducer';
-import useAppDispatch from '../hooks/useAppDispatch';
 import ProfileForm from './ProfileForm';
+import { MainContext } from '../contexts/MainContext';
 
 const Header = () => {
+  const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
-  const dispatch = useAppDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const { setSearchTerm } = useContext(MainContext);
+  const { setCategory } = useContext(MainContext);
+  const onLogoClick = () => {
+    setSearchTerm('');
+    setCategory('All categories');
+    navigate('/');
+  };
   const handleOpenLoginModal = () => {
     setIsLoginModalOpen(true);
   };
@@ -29,25 +35,18 @@ const Header = () => {
     setIsRegisterModalOpen(false);
   };
 
-  /* useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchUserByAccessToken());
-    }
-  }, [dispatch, isLoggedIn]); */
-
   return (
     <>
       <AppBar position='static' color='transparent'>
         <Toolbar id='header'>
-          <Box>
-            <Link to='/'>
-              <img
-                id='header__logo'
-                src={require('../assets/logo.png')}
-                alt='logo'
-              />
-            </Link>
-          </Box>
+          <div>
+            <img
+              id='header__logo'
+              src={require('../assets/logo.png')}
+              alt='logo'
+              onClick={onLogoClick}
+            />
+          </div>
           <Search />
           {isLoggedIn ? (
             <Box id='header__button-group'>
@@ -55,7 +54,7 @@ const Header = () => {
               <CartButton />
             </Box>
           ) : (
-            <Box>
+            <div>
               <Button
                 variant='text'
                 color='secondary'
@@ -79,7 +78,7 @@ const Header = () => {
                 open={isRegisterModalOpen}
                 onClose={handleCloseRegisterModal}
               />
-            </Box>
+            </div>
           )}
         </Toolbar>
       </AppBar>

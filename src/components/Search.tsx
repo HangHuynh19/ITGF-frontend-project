@@ -1,40 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Autocomplete, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
-import useAppDispatch from '../hooks/useAppDispatch';
-import { fetchAllProducts } from '../store/reducers/productReducer';
 import CategoryPicker from './CategoryPicker';
-import { Product } from '../interfaces/Product';
 import { MainContext } from '../contexts/MainContext';
+import useAppSelector from '../hooks/useAppSelector';
 
 const Search = () => {
-  const dispatch = useAppDispatch();
-  const [category, setCategory] = useState('All categories');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const { sortingCondition } = useContext(MainContext);
+  const navigate = useNavigate();
+  const products = useAppSelector((state) => state.productReducer.products);
+  const { setCategory } = useContext(MainContext);
+  const [enteredSearchTerm, setEnteredSearchTerm] = useState('');
+  const { setSearchTerm } = useContext(MainContext);
   const handleCategoryChange = (category: string) => {
     setCategory(category);
-    console.log('handleCategoryChange', category);
   };
   const handleSearchTermChange = (
     event: React.ChangeEvent<{}>,
     value: string
   ) => {
-    setSearchTerm(value);
+    setEnteredSearchTerm(value);
   };
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const allProducts = await dispatch(fetchAllProducts(sortingCondition));
-      setSearchResults(allProducts.payload as Product[]);
-    };
-
-    fetchProducts();
-  }, [dispatch, sortingCondition]);
+  const onSearchIconClick = () => {
+    setSearchTerm(enteredSearchTerm);
+    navigate('/');
+  };
 
   return (
     <Box id='header__search-container'>
@@ -48,7 +40,7 @@ const Search = () => {
         size='small'
         freeSolo
         disableClearable
-        options={searchResults.map((result) => result.title)}
+        options={products.map((product) => product.title)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -63,14 +55,7 @@ const Search = () => {
         )}
         onInputChange={handleSearchTermChange}
       />
-      <Link
-        to={{
-          pathname: '/search',
-          search: `?searchTerm=${searchTerm}&category=${category}`,
-        }}
-      >
-        <SearchIcon />
-      </Link>
+      <SearchIcon onClick={onSearchIconClick} />
     </Box>
   );
 };

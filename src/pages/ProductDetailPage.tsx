@@ -10,7 +10,7 @@ const ProductDetailPage = () => {
   const id = parseInt(useParams<{ id: string }>().id as string);
   const dispatch = useAppDispatch();
   const product = useAppSelector(
-    (state) => state.productReducer.filteredProducts[0]
+    (state) => state.productReducer.products[0]
   );
 
   useEffect(() => {
@@ -21,7 +21,15 @@ const ProductDetailPage = () => {
   }, [dispatch, id]);
 
   return (
-    <>{product ? <ProductDetail product={product} /> : <div>Loading...</div>}</>
+    <>
+      {product ? (
+        <div>
+          <ProductDetail product={product} />
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </>
   );
 };
 

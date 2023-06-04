@@ -6,7 +6,6 @@ import {
   getProductById,
   postProduct,
   putProduct,
-  searchProductsByNameAndCategory,
 } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { Product, ProductInput } from '../../interfaces/Product';
@@ -27,9 +26,11 @@ const sortProductsByPrice = (products: Product[], order: string) => {
   const sortedProducts = products.sort((a, b) => {
     if (order === 'Price | lowest to highest') {
       return a.price - b.price;
-    } else {
+    }
+    if (order === 'Price | highest to lowest') {
       return b.price - a.price;
     }
+    return 0;
   });
   return sortedProducts;
 };
@@ -58,36 +59,6 @@ export const fetchProductById = createAsyncThunk(
   async (id: number) => {
     try {
       const response = await getProductById(id);
-      return response;
-    } catch (err) {
-      if (err instanceof CustomError) {
-        return new CustomError(err.message);
-      } else {
-        return err;
-      }
-    }
-  }
-);
-
-export const filterProducts = createAsyncThunk(
-  'filterProducts',
-  async ({
-    searchTerm,
-    categoryName,
-    sortingCondition,
-  }: {
-    searchTerm: string;
-    categoryName: string;
-    sortingCondition?: string;
-  }) => {
-    try {
-      let response: Product[] = await searchProductsByNameAndCategory(
-        searchTerm,
-        categoryName
-      );
-      if (sortingCondition) {
-        response = sortProductsByPrice(response, sortingCondition);
-      }
       return response;
     } catch (err) {
       if (err instanceof CustomError) {
@@ -151,12 +122,48 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    sortProducts(state, action: PayloadAction<string>) {
-      const sortedProducts = sortProductsByPrice(
-        state.products,
+    filterProducts: (
+      state,
+      action: PayloadAction<{
+        searchTerm: string;
+        categoryName: string;
+      }>
+    ) => {
+      const { searchTerm, categoryName } = action.payload;
+      if (categoryName === 'All categories' && !searchTerm) {
+        state.filteredProducts = [...state.products];
+        return;
+      }
+      if (categoryName === 'All categories' && searchTerm) {
+        state.filteredProducts = state.products.filter((product) =>
+          product.title
+            .toLowerCase()
+            .includes(action.payload.searchTerm.toLowerCase())
+        );
+        return;
+      }
+      if (categoryName !== 'All categories' && !searchTerm) {
+        state.filteredProducts = state.products.filter(
+          (product) => product.category.name === action.payload.categoryName
+        );
+        return;
+      }
+      if (categoryName !== 'All categories' && searchTerm) {
+        state.filteredProducts = state.products.filter(
+          (product) =>
+            product.title
+              .toLowerCase()
+              .includes(action.payload.searchTerm.toLowerCase()) &&
+            product.category.name === action.payload.categoryName
+        );
+        return;
+      }
+    },
+    sortProducts: (state, action: PayloadAction<string>) => {
+      state.filteredProducts = sortProductsByPrice(
+        state.filteredProducts,
         action.payload
       );
-      state.products = sortedProducts;
     },
     cleanUpProductReducer: (state) => {
       return initialState;
@@ -174,7 +181,9 @@ const productSlice = createSlice({
           return;
         }
 
-        state.products = action.payload as Product[];
+        const fetchedProducts = action.payload as Product[];
+        state.products = fetchedProducts;
+        state.filteredProducts = [...fetchedProducts];
         state.loading = false;
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
@@ -192,27 +201,11 @@ const productSlice = createSlice({
         }
 
         state.filteredProducts = [action.payload as Product];
+        state.products = [action.payload as Product];
         state.loading = false;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot fetch product';
-        state.loading = false;
-      })
-      .addCase(filterProducts.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(filterProducts.fulfilled, (state, action) => {
-        if (action.payload instanceof CustomError) {
-          state.error = action.payload.message;
-          state.loading = false;
-          return;
-        }
-
-        state.filteredProducts = action.payload as Product[];
-        state.loading = false;
-      })
-      .addCase(filterProducts.rejected, (state, action) => {
-        state.error = action.error.message || 'Cannot fetch products';
         state.loading = false;
       })
       .addCase(updateProduct.pending, (state) => {
@@ -278,6 +271,7 @@ const productSlice = createSlice({
 
 const productReducer = productSlice.reducer;
 
-export const { sortProducts, cleanUpProductReducer } = productSlice.actions;
+export const { filterProducts, sortProducts, cleanUpProductReducer } =
+  productSlice.actions;
 
 export default productReducer;

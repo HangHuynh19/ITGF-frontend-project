@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MenuItem, MenuList } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
 import { fetchAllCategories } from '../store/reducers/categoryReducer';
+import { MainContext } from '../contexts/MainContext';
 
 const SideMenu = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const categoryList = useAppSelector(
     (state) => state.categoryReducer.categories
   );
-  const [category, setCategory] = useState('All categories');
+  const { setCategory } = useContext(MainContext);
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
     setCategory(event.currentTarget.textContent as string);
+    navigate('/');
   };
 
   useEffect(() => {
@@ -28,37 +31,20 @@ const SideMenu = () => {
   return (
     <div className='product-main__side-menu'>
       <MenuList dense>
-        <Link
+        <MenuItem
           className='product-main__side-menu__link'
-          to={{
-            pathname: '/search',
-            search: `?searchTerm=&category=All categories`,
-          }}
-          key='all-categories-link'
+          onClick={handleMenuItemClick}
         >
+          All categories
+        </MenuItem>
+        {categoryList.map((category) => (
           <MenuItem
             className='product-main__side-menu__link'
+            key={category.id}
             onClick={handleMenuItemClick}
           >
-            All categories
+            {category.name}
           </MenuItem>
-        </Link>
-        {categoryList.map((category) => (
-          <Link
-            className='product-main__side-menu__link'
-            to={{
-              pathname: '/search',
-              search: `?searchTerm=&category=${category.name}`,
-            }}
-            key={category.id}
-          >
-            <MenuItem
-              className='product-main__side-menu__link'
-              onClick={handleMenuItemClick}
-            >
-              {category.name}
-            </MenuItem>
-          </Link>
         ))}
       </MenuList>
     </div>

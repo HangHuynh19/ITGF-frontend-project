@@ -30,11 +30,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleAddToCart = () => {
-    /* if (!isLoggedIn) {
-      navigate('/');
-    } else { */
     dispatch(addToCart(product));
-    //}
   };
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
