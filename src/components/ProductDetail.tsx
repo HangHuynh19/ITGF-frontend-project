@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Product } from '../interfaces/Product';
 import {
   Button,
   IconButton,
@@ -18,13 +17,12 @@ import {
 import useAppSelector from '../hooks/useAppSelector';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-  fetchAllProducts,
   fetchProductById,
   removeProduct,
 } from '../store/reducers/productReducer';
 import ProductForm from './ProductForm';
 
-const ProductDetail = (/* { product }: { product: Product } */) => {
+const ProductDetail = () => {
   const id = parseInt(useParams<{ id: string }>().id as string);
   const user = useAppSelector((state) => state.userReducer.user);
   const product = useAppSelector(
@@ -52,13 +50,6 @@ const ProductDetail = (/* { product }: { product: Product } */) => {
     dispatch(updateCartWhenProductDeleted(product.id));
     navigate('/');
   };
-
-  /* useEffect(() => {
-    const fetchProducts = async () => {
-      await dispatch(fetchAllProducts());
-    };
-    fetchProducts();
-  }, [dispatch]); */
 
   useEffect(() => {
     const fetchProduct = async () => {

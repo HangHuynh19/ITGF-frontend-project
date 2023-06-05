@@ -9,7 +9,6 @@ import {
 } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { Product, ProductInput } from '../../interfaces/Product';
-import { useContext } from 'react';
 
 const initialState: {
   products: Product[];
@@ -205,7 +204,6 @@ const productSlice = createSlice({
         }
 
         state.filteredProducts = [action.payload as Product];
-        //state.products = [action.payload as Product];
         state.loading = false;
         state.error = null;
       })
