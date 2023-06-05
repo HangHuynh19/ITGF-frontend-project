@@ -14,10 +14,13 @@ const SideMenu = () => {
     (state) => state.categoryReducer.categories
   );
   const { setCategory } = useContext(MainContext);
+  const { setSearchTerm } = useContext(MainContext);
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
     setCategory(event.currentTarget.textContent as string);
+    setSearchTerm('');
+    console.log('side menu', event.currentTarget.textContent);
     navigate('/');
   };
 

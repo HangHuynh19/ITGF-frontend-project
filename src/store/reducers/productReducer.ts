@@ -9,6 +9,7 @@ import {
 } from '../../graphql/apiCalls';
 import CustomError from '../../classes/CustomError';
 import { Product, ProductInput } from '../../interfaces/Product';
+import { useContext } from 'react';
 
 const initialState: {
   products: Product[];
@@ -130,10 +131,11 @@ const productSlice = createSlice({
       }>
     ) => {
       const { searchTerm, categoryName } = action.payload;
-      if (categoryName === 'All categories' && !searchTerm) {
+
+      /* if (categoryName === 'All categories' && !searchTerm) {
         state.filteredProducts = [...state.products];
         return;
-      }
+      } */
       if (categoryName === 'All categories' && searchTerm) {
         state.filteredProducts = state.products.filter((product) =>
           product.title
@@ -158,6 +160,8 @@ const productSlice = createSlice({
         );
         return;
       }
+
+      state.filteredProducts = [...state.products];
     },
     sortProducts: (state, action: PayloadAction<string>) => {
       state.filteredProducts = sortProductsByPrice(
@@ -201,8 +205,9 @@ const productSlice = createSlice({
         }
 
         state.filteredProducts = [action.payload as Product];
-        state.products = [action.payload as Product];
+        //state.products = [action.payload as Product];
         state.loading = false;
+        state.error = null;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.error = action.error.message || 'Cannot fetch product';
