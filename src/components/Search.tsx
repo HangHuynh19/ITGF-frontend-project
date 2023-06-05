@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Autocomplete, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -7,18 +7,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import CategoryPicker from './CategoryPicker';
 import { MainContext } from '../contexts/MainContext';
 import useAppSelector from '../hooks/useAppSelector';
-import useAppDispatch from '../hooks/useAppDispatch';
-import {
-  fetchAllProducts,
-  filterProducts,
-} from '../store/reducers/productReducer';
 
 const Search = () => {
   const navigate = useNavigate();
   const products = useAppSelector((state) => state.productReducer.products);
-  const { category, setCategory } = useContext(MainContext);
+  const { setCategory } = useContext(MainContext);
   const [enteredSearchTerm, setEnteredSearchTerm] = useState('');
-  const { searchTerm, setSearchTerm } = useContext(MainContext);
+  const { setSearchTerm } = useContext(MainContext);
   const handleCategoryChange = (category: string) => {
     console.log('category', category);
     setCategory(category);
@@ -32,8 +27,6 @@ const Search = () => {
 
   const onSearchIconClick = () => {
     setSearchTerm(enteredSearchTerm);
-    //setCategory(category);
-    //setEnteredSearchTerm('');
     navigate('/');
   };
 

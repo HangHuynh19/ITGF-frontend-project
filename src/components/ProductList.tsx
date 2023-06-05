@@ -12,13 +12,10 @@ import {
   sortProducts,
 } from '../store/reducers/productReducer';
 
-const ProductList = (/* { productList }: { productList: Product[] } */) => {
+const ProductList = () => {
   const products = useAppSelector(
     (state) => state.productReducer.filteredProducts
   );
-  /* const products2 = useAppSelector(
-    (state) => state.productReducer.filteredProducts
-  ); */
   const { category } = useContext(MainContext);
   const { searchTerm } = useContext(MainContext);
   const dispatch = useAppDispatch();
@@ -31,7 +28,6 @@ const ProductList = (/* { productList }: { productList: Product[] } */) => {
       };
       fetchProducts();
     }
-    //console.log('all products', products2);
   }, [dispatch, category, searchTerm]);
 
   useEffect(() => {

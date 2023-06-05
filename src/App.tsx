@@ -17,13 +17,7 @@ import useAppDispatch from './hooks/useAppDispatch';
 import { fetchUserByAccessToken } from './store/reducers/userReducer';
 import {
   fetchAllProducts,
-  fetchProductById,
 } from './store/reducers/productReducer';
-import {
-  updateCartWhenProductDeleted,
-  updateCartWhenProductUpdated,
-} from './store/reducers/cartReducer';
-import { Product } from './interfaces/Product';
 import ProductList from './components/ProductList';
 import ProductDetail from './components/ProductDetail';
 
@@ -78,23 +72,6 @@ const App = () => {
     };
     fetchUser();
   }, [dispatch]);
-
-  useEffect(() => {
-    cart.map(async (item) => {
-      const existedItem = await dispatch(fetchProductById(item.id));
-      if (!existedItem) {
-        dispatch(updateCartWhenProductDeleted(item.id));
-        return;
-      }
-
-      dispatch(
-        updateCartWhenProductUpdated({
-          id: item.id,
-          product: item as Product,
-        })
-      );
-    });
-  }, [cart, dispatch]);
 
   useEffect(() => {
     const fetchProducts = async () => {
