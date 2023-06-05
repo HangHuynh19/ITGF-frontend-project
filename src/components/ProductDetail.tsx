@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Product } from '../interfaces/Product';
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import {
@@ -18,13 +18,19 @@ import {
 import useAppSelector from '../hooks/useAppSelector';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
+  fetchAllProducts,
   fetchProductById,
   removeProduct,
 } from '../store/reducers/productReducer';
 import ProductForm from './ProductForm';
 
-const ProductDetail = ({ product }: { product: Product }) => {
+const ProductDetail = (/* { product }: { product: Product } */) => {
+  const id = parseInt(useParams<{ id: string }>().id as string);
   const user = useAppSelector((state) => state.userReducer.user);
+  const product = useAppSelector(
+    (state) => state.productReducer.filteredProducts[0]
+  );
+  console.log('product', product);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
@@ -46,6 +52,20 @@ const ProductDetail = ({ product }: { product: Product }) => {
     dispatch(updateCartWhenProductDeleted(product.id));
     navigate('/');
   };
+
+  /* useEffect(() => {
+    const fetchProducts = async () => {
+      await dispatch(fetchAllProducts());
+    };
+    fetchProducts();
+  }, [dispatch]); */
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      await dispatch(fetchProductById(id));
+    };
+    fetchProduct();
+  }, [dispatch, id]);
 
   return (
     <div id='product-detail'>

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import HomePage from './pages/HomePage';
 import {
   Navigate,
   Route,
@@ -7,7 +6,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import ProductDetailPage from './pages/ProductDetailPage';
 import MenuAndFilter from './pages/MenuAndFilter';
 import CartPage from './pages/CartPage';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,9 +15,17 @@ import useAppSelector from './hooks/useAppSelector';
 import Root from './pages/Root';
 import useAppDispatch from './hooks/useAppDispatch';
 import { fetchUserByAccessToken } from './store/reducers/userReducer';
-import {fetchProductById} from './store/reducers/productReducer';
-import {updateCartWhenProductDeleted, updateCartWhenProductUpdated} from './store/reducers/cartReducer';
-import {Product} from './interfaces/Product';
+import {
+  fetchAllProducts,
+  fetchProductById,
+} from './store/reducers/productReducer';
+import {
+  updateCartWhenProductDeleted,
+  updateCartWhenProductUpdated,
+} from './store/reducers/cartReducer';
+import { Product } from './interfaces/Product';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
 
 export const ProtectedRoute = ({
   children,
@@ -38,8 +44,8 @@ const router = createBrowserRouter(
     <>
       <Route path='/' element={<Root />}>
         <Route path='/' element={<MenuAndFilter />}>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/product/:id' element={<ProductDetailPage />} />
+          <Route path='/' element={<ProductList />} />
+          <Route path='/product/:id' element={<ProductDetail />} />
         </Route>
         <Route
           path='/cart'
@@ -81,12 +87,21 @@ const App = () => {
         return;
       }
 
-      dispatch(updateCartWhenProductUpdated({
-        id: item.id,
-        product: item as Product,
-      }));
+      dispatch(
+        updateCartWhenProductUpdated({
+          id: item.id,
+          product: item as Product,
+        })
+      );
     });
   }, [cart, dispatch]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      await dispatch(fetchAllProducts());
+    };
+    fetchProducts();
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={globalTheme}>

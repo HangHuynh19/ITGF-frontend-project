@@ -25,21 +25,20 @@ A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.
 │   ├── App.tsx
 │   ├── assets
 │   │   └── logo.png
+│   ├── axiosConfig.ts
 │   ├── classes
 │   │   └── CustomError.ts
 │   ├── components
-│   │   ├── AddProductForm.tsx
 │   │   ├── CartButton.tsx
 │   │   ├── CartItem.tsx
 │   │   ├── CategoryPicker.tsx
-│   │   ├── EditProductForm.tsx
-│   │   ├── EditProfileForm.tsx
 │   │   ├── Header.tsx
 │   │   ├── LoginForm.tsx
 │   │   ├── ProductDetail.tsx
+│   │   ├── ProductForm.tsx
 │   │   ├── ProductList.tsx
 │   │   ├── ProductListItem.tsx
-│   │   ├── RegisterForm.tsx
+│   │   ├── ProfileForm.tsx
 │   │   ├── Search.tsx
 │   │   ├── SideMenu.tsx
 │   │   ├── SortConditionPicker.tsx
@@ -62,11 +61,9 @@ A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.
 │   │   └── User.ts
 │   ├── pages
 │   │   ├── CartPage.tsx
-│   │   ├── HomePage.tsx
-│   │   ├── ProductDetailPage.tsx
+│   │   ├── MenuAndFilter.tsx
 │   │   ├── ProfilePage.tsx
-│   │   ├── Root.tsx
-│   │   └── SearchPage.tsx
+│   │   └── Root.tsx
 │   ├── react-app-env.d.ts
 │   ├── reportWebVitals.ts
 │   ├── setupTests.ts
@@ -80,21 +77,40 @@ A simple e-commerce website using the API endpoint from [https://fakeapi.platzi.
 │   │   └── store.ts
 │   ├── styles
 │   │   ├── components
-│   │   │   ├── _add-product-form.scss
 │   │   │   ├── _cart.scss
-│   │   │   ├── _edit-product-form.scss
 │   │   │   ├── _form.scss
 │   │   │   ├── _header.scss
 │   │   │   ├── _product-detail.scss
+│   │   │   ├── _product-form.scss
 │   │   │   ├── _product-list.scss
-│   │   │   ├── _profile.scss
-│   │   │   └── _register-form.scss
+│   │   │   ├── _profile-form.scss
+│   │   │   └── _profile.scss
 │   │   ├── styles.scss
 │   │   └── variables
 │   │       ├── _colors.scss
 │   │       └── _fonts.scss
 │   ├── styles.css
 │   ├── styles.css.map
+│   ├── tests
+│   │   ├── data
+│   │   │   ├── categories.ts
+│   │   │   ├── products.ts
+│   │   │   └── users.ts
+│   │   ├── reducers
+│   │   │   ├── authReducer.test.ts
+│   │   │   ├── cartReducer.test.ts
+│   │   │   ├── categoryReducer.test.ts
+│   │   │   ├── productReducer.test.ts
+│   │   │   ├── userReducer.test.ts
+│   │   │   └── userReducerUsingRest.test.ts
+│   │   ├── servers
+│   │   │   ├── authServer.ts
+│   │   │   ├── categoryServer.ts
+│   │   │   ├── productServer.ts
+│   │   │   ├── restServer.ts
+│   │   │   └── userServer.ts
+│   │   └── shared
+│   │       └── store.ts
 │   └── theme
 │       └── globalTheme.ts
 └── tsconfig.json
