@@ -79,7 +79,7 @@ const App = () => {
     fetchUser();
   }, [dispatch]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     cart.map(async (item) => {
       const existedItem = await dispatch(fetchProductById(item.id));
       if (!existedItem) {
@@ -94,7 +94,7 @@ const App = () => {
         })
       );
     });
-  }, [cart, dispatch]);
+  }, [cart, dispatch]); */
 
   useEffect(() => {
     const fetchProducts = async () => {
